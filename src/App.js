@@ -24,18 +24,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div>Oranges are okay, meh.</div>
+        <div>Idunno. Bananas are cool.</div>
         <div>Current CPU: {cpuPrefix} {cpuVersion}</div>
         <button onClick={upgradeCpu}>Upgrade CPU</button>
         <button onClick={resetCpu}>Reset CPU</button>

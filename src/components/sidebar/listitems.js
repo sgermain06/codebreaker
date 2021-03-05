@@ -3,68 +3,77 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
+import ImportantDevicesTwoToneIcon from '@material-ui/icons/ImportantDevicesTwoTone';
+import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
+import CalendarViewDayTwoToneIcon from '@material-ui/icons/CalendarViewDayTwoTone';
+import ApartmentTwoToneIcon from '@material-ui/icons/ApartmentTwoTone';
+import RouterTwoToneIcon from '@material-ui/icons/RouterTwoTone';
+import PublicTwoToneIcon from '@material-ui/icons/PublicTwoTone';
+import PublishTwoToneIcon from '@material-ui/icons/PublishTwoTone';
+import SettingsBackupRestoreTwoToneIcon from '@material-ui/icons/SettingsBackupRestoreTwoTone';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const mainListItems = (
   <div>
     <ListItem button>
       <ListItemIcon>
-        <DashboardIcon />
+        <ImportantDevicesTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Station" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <StorageTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Servers" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <PeopleIcon />
+        <CalendarViewDayTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Server Racks" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <ApartmentTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Data Centers" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <LayersIcon />
+        <RouterTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Networks" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <PublicTwoToneIcon />
+      </ListItemIcon>
+      <ListItemText primary="Dark Web" />
     </ListItem>
   </div>
 );
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
+    <ListSubheader inset>Hub</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <PublishTwoToneIcon />
       </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Perm Upgrades" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <SettingsBackupRestoreTwoToneIcon />
+      </ListItemIcon>
+      <ListItemText primary="Prestige" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Stats" />
     </ListItem>
   </div>
 );
