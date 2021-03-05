@@ -12,6 +12,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import Box from '@material-ui/core/Box';
+import Popover from '@material-ui/core/Popover';
+import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+
 import {
     AppBar,
     Badge,
@@ -78,7 +82,7 @@ export default function Header() {
                         Code Breaker!
                     </Typography>
                     <IconButton color="inherit">
-                        <Badge badgeContent={9} color="secondary">
+                        <Badge badgeContent={7} color="secondary">
                             {['right'].map((anchor) => (
                             <React.Fragment key={anchor}>
                             <EmailTwoToneIcon onClick={toggleDrawer(anchor, true)}>{anchor}</EmailTwoToneIcon>
@@ -96,7 +100,34 @@ export default function Header() {
                     </IconButton>
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
+                            <PopupState variant="popover" popupId="demo-popup-popover">
+                                {(popupState) => (
+                                <div>
+                                <NotificationsIcon  variant="contained" {...bindTrigger(popupState)}/>
+                                <Popover
+                                    {...bindPopover(popupState)}
+                                    anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                    }}
+                                >
+                                    <Box p={2}>
+                                    <Typography>
+                                    <div>Kemis likes your post about Bananas!</div>
+                                    <Divider />
+                                    <div>Makros went live on onlydans.com</div>
+                                    <Divider />
+                                    <div>Bob started bossing everyone around again.</div>
+                                    </Typography>
+                                    </Box>
+                                </Popover>
+                                </div>
+                            )}
+                            </PopupState>
                         </Badge>
                     </IconButton>
                 </Toolbar>
