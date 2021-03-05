@@ -1,4 +1,5 @@
 import React from 'react';
+
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -11,6 +12,8 @@ import SideBar from './components/sidebar';
 import Footer from './components/footer';
 
 import Main from './pages/main';
+
+import GameController from './lib/game';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const gameController = new GameController();
+
 export default function Layout() {
     const classes = useStyles();
 
@@ -54,7 +59,7 @@ export default function Layout() {
             <HashRouter>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <Header />
+                    <Header gameController={gameController} />
                     <SideBar />
                     <main className={classes.content}>
                         <div className={classes.box}>

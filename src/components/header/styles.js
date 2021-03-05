@@ -3,8 +3,11 @@ export default function styles(theme) {
         appBar: {
             zIndex: theme.zIndex.drawer + 1,
         },
-        title: {
+        spacer: {
             flexGrow: 1,
+        },
+        title: {
+            display: 'block',
         },
     };
 }
