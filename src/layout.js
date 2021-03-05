@@ -2,15 +2,15 @@ import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { HashRouter } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Header from './components/header';
 import SideBar from './components/sidebar';
+import Footer from './components/footer';
 
-import App from './App';
+import Main from './pages/main';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,26 +32,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         flexFlow: 'column',
     },
-    footer: {
-        flexGrow: 0,
-        flexShrink: 1,
-        flexBasis: '40px',
-        paddingTop: theme.spacing(1),
-    }
 }));
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 export default function Layout() {
     const classes = useStyles();
@@ -70,22 +51,22 @@ export default function Layout() {
 
     return (
         <div className={classes.root}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Header />
-                <SideBar />
-                <main className={classes.content}>
-                    <div className={classes.box}>
-                        <Toolbar />
-                        <div className={classes.mainContent}>
-                            <App />
+            <HashRouter>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Header />
+                    <SideBar />
+                    <main className={classes.content}>
+                        <div className={classes.box}>
+                            <Toolbar />
+                            <div className={classes.mainContent}>
+                                <Main />
+                            </div>
+                            <Footer />
                         </div>
-                        <div className={classes.footer}>
-                            <Copyright />
-                        </div>
-                    </div>
-                </main>
-            </ThemeProvider>
+                    </main>
+                </ThemeProvider>
+            </HashRouter>
         </div>
     );
 }

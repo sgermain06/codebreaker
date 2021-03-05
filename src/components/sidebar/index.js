@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withRouter } from 'react-router';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import Divider from '@material-ui/core/Divider';
@@ -9,15 +11,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import styles from './styles';
 
-import { mainListItems, secondaryListItems } from './listitems';
+import { MainListItems, secondaryListItems } from './listitems';
 
 const useStyles = makeStyles(styles);
 
-export default function SideBar(props) {
+function SideBar() {
 
     const classes = useStyles();
 
-    console.log('Drawer open:', props.drawerOpen);
     return (
         <Drawer
             className={classes.drawer}
@@ -30,10 +31,12 @@ export default function SideBar(props) {
             <Toolbar />
             <div className={classes.drawerContainer}>
                 <Divider />
-                <List>{mainListItems}</List>
+                <MainListItems />
                 <Divider />
                 <List>{secondaryListItems}</List>
             </div>
         </Drawer>
     );
 }
+
+export default withRouter(SideBar);

@@ -1,4 +1,5 @@
 import React from 'react';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,46 +14,60 @@ import PublishTwoToneIcon from '@material-ui/icons/PublishTwoTone';
 import SettingsBackupRestoreTwoToneIcon from '@material-ui/icons/SettingsBackupRestoreTwoTone';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <ImportantDevicesTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Station" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <StorageTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Servers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <CalendarViewDayTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Server Racks" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ApartmentTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Data Centers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <RouterTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Networks" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <PublicTwoToneIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dark Web" />
-    </ListItem>
-  </div>
-);
+import { NavLink, withRouter } from 'react-router-dom';
+
+function ListItemNavLink(props) {
+    const {to: toLink} = props;
+    return (
+        <ListItem selected={props.location.pathname === toLink} button component={NavLink} to={toLink}>
+            {props.children}
+        </ListItem>
+    );
+}
+
+export const MainListItems = withRouter(function mainItems(props) {
+    return (
+        <List>
+            <ListItemNavLink to="/" {...props}>
+                <ListItemIcon>
+                    <ImportantDevicesTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Station" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/servers" {...props}>
+                <ListItemIcon>
+                    <StorageTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Servers" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/racks" {...props}>
+                <ListItemIcon>
+                    <CalendarViewDayTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Server Racks" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/dataCenters" {...props}>
+                <ListItemIcon>
+                    <ApartmentTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Data Centers" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/networks" {...props}>
+                <ListItemIcon>
+                    <RouterTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Networks" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/darkWeb" {...props}>
+                <ListItemIcon>
+                    <PublicTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dark Web" />
+            </ListItemNavLink>
+        </List>
+    );
+});
+
 
 export const secondaryListItems = (
   <div>
