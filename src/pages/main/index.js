@@ -1,6 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 import Station from '../station';
 import Servers from '../servers';
