@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import {
-    Typography,
-    Link,
-    Toolbar
-} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import Header from './components/header';
 import SideBar from './components/sidebar';
 
 import App from './App';
-
-import { mainListItems, secondaryListItems } from './listitems';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,12 +56,6 @@ function Copyright() {
 export default function Layout() {
     const classes = useStyles();
 
-    const [ drawerOpen, setDrawerOpen ] = useState(true);
-
-    const handleDrawerOpen = open => {
-        setDrawerOpen(open);
-    }
-
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const theme = React.useMemo(
@@ -82,8 +72,8 @@ export default function Layout() {
         <div className={classes.root}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Header handleDrawerOpen={handleDrawerOpen} drawerOpen={drawerOpen} />
-                <SideBar handleDrawerOpen={handleDrawerOpen} drawerOpen={drawerOpen} mainListItems={mainListItems} secondaryListItems={secondaryListItems} />
+                <Header />
+                <SideBar />
                 <main className={classes.content}>
                     <div className={classes.box}>
                         <Toolbar />
