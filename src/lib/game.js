@@ -2,7 +2,6 @@ const FPS = 60;
 
 // Exporting main game controller
 export default class GameController {
-
     constructor() {
         this.interval = null;
         this.currentFrame = Number(0);
@@ -13,41 +12,40 @@ export default class GameController {
 
     startGameLoop = () => {
         this.interval = setInterval(this.update, 1000 / FPS);
-    }
+    };
 
     stopGameLoop = () => {
         clearInterval(this.interval);
         this.interval = null;
-    }
+    };
 
     isRunning = () => {
         return this.interval !== null;
-    }
+    };
 
     getFrame = () => {
         return this.currentFrame + this.currentCount;
-    }
+    };
 
     getExponent = () => {
         return this.currentExponent;
-    }
+    };
 
     toggleGameLoop = () => {
         if (this.isRunning()) {
             this.stopGameLoop();
-        }
-        else {
+        } else {
             this.startGameLoop();
         }
         return this.isRunning();
-    }
+    };
 
     addProcess = (process) => {
         // Make sure you can't duplicate processes
         if (!this.processes.includes(process)) {
             this.processes.push(process);
         }
-    }
+    };
 
     removeProcess = (process) => {
         const processIndex = this.processes.indexOf(process);
@@ -58,23 +56,23 @@ export default class GameController {
                 ...this.processes.slice(processIndex + 1)
             ];
         }
-    }
+    };
 
     resetProcesses = () => {
         this.processes = [];
-    }
+    };
 
     increaseExponent = (amount = 1) => {
         this.currentExponent += amount;
-    }
+    };
 
     decreaseExponent = (amount = 1) => {
         this.currentExponent -= amount;
-    }
+    };
 
     setExponent = (amount) => {
         this.currentExponent = amount;
-    }
+    };
 
     // Main function
     update = () => {
@@ -83,9 +81,9 @@ export default class GameController {
             this.currentFrame = 0;
             this.currentCount++;
         }
-        
+
         for (let process of this.processes) {
             process(this.currentFrame, this.currentCount, this.currentExponent);
         }
-    }
+    };
 }

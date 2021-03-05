@@ -3,8 +3,8 @@ export default function styles(theme) {
         footer: {
             flexGrow: 0,
             flexShrink: 1,
-            flexBasis: '40px',
+            flexBasis: "40px",
             paddingTop: theme.spacing(1),
-        }
-    }
-};
+        },
+    };
+}

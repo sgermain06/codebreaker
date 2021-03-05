@@ -7,7 +7,7 @@ export default function styles(theme) {
             flexGrow: 1,
         },
         title: {
-            display: 'block',
+            display: "block",
         },
     };
 }

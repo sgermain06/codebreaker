@@ -1,12 +1,12 @@
-import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import React from "react";
+import { Route, withRouter } from "react-router-dom";
 
-import Station from '../station';
-import Servers from '../servers';
-import Racks from '../racks';
-import DataCenters from '../dataCenters';
-import Networks from '../networks';
-import DarkWeb from '../darkWeb';
+import Station from "../station";
+import Servers from "../servers";
+import Racks from "../racks";
+import DataCenters from "../dataCenters";
+import Networks from "../networks";
+import DarkWeb from "../darkWeb";
 
 export default withRouter(function Main() {
     return (

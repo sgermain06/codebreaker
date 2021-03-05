@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { document } from 'globalthis/implementation';
+import React, { useState, useEffect } from "react";
+import { document } from "globalthis/implementation";
 
-import { withRouter } from 'react-router';
+import { withRouter } from "react-router";
 
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function Station() {
     const [cpuVersion, setCpuVersion] = useState(1);
-    const cpuPrefix = 'Pentium';
-  
+    const cpuPrefix = "Pentium";
+
     useEffect(() => {
-      document.title = `Current CPU: ${cpuPrefix} ${cpuVersion}`;
+        document.title = `Current CPU: ${cpuPrefix} ${cpuVersion}`;
     });
-  
+
     const upgradeCpu = () => {
-      setCpuVersion(cpuVersion + 1);
-    }
+        setCpuVersion(cpuVersion + 1);
+    };
     const resetCpu = () => {
-      setCpuVersion(1);
-    }
+        setCpuVersion(1);
+    };
 
     return (
         <div className="App">
             <img src={logo} className="App-logo" alt="logo" />
             <div>Idunno. Bananas are cool.</div>
-            <div>Current CPU: {cpuPrefix} {cpuVersion}</div>
+            <div>
+                Current CPU: {cpuPrefix} {cpuVersion}
+            </div>
             <button onClick={upgradeCpu}>Upgrade CPU</button>
             <button onClick={resetCpu}>Reset CPU</button>
         </div>

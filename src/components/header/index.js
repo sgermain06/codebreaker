@@ -145,11 +145,11 @@ function Header(props) {
                         Frames: {frames.toFixed(7)}, Counts: {counts}, Exponent: {exponent}, Value: {Math.pow(frames + counts, exponent).toFixed(7)}
                     </Typography>
                     <div className={classes.spacer} />
-                    <IconButton color="inherit">
-                        <Badge badgeContent={7} color="secondary">
-                            {["right"].map((anchor) => (
-                                <React.Fragment key={anchor}>
-                                    <EmailTwoToneIcon onClick={toggleDrawer(anchor, true)}>{anchor}</EmailTwoToneIcon>
+                    {["right"].map((anchor) => (
+                        <IconButton key={anchor} color="inherit" onClick={toggleDrawer(anchor, true)}>
+                            <Badge badgeContent={7} color="secondary">
+                                <React.Fragment>
+                                    <EmailTwoToneIcon>{anchor}</EmailTwoToneIcon>
                                     <SwipeableDrawer
                                         anchor={anchor}
                                         open={mailDrawer[anchor]}
@@ -159,11 +159,11 @@ function Header(props) {
                                         {list(anchor)}
                                     </SwipeableDrawer>
                                 </React.Fragment>
-                            ))}
-                        </Badge>
-                    </IconButton>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary" onClick={handleClick}>
+                            </Badge>
+                        </IconButton>
+                    ))}
+                    <IconButton color="inherit" onClick={handleClick}>
+                        <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -181,13 +181,11 @@ function Header(props) {
                         }}
                     >
                         <Box p={2}>
-                            <Typography>
-                                <div>Kemis likes your post about Bananas!</div>
-                                <Divider />
-                                <div>Makros went live on onlydans.com</div>
-                                <Divider />
-                                <div>Bob started bossing everyone around again.</div>
-                            </Typography>
+                            <Typography>Kemis likes your post about Bananas!</Typography>
+                            <Divider />
+                            <Typography>Makros went live on onlydans.com</Typography>
+                            <Divider />
+                            <Typography>Bob started bossing everyone around again.</Typography>
                         </Box>
                     </Popover>
                 </Toolbar>
