@@ -14,13 +14,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
 
-import {
-    AppBar,
-    Badge,
-    Toolbar,
-    IconButton,
-    Typography,
-} from "@material-ui/core";
+import { AppBar, Badge, Toolbar, IconButton, Typography } from "@material-ui/core";
 
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import EmailTwoToneIcon from "@material-ui/icons/EmailTwoTone";
@@ -37,11 +31,7 @@ export default function Header() {
     });
 
     const toggleDrawer = (anchor, open) => (event) => {
-        if (
-            event &&
-            event.type === "keydown" &&
-            (event.key === "Tab" || event.key === "Shift")
-        ) {
+        if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
             return;
         }
 
@@ -57,24 +47,18 @@ export default function Header() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map(
-                    (text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    )
-                )}
+                {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+                    <ListItem button key={text}>
+                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                        <ListItemText primary={text} />
+                    </ListItem>
+                ))}
             </List>
             <Divider />
             <List>
                 {["All mail", "Trash", "Spam"].map((text, index) => (
                     <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
+                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
                 ))}
@@ -99,24 +83,14 @@ export default function Header() {
         <React.Fragment>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        color="inherit"
-                        noWrap
-                        className={classes.title}
-                    >
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Code Breaker!
                     </Typography>
                     <IconButton color="inherit">
                         <Badge badgeContent={7} color="secondary">
                             {["right"].map((anchor) => (
                                 <React.Fragment key={anchor}>
-                                    <EmailTwoToneIcon
-                                        onClick={toggleDrawer(anchor, true)}
-                                    >
-                                        {anchor}
-                                    </EmailTwoToneIcon>
+                                    <EmailTwoToneIcon onClick={toggleDrawer(anchor, true)}>{anchor}</EmailTwoToneIcon>
                                     <SwipeableDrawer
                                         anchor={anchor}
                                         open={mailDrawer[anchor]}
@@ -130,11 +104,7 @@ export default function Header() {
                         </Badge>
                     </IconButton>
                     <IconButton color="inherit">
-                        <Badge
-                            badgeContent={4}
-                            color="secondary"
-                            onClick={handleClick}
-                        >
+                        <Badge badgeContent={4} color="secondary" onClick={handleClick}>
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -157,9 +127,7 @@ export default function Header() {
                                 <Divider />
                                 <div>Makros went live on onlydans.com</div>
                                 <Divider />
-                                <div>
-                                    Bob started bossing everyone around again.
-                                </div>
+                                <div>Bob started bossing everyone around again.</div>
                             </Typography>
                         </Box>
                     </Popover>
