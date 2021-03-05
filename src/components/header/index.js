@@ -14,7 +14,6 @@ import MailIcon from "@material-ui/icons/Mail";
 
 import Box from "@material-ui/core/Box";
 import Popover from "@material-ui/core/Popover";
-import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 
 import AppBar from "@material-ui/core/AppBar";
 import Badge from "@material-ui/core/Badge";
@@ -35,8 +34,7 @@ const useStyles = makeStyles(styles);
 
 function Header(props) {
     const classes = useStyles();
-
-    const [state, setState] = useState({
+    const [mailDrawer, setMailDrawerState] = React.useState({
         right: false,
     });
 
@@ -45,9 +43,8 @@ function Header(props) {
             return;
         }
 
-        setState({ ...state, [anchor]: open });
+        setMailDrawerState({ ...mailDrawer, [anchor]: open });
     };
-
     const list = (anchor) => (
         <div
             className={clsx(classes.list, {
@@ -76,7 +73,22 @@ function Header(props) {
             </List>
         </div>
     );
+    //End mailDrawer code block
 
+    //Begin popover handling
+    const [popoverAnchor, setPopoverAnchor] = React.useState(null);
+    const open = !!popoverAnchor;
+
+    const handleClick = (event) => {
+        setPopoverAnchor(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setPopoverAnchor(null);
+    };
+    //End popover codeblock
+
+    //Begin game loop handling
     const [isRunning, setIsRunning] = useState(props.gameController.isRunning());
     const [processLoaded, setProcessLoaded] = useState(false);
     const [frames, setFrames] = useState(0);
@@ -107,6 +119,7 @@ function Header(props) {
     const decreaseExponent = () => {
         props.gameController.decreaseExponent();
     };
+    //End game loop handling
 
     return (
         <React.Fragment>
@@ -139,7 +152,7 @@ function Header(props) {
                                     <EmailTwoToneIcon onClick={toggleDrawer(anchor, true)}>{anchor}</EmailTwoToneIcon>
                                     <SwipeableDrawer
                                         anchor={anchor}
-                                        open={state[anchor]}
+                                        open={mailDrawer[anchor]}
                                         onClose={toggleDrawer(anchor, false)}
                                         onOpen={toggleDrawer(anchor, true)}
                                     >
@@ -150,37 +163,33 @@ function Header(props) {
                         </Badge>
                     </IconButton>
                     <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <PopupState variant="popover" popupId="demo-popup-popover">
-                                {(popupState) => (
-                                    <div>
-                                        <NotificationsIcon variant="contained" {...bindTrigger(popupState)} />
-                                        <Popover
-                                            {...bindPopover(popupState)}
-                                            anchorOrigin={{
-                                                vertical: "bottom",
-                                                horizontal: "center",
-                                            }}
-                                            transformOrigin={{
-                                                vertical: "top",
-                                                horizontal: "center",
-                                            }}
-                                        >
-                                            <Box p={2}>
-                                                <Typography>
-                                                    <div>Kemis likes your post about Bananas!</div>
-                                                    <Divider />
-                                                    <div>Makros went live on onlydans.com</div>
-                                                    <Divider />
-                                                    <div>Bob started bossing everyone around again.</div>
-                                                </Typography>
-                                            </Box>
-                                        </Popover>
-                                    </div>
-                                )}
-                            </PopupState>
+                        <Badge badgeContent={4} color="secondary" onClick={handleClick}>
+                            <NotificationsIcon />
                         </Badge>
                     </IconButton>
+                    <Popover
+                        open={open}
+                        anchorEl={popoverAnchor}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "center",
+                        }}
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "center",
+                        }}
+                    >
+                        <Box p={2}>
+                            <Typography>
+                                <div>Kemis likes your post about Bananas!</div>
+                                <Divider />
+                                <div>Makros went live on onlydans.com</div>
+                                <Divider />
+                                <div>Bob started bossing everyone around again.</div>
+                            </Typography>
+                        </Box>
+                    </Popover>
                 </Toolbar>
             </AppBar>
         </React.Fragment>
