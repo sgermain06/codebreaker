@@ -33,7 +33,7 @@ const useStyles = makeStyles(styles);
 
 export default function Header() {
     const classes = useStyles();
-    const [state, setState] = React.useState({
+    const [mailDrawer, setMailDrawerState] = React.useState({
         right: false,
     });
 
@@ -42,7 +42,7 @@ export default function Header() {
           return;
         }
     
-        setState({ ...state, [anchor]: open });
+        setMailDrawerState({ ...mailDrawer, [anchor]: open });
       };
 
       const list = (anchor) => (
@@ -88,7 +88,7 @@ export default function Header() {
                             <EmailTwoToneIcon onClick={toggleDrawer(anchor, true)}>{anchor}</EmailTwoToneIcon>
                             <SwipeableDrawer
                                 anchor={anchor}
-                                open={state[anchor]}
+                                open={mailDrawer[anchor]}
                                 onClose={toggleDrawer(anchor, false)}
                                 onOpen={toggleDrawer(anchor, true)}
                             >
