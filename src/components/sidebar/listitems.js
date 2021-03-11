@@ -13,6 +13,7 @@ import PublicTwoToneIcon from "@material-ui/icons/PublicTwoTone";
 import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import SettingsBackupRestoreTwoToneIcon from "@material-ui/icons/SettingsBackupRestoreTwoTone";
 import AssignmentIcon from "@material-ui/icons/Assignment";
+import ShareTwoToneIcon from "@material-ui/icons/ShareTwoTone";
 
 import { NavLink, withRouter } from "react-router-dom";
 
@@ -63,6 +64,12 @@ export const MainListItems = withRouter(function mainItems(props) {
                     <PublicTwoToneIcon />
                 </ListItemIcon>
                 <ListItemText primary="Dark Web" />
+            </ListItemNavLink>
+            <ListItemNavLink to="/neuralNet" {...props}>
+                <ListItemIcon>
+                    <ShareTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Neural Net" />
             </ListItemNavLink>
         </List>
     );

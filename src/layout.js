@@ -65,7 +65,7 @@ export default function Layout() {
                         <div className={classes.box}>
                             <Toolbar />
                             <div className={classes.mainContent}>
-                                <Main />
+                                <Main gameController={gameController} />
                             </div>
                             <Footer />
                         </div>

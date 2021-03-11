@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { Route, withRouter } from "react-router-dom";
 
 import Station from "../station";
@@ -7,8 +8,9 @@ import Racks from "../racks";
 import DataCenters from "../dataCenters";
 import Networks from "../networks";
 import DarkWeb from "../darkWeb";
+import NeuralNet from "../neuralNet";
 
-export default withRouter(function Main() {
+function Main(props) {
     return (
         <React.Fragment>
             <Route exact path="/">
@@ -29,6 +31,15 @@ export default withRouter(function Main() {
             <Route path="/darkWeb">
                 <DarkWeb />
             </Route>
+            <Route path="/neuralNet">
+                <NeuralNet gameController={props.gameController} />
+            </Route>
         </React.Fragment>
     );
-});
+}
+
+Main.propTypes = {
+    gameController: PropTypes.object
+};
+
+export default withRouter(Main);

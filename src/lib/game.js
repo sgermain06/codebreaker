@@ -45,6 +45,7 @@ export default class GameController {
         if (!this.processes.includes(process)) {
             this.processes.push(process);
         }
+        console.log('Processes', this.processes.length);
     };
 
     removeProcess = (process) => {
@@ -76,6 +77,7 @@ export default class GameController {
 
     // Main function
     update = () => {
+        console.debug('[GameController] - Update');
         this.currentFrame += 0.001;
         if (this.currentFrame > 1) {
             this.currentFrame = 0;

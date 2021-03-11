@@ -6,8 +6,10 @@ import IconButton from "@material-ui/core/IconButton";
 import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
 import ImportantDevicesTwoToneIcon from "@material-ui/icons/ImportantDevicesTwoTone";
 
-import logo from "./logo.svg";
+import { dataSizeSuffix } from '../../lib/utils';
+
 import "./App.css";
+
 
 function Station() {
     
@@ -27,24 +29,19 @@ function Station() {
     };
 
     //Upgrade Memory code Block
-    let [memorySize,setMemory] = useState(2);
-    let memType = "MB";
+    const [memorySize, setMemory] = useState(2);
     const upgradeMemory = () => {
-        setMemory(memorySize * 2);
-        {/*if (memorySize >= 1024 ){
-            setMemory(memorySize=1);
-            memType ="GB";   
-        }*/}
-        
+        const newMem = memorySize * 2;
+        console.log('Current memory size:', newMem);
+        setMemory(newMem);
     };
 
     const resetMemory = () => {
         setMemory(2);
-        memType ="MB";
     };
 
     //Upgrade Storage code Block
-    const [storageSize,setStorage] = useState(2);
+    const [storageSize, setStorage] = useState(2);
     const upgradeStorage = () => {
         setStorage(storageSize * 2);
     };
@@ -65,7 +62,7 @@ function Station() {
                 <button onClick={resetCpu}>DEBUG: Reset CPU</button>
             </div>
             <div className="Upgrade-left">
-                RAM: {memorySize} {memType} <span />
+                RAM: {dataSizeSuffix(memorySize, 2)} <span />
                  
                 <IconButton onClick={upgradeMemory}>
                     <AddCircleTwoToneIcon/>
@@ -73,7 +70,7 @@ function Station() {
                 <button onClick={resetMemory}>DEBUG: Reset Memory</button>
             </div>
             <div className="Upgrade-left">
-                Storage: {storageSize} MB <span />
+                Storage: {dataSizeSuffix(storageSize, 2)} <span />
                 <IconButton onClick={upgradeStorage}>
                     <AddCircleTwoToneIcon/>
                 </IconButton>
