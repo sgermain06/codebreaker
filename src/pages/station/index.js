@@ -9,6 +9,9 @@ import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 
 import { dataSizeSuffix } from '../../lib/utils';
 
+import UpgradableItem from '../../components/upgradableItem';
+import UpgradableSection from '../../components/upgradableSection';
+
 import "./App.css";
 
 
@@ -70,45 +73,17 @@ function Station() {
     return (
         <div align="center">
             <ImportantDevicesTwoToneIcon className="Logo" />
-            <div className="Upgrade-header" display="in-line">
-                CPU : {cpuPrefix}
-            </div>
-            <div className="Upgrade-feature" display="in-line">
-                Power : {cpuPower} <span /> Ghz
-                <IconButton onClick={upgradeCPUPower}>
-                    <AddCircleTwoToneIcon />
-                </IconButton>
-                <IconButton onClick={resetCPUPower}>
-                    <BackspaceTwoToneIcon />
-                </IconButton>
-                <br />
-                Cores : {cpuCores} <span />
-                <IconButton onClick={upgradeCPUCores}>
-                    <AddCircleTwoToneIcon />
-                </IconButton>
-                <IconButton onClick={resetCPUCores}>
-                    <BackspaceTwoToneIcon />
-                </IconButton>
-            </div>
-            <div className="Upgrade-header">RAM :</div>
-            <div className="Upgrade-feature" display="in-line">
-                Size : {dataSizeSuffix(memorySize, 2)} <span />
-                <IconButton onClick={upgradeMemory}>
-                    <AddCircleTwoToneIcon />
-                </IconButton>
-                <IconButton onClick={resetMemory}>
-                    <BackspaceTwoToneIcon />
-                </IconButton>
-                <br />
-                Type : DDR {memorySpeed}
-                <span />
-                <IconButton onClick={upgradeMemorySpeed}>
-                    <AddCircleTwoToneIcon />
-                </IconButton>
-                <IconButton onClick={resetMemorySpeed}>
-                    <BackspaceTwoToneIcon />
-                </IconButton>
-            </div>
+
+            <UpgradableSection title="CPU" value={cpuPrefix}>
+                <UpgradableItem title="Power" value={cpuPower} suffix="GHz" upgradeAction={upgradeCPUPower} resetAction={resetCPUPower} />
+                <UpgradableItem title="Cores" value={cpuCores} upgradeAction={upgradeCPUCores} resetAction={resetCPUCores} />
+            </UpgradableSection>
+
+            <UpgradableSection title="RAM">
+                <UpgradableItem title="Size" value={dataSizeSuffix(memorySize, 1)} upgradeAction={upgradeMemory} resetAction={resetMemory} />
+                <UpgradableItem title="Type" value={'DDR' + memorySpeed} upgradeAction={upgradeMemorySpeed} resetAction={resetMemorySpeed} />
+            </UpgradableSection>
+
             <div className="Upgrade-header">Storage :</div>
             <div className="Upgrade-feature" display="in-line">
                 Size : {dataSizeSuffix(storageSize, 2)} <span />
