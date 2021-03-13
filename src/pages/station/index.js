@@ -2,20 +2,27 @@ import React, { useState, useEffect } from "react";
 import { document } from "globalthis/implementation";
 
 import { withRouter } from "react-router";
-import IconButton from "@material-ui/core/IconButton";
-import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
+
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
 import ImportantDevicesTwoToneIcon from "@material-ui/icons/ImportantDevicesTwoTone";
-import BackspaceTwoToneIcon from "@material-ui/icons/BackspaceTwoTone";
 
 import { dataSizeSuffix } from '../../lib/utils';
 
 import UpgradableItem from '../../components/upgradableItem';
 import UpgradableSection from '../../components/upgradableSection';
 
+import styles from './styles';
+
 import "./App.css";
 
+const useStyles = makeStyles(styles);
 
 function Station() {
+
+    const classes = useStyles();
+    
     //Upgrade CPU  Power
     const [cpuPower, setCPUPower] = useState(1);
     const cpuPrefix = "Codium";
@@ -71,31 +78,33 @@ function Station() {
     };
 
     return (
-        <div align="center">
+        <div className={classes.container}>
             <ImportantDevicesTwoToneIcon className="Logo" />
 
-            <UpgradableSection title="CPU" value={cpuPrefix}>
-                <UpgradableItem title="Power" value={cpuPower} suffix="GHz" upgradeAction={upgradeCPUPower} resetAction={resetCPUPower} />
-                <UpgradableItem title="Cores" value={cpuCores} upgradeAction={upgradeCPUCores} resetAction={resetCPUCores} />
-            </UpgradableSection>
-
-            <UpgradableSection title="RAM">
-                <UpgradableItem title="Size" value={dataSizeSuffix(memorySize, 1)} upgradeAction={upgradeMemory} resetAction={resetMemory} />
-                <UpgradableItem title="Type" value={'DDR' + memorySpeed} upgradeAction={upgradeMemorySpeed} resetAction={resetMemorySpeed} />
-            </UpgradableSection>
-
-            <div className="Upgrade-header">Storage :</div>
-            <div className="Upgrade-feature" display="in-line">
-                Size : {dataSizeSuffix(storageSize, 2)} <span />
-                <IconButton onClick={upgradeStorage}>
-                    <AddCircleTwoToneIcon />
-                </IconButton>
-                <IconButton onClick={resetStorage}>
-                    <BackspaceTwoToneIcon />
-                </IconButton>
-                <br />
-                Type : HDD
-            </div>
+            <Grid container spacing={2}>
+                <Grid container spacing={2} item xs={12}>
+                    <Grid item xs={3}>
+                        <UpgradableSection title="CPU" value={cpuPrefix}>
+                            <UpgradableItem title="Power" value={cpuPower} suffix="GHz" upgradeAction={upgradeCPUPower} resetAction={resetCPUPower} />
+                            <UpgradableItem title="Cores" value={cpuCores} upgradeAction={upgradeCPUCores} resetAction={resetCPUCores} />
+                        </UpgradableSection>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <UpgradableSection title="RAM">
+                            <UpgradableItem title="Size" value={dataSizeSuffix(memorySize, 1)} upgradeAction={upgradeMemory} resetAction={resetMemory} />
+                            <UpgradableItem title="Type" value={'DDR' + memorySpeed} upgradeAction={upgradeMemorySpeed} resetAction={resetMemorySpeed} />
+                        </UpgradableSection>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} item xs={12}>
+                    <Grid item xs={3}>
+                        <UpgradableSection title="Storage">
+                            <UpgradableItem title="Size" value={dataSizeSuffix(storageSize, 2)} upgradeAction={upgradeStorage} resetAction={resetStorage} />
+                            Type : HDD
+                        </UpgradableSection>
+                    </Grid>
+                </Grid>
+            </Grid>
         </div>
     );
 }

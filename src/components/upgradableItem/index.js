@@ -3,23 +3,33 @@ import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
 
+import Grid from '@material-ui/core/Grid';
+
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
 import BackspaceTwoToneIcon from '@material-ui/icons/BackspaceTwoTone';
 
 function UpgradableItem(props) {
     return (
-        <React.Fragment>
-            {props.title} : {props.value} <span /> {props.suffix}
-            <IconButton onClick={props.upgradeAction}>
-                <AddCircleTwoToneIcon />
-            </IconButton>
-            {props.resetAction &&
-                <IconButton onClick={props.resetAction}>
-                    <BackspaceTwoToneIcon />
+        <Grid container style={{
+            alignItems: 'center'
+        }}>
+            <Grid item xs>
+                {props.title} : {props.value} <span /> {props.suffix}
+            </Grid>
+            <Grid item>
+                <IconButton onClick={props.upgradeAction}>
+                    <AddCircleTwoToneIcon />
                 </IconButton>
+            </Grid>
+            {props.resetAction &&
+                <Grid item>
+                    <IconButton onClick={props.resetAction}>
+                        <BackspaceTwoToneIcon />
+                    </IconButton>
+                </Grid>
             }
-        </React.Fragment>
+        </Grid>
     )
 }
 

@@ -1,74 +1,74 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { Line } from "@reactchartjs/react-chart.js";
-import "chartjs-plugin-streaming";
+import { VictoryAxis, VictoryChart, VictoryArea } from 'victory';
 
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import last from 'lodash/last';
+
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
 
+const chartTheme = darkMode => ({
+    axis: {
+        style: {
+            axis: {
+                fill: 'transparent',
+                stroke: 'rgba(102, 102, 102, 0.5)',
+                strokeWidth: 1,
+                strokeLineCap: 'round',
+                strokeLinejoin: 'round',
+            },
+            tickLabels: {
+                fontSize: 12,
+                padding: 8,
+                fill: darkMode ? '#ccc' : '#333'
+            },
+            grid: {
+                fill: 'none',
+                stroke: 'rgba(102, 102, 102, 0.5)',
+                strokeWidth: 1,
+                strokeLineCap: 'round',
+                strokeLinejoin: 'round',
+            }
+        }
+    },
+    data: {
+        fill: 'rgba(102, 102, 102, 0.5)',
+        stroke: darkMode ? '#ccc' : '#333',
+        strokeWidth: 2,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+    }
+});
+
 function NeuralNet(props) {
 
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
     const classes = useStyles();
-    const chartRef = useRef(null);
 
     const [frames, setFrames] = useState(0);
     const [counts, setCounts] = useState(0);
     const [exponent, setExponent] = useState(0);
     const [processLoaded, setProcessLoaded] = useState(false);
 
-    const [dataPoints, setDataPoints] = useState(Array(20).fill(0));
-
-    const data = {
-        labels: Array(20).fill(0).map((_, k) => k + 1),
-        datasets: [
-            {
-                label: "CPU Load",
-                data: dataPoints,
-                fill: false,
-                lineTension: 0,
-                backgroundColor: "rgb(255, 99, 232)",
-                borderColor: "rgba(255, 99, 132, 0.2)",
-            },
-        ],
-    };
-
-    const options = {
-        maintainAspectRatio: false,
-        scales: {
-            xAxes: [
-                {
-                    type: 'realtime',
-                    realtime: {
-                        refresh: 6000
-                    }
-                }
-            ],
-            yAxes: [
-                {
-                    scaleLabel: {
-                        display: false,
-                    }
-                },
-            ],
-        },
-    };
-
-
+    const [dataPoints, setDataPoints] = useState(Array(20).fill(0).map((v, k) => ({x: k, y: v})));
 
     useEffect(() => {
-        const handleDataPoints = () => {
-            const newValue = { x: Date.now(), y: Math.round(Math.random() * 100) };
+        const handleDataPoints = (exponent) => {
+            const xVal = last(dataPoints).x + 1;
+            const newValue = { x: xVal, y: Math.pow(Math.round(Math.random() * 100), exponent) };
             const dp = dataPoints;
             dp.push(newValue);
-            if (dp.length > 22) {
+            if (dp.length > 20) {
                 dp.shift();
             }
             setDataPoints(dp);
@@ -79,10 +79,7 @@ function NeuralNet(props) {
             setCounts(counts);
             setExponent(exponent);
             if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
-                console.log("Tick!");
-                handleDataPoints();
-                console.log(chartRef);
-                // chartRef.current.update();
+                handleDataPoints(exponent);
             }
         };
 
@@ -126,7 +123,18 @@ function NeuralNet(props) {
                 <Grid item xs={12}>
                     <Card>
                         <CardContent>
-                            <Line ref={chartRef} data={data} options={options} width='800' height='400' />
+                            <VictoryChart
+                                width={1200}
+                                height={300}
+                                theme={chartTheme(prefersDarkMode)}
+                            >
+                                <VictoryAxis style={{ tickLabels: { fill: 'transparent' }}} tickCount={20} />
+                                <VictoryAxis dependentAxis />
+                                <VictoryArea
+                                    style={chartTheme(prefersDarkMode)}
+                                    data={dataPoints}
+                                />
+                            </VictoryChart>
                         </CardContent>
                     </Card>
                 </Grid>
