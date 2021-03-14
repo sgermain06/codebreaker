@@ -4,18 +4,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import ImportantDevicesTwoToneIcon from "@material-ui/icons/ImportantDevicesTwoTone";
-import StorageTwoToneIcon from "@material-ui/icons/StorageTwoTone";
-import CalendarViewDayTwoToneIcon from "@material-ui/icons/CalendarViewDayTwoTone";
-import ApartmentTwoToneIcon from "@material-ui/icons/ApartmentTwoTone";
-import RouterTwoToneIcon from "@material-ui/icons/RouterTwoTone";
-import PublicTwoToneIcon from "@material-ui/icons/PublicTwoTone";
-import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
-import SettingsBackupRestoreTwoToneIcon from "@material-ui/icons/SettingsBackupRestoreTwoTone";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import ShareTwoToneIcon from "@material-ui/icons/ShareTwoTone";
 
 import { NavLink, withRouter } from "react-router-dom";
+import { mainNavigation, secondaryNavigation } from '../../lib/navigation';
 
 function ListItemNavLink(props) {
     const { to: toLink } = props;
@@ -29,72 +20,30 @@ function ListItemNavLink(props) {
 export const MainListItems = withRouter(function mainItems(props) {
     return (
         <List>
-            <ListItemNavLink to="/" {...props}>
-                <ListItemIcon>
-                    <ImportantDevicesTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Station" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/servers" {...props}>
-                <ListItemIcon>
-                    <StorageTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Servers" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/racks" {...props}>
-                <ListItemIcon>
-                    <CalendarViewDayTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Server Racks" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/dataCenters" {...props}>
-                <ListItemIcon>
-                    <ApartmentTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Data Centers" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/networks" {...props}>
-                <ListItemIcon>
-                    <RouterTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Networks" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/darkWeb" {...props}>
-                <ListItemIcon>
-                    <PublicTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dark Web" />
-            </ListItemNavLink>
-            <ListItemNavLink to="/neuralNet" {...props}>
-                <ListItemIcon>
-                    <ShareTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Neural Net" />
-            </ListItemNavLink>
+            {mainNavigation.map((item, key) =>
+                <ListItemNavLink key={key} to={item.link} {...props}>
+                    <ListItemIcon>
+                        {item.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={item.title} />
+                </ListItemNavLink>
+            )}
         </List>
     );
 });
 
-export const secondaryListItems = (
-    <div>
-        <ListSubheader inset>Hub</ListSubheader>
-        <ListItem button>
-            <ListItemIcon>
-                <PublishTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Perm Upgrades" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <SettingsBackupRestoreTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Prestige" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Stats" />
-        </ListItem>
-    </div>
-);
+export const SecondaryListItems = withRouter(function secondaryItems(props) {
+    return (
+        <List>
+            <ListSubheader inset>Hub</ListSubheader>
+            {secondaryNavigation.map((item, key) =>
+                <ListItemNavLink key={key} to={item.link} {...props}>
+                    <ListItemIcon>
+                        {item.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={item.title} />
+                </ListItemNavLink>
+            )}
+        </List>
+    );
+});

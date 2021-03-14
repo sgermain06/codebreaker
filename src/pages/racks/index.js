@@ -1,8 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router";
 
-function Racks() {
-    return <h1>Server Racks!</h1>;
+import PageHeader from '../../components/pageHeader';
+
+function Racks(props) {
+
+    return <PageHeader />;
 }
 
 export default withRouter(Racks);

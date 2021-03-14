@@ -6,12 +6,12 @@ import { withRouter } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import ImportantDevicesTwoToneIcon from "@material-ui/icons/ImportantDevicesTwoTone";
-
 import { dataSizeSuffix } from '../../lib/utils';
 
 import UpgradableItem from '../../components/upgradableItem';
 import UpgradableSection from '../../components/upgradableSection';
+
+import PageHeader from '../../components/pageHeader';
 
 import styles from './styles';
 
@@ -19,11 +19,11 @@ import "./App.css";
 
 const useStyles = makeStyles(styles);
 
-function Station() {
+function Station(props) {
 
     const classes = useStyles();
     
-    //Upgrade CPU  Power
+    //Upgrade CPU Power
     const [cpuPower, setCPUPower] = useState(1);
     const cpuPrefix = "Codium";
     useEffect(() => {
@@ -79,8 +79,7 @@ function Station() {
 
     return (
         <div className={classes.container}>
-            <ImportantDevicesTwoToneIcon className="Logo" />
-
+            <PageHeader />
             <Grid container spacing={2}>
                 <Grid container spacing={2} item xs={12}>
                     <Grid item xs={3}>

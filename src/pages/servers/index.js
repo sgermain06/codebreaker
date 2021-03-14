@@ -1,8 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router";
 
-function Servers() {
-    return <h1>Servers!</h1>;
+import PageHeader from '../../components/pageHeader';
+
+function Servers(props) {
+
+    return (
+        <PageHeader />
+    );
 }
 
 export default withRouter(Servers);

@@ -1,8 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router";
 
+import PageHeader from '../../components/pageHeader';
+
 function DataCenters() {
-    return <h1>Data Centers!</h1>;
+    return <PageHeader />;
 }
 
 export default withRouter(DataCenters);

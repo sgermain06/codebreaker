@@ -35,6 +35,7 @@ function UpgradableItem(props) {
 
 UpgradableItem.propTypes = {
     title: PropTypes.string.isRequired,
+    value: PropTypes.any,
     suffix: PropTypes.string,
     upgradeAction: PropTypes.func.isRequired,
     resetAction: PropTypes.func,

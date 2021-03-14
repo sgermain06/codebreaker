@@ -3,15 +3,13 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import styles from "./styles";
 
-import { MainListItems, secondaryListItems } from "./listitems";
+import { MainListItems, SecondaryListItems } from "./listitems";
 
 const useStyles = makeStyles(styles);
 
@@ -32,7 +30,7 @@ function SideBar() {
                 <Divider />
                 <MainListItems />
                 <Divider />
-                <List>{secondaryListItems}</List>
+                <SecondaryListItems />
             </div>
         </Drawer>
     );

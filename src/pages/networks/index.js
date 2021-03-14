@@ -1,8 +1,10 @@
 import React from "react";
 import { withRouter } from "react-router";
 
+import PageHeader from '../../components/pageHeader';
+
 function Networks() {
-    return <h1>Networks!</h1>;
+    return <PageHeader />;
 }
 
 export default withRouter(Networks);
