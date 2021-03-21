@@ -11,12 +11,17 @@ import Typography from "@material-ui/core/Typography";
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 
 import PageHeader from '../../components/pageHeader';
+
+import CipherWidget from '../../components/widgets/cipher';
 
 import last from 'lodash/last';
 
 import styles from './styles';
+
+import '../station/App.css';
 
 const useStyles = makeStyles(styles);
 
@@ -64,15 +69,16 @@ function NeuralNet(props) {
     const [exponent, setExponent] = useState(0);
     const [processLoaded, setProcessLoaded] = useState(false);
 
-    const [dataPoints, setDataPoints] = useState(Array(20).fill(0).map((v, k) => ({x: k, y: v})));
+    const [dataPoints, setDataPoints] = useState(Array(200).fill(0).map((_, k) => ({x: k, y: Math.floor(Math.random() * 50) + 50})));
+    const length = dataPoints.length;
 
     useEffect(() => {
-        const handleDataPoints = (exponent) => {
+        const handleDataPoints = exponent => {
             const xVal = last(dataPoints).x + 1;
-            const newValue = { x: xVal, y: Math.pow(Math.round(Math.random() * 100), exponent) };
+            const newValue = { x: xVal, y: Math.pow(Math.round(Math.random() * 50) + 50, exponent) };
             const dp = dataPoints;
             dp.push(newValue);
-            if (dp.length > 20) {
+            if (dp.length > length) {
                 dp.shift();
             }
             setDataPoints(dp);
@@ -91,7 +97,7 @@ function NeuralNet(props) {
             props.gameController.addProcess(gameUpdate);
             setProcessLoaded(true);
         }
-    }, [processLoaded, dataPoints, props.gameController]);
+    }, [processLoaded, dataPoints, props.gameController, length]);
 
     return (
         <div className={classes.container}>
@@ -132,13 +138,23 @@ function NeuralNet(props) {
                                 height={300}
                                 theme={chartTheme(prefersDarkMode)}
                             >
-                                <VictoryAxis style={{ tickLabels: { fill: 'transparent' }}} tickCount={20} />
+                                <VictoryAxis style={{ tickLabels: { fill: 'transparent' }}} />
                                 <VictoryAxis dependentAxis />
                                 <VictoryArea
                                     style={chartTheme(prefersDarkMode)}
                                     data={dataPoints}
                                 />
                             </VictoryChart>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs = {4}>
+                    <Card>
+                        <CardHeader
+                            title='Breaking Cipher...'
+                        />
+                        <CardContent>
+                            <CipherWidget gameController={props.gameController} />
                         </CardContent>
                     </Card>
                 </Grid>

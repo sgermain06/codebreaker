@@ -26,3 +26,9 @@
     font-size: 18px;
     color: white;
 }
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
