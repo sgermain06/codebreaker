@@ -131,19 +131,19 @@ function Station(props) {
                 </Grid>
                 <Grid container spacing={2} item xs={12}>
                     <Grid item xs={4}>
-                        <UpgradableSection title="Storage" value="Hard Drives">
+                        <UpgradableSection title="Storage" value="Eastern Digital">
                             <UpgradableItem title="Size" value={dataSizeSuffix(storageSize, 2)} upgradeAction={upgradeStorage} resetAction={resetStorage} />
                             Type : HDD
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
-                        <UpgradableSection title="Display" value="Monitors">
+                        <UpgradableSection title="Display" value="X-LG">
                             <UpgradableItem title="Count" value={monitorCount} upgradeAction={increaseMonitorCount} resetAction={resetMonitorCount} />
                             <UpgradableItem title="Resolution" value="" upgradeAction="" resetAction="" />
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
-                        <UpgradableSection title="Power Supply">
+                        <UpgradableSection title="Power Supply" value="Texas State">
                             <UpgradableItem title="Wattage" value="" upgradeAction="" resetAction="" />
                             Modular : No
                         </UpgradableSection>
