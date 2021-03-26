@@ -3,27 +3,26 @@ import { document } from "globalthis/implementation";
 
 import { withRouter } from "react-router";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
-import { dataSizeSuffix } from '../../lib/utils';
+import { dataSizeSuffix } from "../../lib/utils";
 
-import UpgradableItem from '../../components/upgradableItem';
-import UpgradableSection from '../../components/upgradableSection';
+import UpgradableItem from "../../components/upgradableItem";
+import UpgradableSection from "../../components/upgradableSection";
 
-import PageHeader from '../../components/pageHeader';
+import PageHeader from "../../components/pageHeader";
 
-import styles from './styles';
+import styles from "./styles";
 
 import "./App.css";
 
 const useStyles = makeStyles(styles);
 
 function Station(props) {
-
     const classes = useStyles();
-    
-    //Upgrade CPU Power
+
+    //#region Upgrade CPU Power
     const [cpuPower, setCPUPower] = useState(1);
     const cpuPrefix = "Codium";
     useEffect(() => {
@@ -35,8 +34,9 @@ function Station(props) {
     const resetCPUPower = () => {
         setCPUPower(1);
     };
+    //#endregion
 
-    //Upgrade CPU Cores
+    //#region Upgrade CPU Cores
     const [cpuCores, setCPUCores] = useState(1);
     const upgradeCPUCores = () => {
         setCPUCores(cpuCores + 1);
@@ -44,8 +44,9 @@ function Station(props) {
     const resetCPUCores = () => {
         setCPUCores(1);
     };
+    //#endregion
 
-    //Upgrade Memory Size
+    //#region Upgrade Memory Size
     const [memorySize, setMemory] = useState(2);
     const upgradeMemory = () => {
         setMemory(memorySize * 2);
@@ -53,8 +54,9 @@ function Station(props) {
     const resetMemory = () => {
         setMemory(2);
     };
+    //#endregion
 
-    //Upgrade Memory Speed
+    //#region Upgrade Memory Speed
     let [memorySpeed, setMemorySpeed] = useState(1);
     const upgradeMemorySpeed = () => {
         if (memorySpeed >= 6) {
@@ -66,8 +68,9 @@ function Station(props) {
     const resetMemorySpeed = () => {
         setMemorySpeed(1);
     };
+    //#endregion
 
-    //Upgrade Video Card Memory 
+    //#region Upgrade Video Card Memory
     const [gpuMemorySize, setGPUMemory] = useState(1024);
     const upgradeGPUMemory = () => {
         setGPUMemory(gpuMemorySize * 2);
@@ -75,8 +78,9 @@ function Station(props) {
     const resetGPUMemory = () => {
         setGPUMemory(1024);
     };
+    //#endregion
 
-    //Upgrade Video Card Clock Speed    
+    //#region Upgrade Video Card Clock Speed
     const [gpuClock, setGPUClock] = useState(10);
     const upgradeGPUClock = () => {
         setGPUClock(Number((gpuClock + 10).toFixed(2)));
@@ -84,8 +88,9 @@ function Station(props) {
     const resetGPUClock = () => {
         setGPUClock(10);
     };
+    //#endregion
 
-    //Upgrade Storage Size
+    //#region Upgrade Storage Size
     const [storageSize, setStorage] = useState(2);
     const upgradeStorage = () => {
         setStorage(storageSize * 2);
@@ -94,16 +99,52 @@ function Station(props) {
     const resetStorage = () => {
         setStorage(2);
     };
+    //#endregion
 
-    //Upgrade Monitor Count
-    const [monitorCount, setMonitorCount] = useState(1);
-    const increaseMonitorCount = () => {
-        setMonitorCount(monitorCount + 1);
-    }
+    //#region Upgrade Storage Type / Speed
+    const [storageSpeed, setStorageSpeed] = useState(0);
+    const storageSpeeds = ["HDD 4800", "HDD 5400", "HDD 7200", "HDD 10000", "HDD 15000"];
 
-    const resetMonitorCount = () =>{
-        setMonitorCount(1);
-    }
+    const upgradeStorageSpeed = () => {
+        if (storageSpeed < storageSpeeds.length - 1) {
+            setStorageSpeed(storageSpeed + 1);
+        }
+    };
+
+    const resetStorageSpeed = () => {
+        setStorageSpeed(0);
+    };
+
+    //#endregion
+    //#region Upgrade Codebreaker Subscription
+    const [subTier, setSubTier] = useState(0);
+    const subTiers = ["Free", "Premium", "Pro", "Pro Plus"];
+    const successRateOfBreak = [60, 70, 80, 90];
+    const increaseSubTier = () => {
+        if (subTier < subTiers.length - 1) {
+            setSubTier(subTier + 1);
+        }
+    };
+
+    const decreaseSubTier = () => {
+        if (subTier > 0) {
+            setSubTier(subTier - 1);
+        }
+    };
+    //#endregion
+
+    //#region Upgrade Power Supply
+    const [powerSupply, setPowerSupply] = useState(180);
+    const upgradePowerSupply = () => {
+        if(powerSupply < 2000 )
+        {
+            setPowerSupply(powerSupply + 20);
+        }        
+    };
+    const resetPowerSupply = () => {
+        setPowerSupply(180);
+    };
+    //#endregion
 
     return (
         <div className={classes.container}>
@@ -118,13 +159,28 @@ function Station(props) {
                     </Grid>
                     <Grid item xs={4}>
                         <UpgradableSection title="RAM" value="Obsidium">
-                            <UpgradableItem title="Size" value={dataSizeSuffix(memorySize, 1)} upgradeAction={upgradeMemory} resetAction={resetMemory} />
-                            <UpgradableItem title="Speed" value={'DDR' + memorySpeed} upgradeAction={upgradeMemorySpeed} resetAction={resetMemorySpeed} />
+                            <UpgradableItem
+                                title="Size"
+                                value={dataSizeSuffix(memorySize, 1)}
+                                upgradeAction={upgradeMemory}
+                                resetAction={resetMemory}
+                            />
+                            <UpgradableItem
+                                title="Speed"
+                                value={"DDR" + memorySpeed}
+                                upgradeAction={upgradeMemorySpeed}
+                                resetAction={resetMemorySpeed}
+                            />
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
                         <UpgradableSection title="Video Card" value="CodeVidia">
-                            <UpgradableItem title="Memory" value={dataSizeSuffix(gpuMemorySize, 1)} upgradeAction={upgradeGPUMemory} resetAction={resetGPUMemory} />
+                            <UpgradableItem
+                                title="Memory"
+                                value={dataSizeSuffix(gpuMemorySize, 1)}
+                                upgradeAction={upgradeGPUMemory}
+                                resetAction={resetGPUMemory}
+                            />
                             <UpgradableItem title="Clock" value={gpuClock} suffix="MHz" upgradeAction={upgradeGPUClock} resetAction={resetGPUClock} />
                         </UpgradableSection>
                     </Grid>
@@ -132,19 +188,34 @@ function Station(props) {
                 <Grid container spacing={2} item xs={12}>
                     <Grid item xs={4}>
                         <UpgradableSection title="Storage" value="Eastern Digital">
-                            <UpgradableItem title="Size" value={dataSizeSuffix(storageSize, 2)} upgradeAction={upgradeStorage} resetAction={resetStorage} />
-                            Type : HDD
+                            <UpgradableItem
+                                title="Size"
+                                value={dataSizeSuffix(storageSize, 2)}
+                                upgradeAction={upgradeStorage}
+                                resetAction={resetStorage}
+                            />
+                            <UpgradableItem
+                                title="Type / Speed"
+                                value={storageSpeeds[storageSpeed]}
+                                upgradeAction={upgradeStorageSpeed}
+                                resetAction={resetStorageSpeed}
+                            />
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
-                        <UpgradableSection title="Display" value="X-LG">
-                            <UpgradableItem title="Count" value={monitorCount} upgradeAction={increaseMonitorCount} resetAction={resetMonitorCount} />
-                            <UpgradableItem title="Resolution" value="" upgradeAction="" resetAction="" />
+                        <UpgradableSection title="Cipher Suite" value="Codebreaker">
+                            <UpgradableItem
+                                title="Subscription Tier"
+                                value={subTiers[subTier]}
+                                upgradeAction={increaseSubTier}
+                                resetAction={decreaseSubTier}
+                            />
+                            <UpgradableItem title="Succes Rate" value={successRateOfBreak[subTier] + "%"} upgradeAction="" resetAction="" />
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
                         <UpgradableSection title="Power Supply" value="Texas State">
-                            <UpgradableItem title="Wattage" value="" upgradeAction="" resetAction="" />
+                            <UpgradableItem title="Wattage" value={powerSupply} upgradeAction={upgradePowerSupply} resetAction={resetPowerSupply} />
                             Modular : No
                         </UpgradableSection>
                     </Grid>
