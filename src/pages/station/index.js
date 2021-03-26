@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Component from './component';
+
 import Commands from '../../state/commands';
 import fromState from '../../state/selectors';
 
@@ -14,6 +15,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     increaseCpuSpeed: () => dispatch(Commands.Station.increaseCpuSpeed()),
     resetCpuSpeed: () => dispatch(Commands.Station.resetCpuSpeed()),
+    increaseCpuCores: () => dispatch(Commands.Station.increaseCpuCores()),
+    resetCpuCores: () => dispatch(Commands.Station.resetCpuCores()),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

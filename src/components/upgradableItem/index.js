@@ -7,8 +7,7 @@ import Grid from '@material-ui/core/Grid';
 
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
-import BackspaceTwoToneIcon from '@material-ui/icons/BackspaceTwoTone';
-
+import IndeterminateCheckBoxTwoToneIcon from '@material-ui/icons/IndeterminateCheckBoxTwoTone';
 function UpgradableItem(props) {
     return (
         <Grid container style={{
@@ -17,7 +16,7 @@ function UpgradableItem(props) {
             <Grid item xs>
                 {props.title} : {props.value} <span /> {props.suffix}
             </Grid>
-            <Grid item>
+            <Grid item> 
                 <IconButton onClick={props.upgradeAction}>
                     <AddCircleTwoToneIcon />
                 </IconButton>
@@ -25,7 +24,7 @@ function UpgradableItem(props) {
             {props.resetAction &&
                 <Grid item>
                     <IconButton onClick={props.resetAction}>
-                        <BackspaceTwoToneIcon />
+                        <IndeterminateCheckBoxTwoToneIcon color='action' />
                     </IconButton>
                 </Grid>
             }
