@@ -3,8 +3,7 @@ import {buildEvents, singleParameter} from '../../_common/events/create';
 const definition = {
     SetCpuType: singleParameter,
     SetCpuSpeed: singleParameter,
-    SetDisplayType: singleParameter,
-    SetDisplayResolution: singleParameter,
+    SetCpuCores: singleParameter,
     SetGraphicsClock: singleParameter,
     SetGraphicsMemory: singleParameter,
     SetPowerSupplyType: singleParameter,

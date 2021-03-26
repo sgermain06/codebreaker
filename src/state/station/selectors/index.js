@@ -15,6 +15,7 @@ export default common.bindToReducer('station', {
     cpu: common.get('cpu'),
     cpuType: common.get('cpu.type'),
     cpuSpeed: common.get('cpu.speed'),
+    cpuCores: common.get('cpu.cores'),
     display: common.get('display'),
     displayResolution: resolutions[common.get('display.resolution')],
     displayType: common.get('display.type'),

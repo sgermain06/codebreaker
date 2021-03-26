@@ -1,7 +1,7 @@
 import Station from './station/selectors';
 
 const returnObj = {
-    Station
+    Station,
 };
 
 export default returnObj;

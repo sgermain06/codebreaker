@@ -10,6 +10,13 @@ const returnObj = {
     resetCpuSpeed: () => dispatch => {
         dispatch(Events.SetCpuSpeed(1));
     },
+    increaseCpuCores: () => (dispatch, getState) => {
+        const currentCores = fromState.Station.cpuCores()(getState());
+        dispatch(Events.SetCpuCores(currentCores + 1));
+    },
+    resetCpuCores: () => dispatch => {
+        dispatch(Events.SetCpuCores(1));
+    },
 };
 
 export default returnObj;

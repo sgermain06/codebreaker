@@ -23,6 +23,10 @@ import GameController from "./lib/game";
 
 const { store, persistor } = configureStore();
 
+if (window.location.search === '?purge') {
+    persistor.purge().then(() => console.log('Done purging!'));
+}
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
