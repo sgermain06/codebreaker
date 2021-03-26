@@ -154,7 +154,7 @@ function NeuralNet(props) {
                             title='Breaking Cipher...'
                         />
                         <CardContent>
-                            <CipherWidget gameController={props.gameController} />
+                            <CipherWidget gameController={props.gameController} width={20} height={10} />
                         </CardContent>
                     </Card>
                 </Grid>

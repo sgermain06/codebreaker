@@ -1,0 +1,33 @@
+import common from '../../_common/selectors/_common';
+
+const resolutions = [
+    '640x480',
+    '800x600',
+    '1024x768',
+    '1280x1024',
+    '1440x900',
+    '2K',
+    '4K',
+    '8K'
+]
+
+export default common.bindToReducer('station', {
+    cpu: common.get('cpu'),
+    cpuType: common.get('cpu.type'),
+    cpuSpeed: common.get('cpu.speed'),
+    display: common.get('display'),
+    displayResolution: resolutions[common.get('display.resolution')],
+    displayType: common.get('display.type'),
+    graphics: common.get('graphics'),
+    graphicsClock: common.get('graphics.clock'),
+    graphicsMemory: common.get('graphics.memory'),
+    powerSupply: common.get('powerSupply'),
+    powerSupplyWattage: common.get('powerSupply.wattage'),
+    powerSupplyType: common.get('powerSupply.type'),
+    ram: common.get('ram'),
+    ramSize: common.get('ram.size'),
+    ramType: common.get('ram.type'),
+    storage: common.get('storage'),
+    storageSize: common.get('storage.size'),
+    storageType: common.get('storage.type'),
+});

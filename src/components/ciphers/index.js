@@ -20,6 +20,25 @@
     - The machine has 12 cores, so parallelism is lower than the numbe of cores, meaning up to 4 cores can be utilized. The CPU will be able to break parallelism blocks per cycle.
 
     So, every 0.7 seconds, this machine will break 4 blocks.
+
+    Need some thought:
+    - Insert some element of luck here, possibility for deciphering a block could fail?
+    - Add a retry mechanism for failed deciphering?
+    - When retries are exhausted, deciphering fails, mission fails.
+
+    How to process a cipher:
+    - Download the encrypted code.
+    - Make sure you have enough disk space for it.
+    - Store to disk.
+    - Evaluate cipher parallelism and available CPU cores.
+    - Make sure there is enough RAM available for a block.
+    - Transfer cipher block from disk to RAM. Hard drive speed and memory speed have an impact here.
+    - Refer to processing steps.
+    - If failed, break the loop, notify of failure.
+    - Transfer deciphered block from RAM to disk. Hard drive speed and memory speed have an impact here.
+    - Go to step 4 until last block.
+    - Notify that encrypted code break was successful.
+
 */
 const cipherTypes = [
     {
