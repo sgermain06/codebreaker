@@ -95,22 +95,22 @@ function Station(props) {
     };
 
     //#endregion
-    //#region Upgrade Codebreaker Subscription
-    const [subTier, setSubTier] = useState(0);
-    const subTiers = ["Free", "Premium", "Pro", "Pro Plus"];
-    const successRateOfBreak = [60, 70, 80, 90];
-    const increaseSubTier = () => {
-        if (subTier < subTiers.length - 1) {
-            setSubTier(subTier + 1);
-        }
-    };
+    // //#region Upgrade Codebreaker Subscription
+    // const [subTier, setSubTier] = useState(0);
+    // const subTiers = ["Free", "Premium", "Pro", "Pro Plus"];
+    // const successRateOfBreak = [60, 70, 80, 90];
+    // const increaseSubTier = () => {
+    //     if (subTier < subTiers.length - 1) {
+    //         setSubTier(subTier + 1);
+    //     }
+    // };
 
-    const decreaseSubTier = () => {
-        if (subTier > 0) {
-            setSubTier(subTier - 1);
-        }
-    };
-    //#endregion
+    // const decreaseSubTier = () => {
+    //     if (subTier > 0) {
+    //         setSubTier(subTier - 1);
+    //     }
+    // };
+    // //#endregion
 
     //#region Upgrade Power Supply
     const [powerSupply, setPowerSupply] = useState(180);
@@ -124,6 +124,8 @@ function Station(props) {
         setPowerSupply(180);
     };
     //#endregion
+
+    console.log(props.broadbandType)
 
     return (
         <div className={classes.container}>
@@ -182,14 +184,20 @@ function Station(props) {
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>
-                        <UpgradableSection title="Cipher Suite" value="Codebreaker">
+                        <UpgradableSection title="Broadband" value={props.broadbandProvider}>
                             <UpgradableItem
-                                title="Subscription Tier"
-                                value={subTiers[subTier]}
-                                upgradeAction={increaseSubTier}
-                                resetAction={decreaseSubTier}
+                                title="Type"
+                                value={props.broadbandType}
+                                upgradeAction={props.increaseBroadbandType}
+                                resetAction={props.resetBroadbandType}
                             />
-                            <UpgradableItem title="Succes Rate" value={successRateOfBreak[subTier] + "%"} />
+                            <UpgradableItem
+                                title="Network Speed"
+                                suffix="mbps"
+                                value={props.broadbandSpeed}
+                                upgradeAction={props.increaseBroadbandSpeed}
+                                resetAction={props.resetBroadbandSpeed}
+                            />
                         </UpgradableSection>
                     </Grid>
                     <Grid item xs={4}>

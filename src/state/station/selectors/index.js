@@ -9,9 +9,33 @@ const resolutions = [
     '2K',
     '4K',
     '8K'
-]
+];
+
+export const broadbandTypes = [
+    {
+        type: 'DSL',
+        provider: 'BU&U',
+    },
+    {
+        type: 'DOCSIS',
+        provider: 'Codecast',
+    },
+    {
+        type: 'Fiber Optic',
+        provider: 'Foogle Fiber',
+    },
+    {
+        type: 'Dedicated Ethernet',
+        provider: 'Level4'
+    },
+];
 
 export default common.bindToReducer('station', {
+    broadband: common.get('broadband'),
+    broadbandType: common.get('broadband.type'),
+    broadbandTypeDescription: () => (state) => broadbandTypes[state.broadband.type].type,
+    broadbandProvider: () => (state) => broadbandTypes[state.broadband.type].provider,
+    broadbandSpeed: common.get('broadband.speed'),
     cpu: common.get('cpu'),
     cpuType: common.get('cpu.type'),
     cpuSpeed: common.get('cpu.speed'),

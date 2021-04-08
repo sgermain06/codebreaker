@@ -12,6 +12,8 @@ const definition = {
     SetRamSize: singleParameter,
     SetStorageType: singleParameter,
     SetStorageSize: singleParameter,
+    SetBroadbandType: singleParameter,
+    SetBroadbandSpeed: singleParameter,
 };
 
 const {types, events} = buildEvents('events', definition);
