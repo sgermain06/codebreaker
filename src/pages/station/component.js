@@ -69,32 +69,7 @@ function Station(props) {
     };
     //#endregion
 
-    //#region Upgrade Storage Size
-    const [storageSize, setStorage] = useState(2);
-    const upgradeStorage = () => {
-        setStorage(storageSize * 2);
-    };
 
-    const resetStorage = () => {
-        setStorage(2);
-    };
-    //#endregion
-
-    //#region Upgrade Storage Type / Speed
-    const [storageSpeed, setStorageSpeed] = useState(0);
-    const storageSpeeds = ["HDD 4800", "HDD 5400", "HDD 7200", "HDD 10000", "HDD 15000"];
-
-    const upgradeStorageSpeed = () => {
-        if (storageSpeed < storageSpeeds.length - 1) {
-            setStorageSpeed(storageSpeed + 1);
-        }
-    };
-
-    const resetStorageSpeed = () => {
-        setStorageSpeed(0);
-    };
-
-    //#endregion
     // //#region Upgrade Codebreaker Subscription
     // const [subTier, setSubTier] = useState(0);
     // const subTiers = ["Free", "Premium", "Pro", "Pro Plus"];
@@ -171,15 +146,15 @@ function Station(props) {
                         <UpgradableSection title="Storage" value="Eastern Digital">
                             <UpgradableItem
                                 title="Size"
-                                value={dataSizeSuffix(storageSize, 2)}
-                                upgradeAction={upgradeStorage}
-                                resetAction={resetStorage}
+                                value={dataSizeSuffix(props.storageSize, 2)}
+                                upgradeAction={props.increaseStorageSize}
+                                resetAction={props.resetStorageSize}
                             />
                             <UpgradableItem
                                 title="Type / Speed"
-                                value={storageSpeeds[storageSpeed]}
-                                upgradeAction={upgradeStorageSpeed}
-                                resetAction={resetStorageSpeed}
+                                value={props.storageType}
+                                upgradeAction={props.increaseStorageType}
+                                resetAction={props.resetStorageType}
                             />
                         </UpgradableSection>
                     </Grid>

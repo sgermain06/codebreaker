@@ -1,6 +1,6 @@
 import Events from '../events';
 
-import { broadbandTypes } from '../selectors';
+import { broadbandTypes,storageSpeeds } from '../selectors';
 
 import fromState from '../../selectors';
 
@@ -29,11 +29,31 @@ const returnObj = {
     increaseBroadbandType: () => (dispatch, getState) => {
         const currentBroadbandType = fromState.Station.broadbandType()(getState());
         if (currentBroadbandType < broadbandTypes.length - 1) {
-            dispatch(Events.SetBroadbandType(Number((currentBroadbandType + 1))));
+            dispatch(Events.SetBroadbandType(Number(currentBroadbandType + 1)));
         }
     },
     resetBroadbandType: () => dispatch => {
         dispatch(Events.SetBroadbandType(0));
+    },
+
+    increaseStorageSize: () => (dispatch, getState) => {
+        const currentStorageSize = fromState.Station.storageSize()(getState());
+        dispatch(Events.SetStorageSize(Number(currentStorageSize * 2 )));
+    },
+
+    resetStorageSize: () => dispatch => {
+        dispatch(Events.SetStorageSize(2));
+    },
+
+    increaseStorageType: () => (dispatch,getState) => {
+        const currentStorageType = fromState.Station.storageType()(getState());
+        if (currentStorageType < storageSpeeds.length - 1) {
+            dispatch(Events.SetStorageType(currentStorageType + 1));
+        }
+    },
+
+    resetStorageType: () => dispatch => {
+        dispatch(Events.SetStorageType(0));
     },
 };
 

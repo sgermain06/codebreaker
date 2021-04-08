@@ -11,6 +11,8 @@ const resolutions = [
     '8K'
 ];
 
+export const storageSpeeds = ["HDD 4800", "HDD 5400", "HDD 7200", "HDD 10000", "HDD 15000"];
+
 export const broadbandTypes = [
     {
         type: 'DSL',
@@ -55,4 +57,5 @@ export default common.bindToReducer('station', {
     storage: common.get('storage'),
     storageSize: common.get('storage.size'),
     storageType: common.get('storage.type'),
+    storageTypeSpeed: () => (state) => storageSpeeds[state.storage.type],
 });

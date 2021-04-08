@@ -16,7 +16,7 @@ const definition = {
     SetBroadbandSpeed: singleParameter,
 };
 
-const {types, events} = buildEvents('events', definition);
+const {types, events} = buildEvents('station', definition);
 
 export {types};
 
