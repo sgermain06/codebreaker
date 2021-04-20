@@ -6,8 +6,6 @@ import Component from './component';
 import Commands from '../../state/commands';
 import fromState from '../../state/selectors';
 
-import merge from 'lodash/merge';
-
 const mapStateToProps = state => ({
     cpu: fromState.Station.cpu()(state),
     ramSize: fromState.Station.ramSize()(state),
@@ -19,7 +17,6 @@ const mapStateToProps = state => ({
     broadbandType: fromState.Station.broadbandTypeDescription()(state),
     broadbandProvider: fromState.Station.broadbandProvider()(state),
     broadbandSpeed: fromState.Station.broadbandSpeed()(state),
-    
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -45,10 +42,6 @@ const mapDispatchToProps = dispatch => ({
     resetBroadbandType: () => dispatch(Commands.Station.resetBroadbandType()),
 });
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-    return merge(stateProps, dispatchProps, ownProps);
-};
-
 const component = withRouter(Component);
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(component);
+export default connect(mapStateToProps, mapDispatchToProps)(component);
