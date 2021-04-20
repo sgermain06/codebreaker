@@ -34,6 +34,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+import AttachMoneyIcon from '@material-ui/icons/AttachMoneyTwoTone';
+
 import styles from "./styles";
 import { Button, TextField } from "@material-ui/core";
 
@@ -191,7 +193,7 @@ function Header(props) {
                     </Typography>
                     <div className={classes.spacer} />
                     <Typography component="h6" color="inherit" noWrap className={classes.title}>
-                        <Button variant="outlined" color="primary" onClick={handleOpenCurrency}>Debug</Button>
+                        <IconButton onClick={handleOpenCurrency}><AttachMoneyIcon /></IconButton>
                         Funds: {currency(props.currency)}
                     </Typography>
                     <IconButton color="inherit" onClick={toggleDrawer('right', true)}>
