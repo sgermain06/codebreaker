@@ -19,6 +19,37 @@ const returnObj = {
     resetCpuCores: () => dispatch => {
         dispatch(Events.SetCpuCores(1));
     },
+    increaseRamSize: () => (dispatch, getState) => {
+        const currentRamSize = fromState.Station.ramSize()(getState());
+        dispatch(Events.SetRamSize(currentRamSize * 2));
+    },
+    resetRamSize: () => dispatch => {
+        dispatch(Events.SetRamSize(2));
+    },
+    increaseRamType: () => (dispatch, getState) => {
+        const currentRamType = fromState.Station.ramType()(getState());
+        if (currentRamType < 6) {
+            dispatch(Events.SetRamType(currentRamType + 1));
+        }
+    },
+    resetRamType: () => dispatch => {
+        dispatch(Events.SetRamType(1));
+    },
+    increaseGraphicsMemory: () => (dispatch, getState) => {
+        const currentGraphicsMemory = fromState.Station.graphicsMemory()(getState());
+        dispatch(Events.SetGraphicsMemory(currentGraphicsMemory * 2));
+    },
+    resetGraphicsMemory: () => dispatch => {
+        dispatch(Events.SetGraphicsMemory(1024));
+    },
+    increaseGraphicsClock: () => (dispatch, getState) => {
+        const currentGraphicsClock = fromState.Station.graphicsClock()(getState());
+        dispatch(Events.SetGraphicsClock(currentGraphicsClock + 10 ));
+    },
+    resetGraphicsClock: () => dispatch => {
+        dispatch(Events.SetGraphicsClock(10));
+    },
+
     increaseBroadbandSpeed: () => (dispatch, getState) => {
         const currentBroadbandSpeed = fromState.Station.broadbandSpeed()(getState());
         dispatch(Events.SetBroadbandSpeed(Number((currentBroadbandSpeed + 1).toFixed(2))));
@@ -35,23 +66,19 @@ const returnObj = {
     resetBroadbandType: () => dispatch => {
         dispatch(Events.SetBroadbandType(0));
     },
-
     increaseStorageSize: () => (dispatch, getState) => {
         const currentStorageSize = fromState.Station.storageSize()(getState());
         dispatch(Events.SetStorageSize(Number(currentStorageSize * 2 )));
     },
-
     resetStorageSize: () => dispatch => {
         dispatch(Events.SetStorageSize(2));
     },
-
     increaseStorageType: () => (dispatch,getState) => {
         const currentStorageType = fromState.Station.storageType()(getState());
         if (currentStorageType < storageSpeeds.length - 1) {
             dispatch(Events.SetStorageType(currentStorageType + 1));
         }
     },
-
     resetStorageType: () => dispatch => {
         dispatch(Events.SetStorageType(0));
     },
