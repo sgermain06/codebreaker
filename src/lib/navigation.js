@@ -8,6 +8,7 @@ import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
 import SettingsBackupRestoreTwoToneIcon from "@material-ui/icons/SettingsBackupRestoreTwoTone";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ShareTwoToneIcon from "@material-ui/icons/ShareTwoTone";
+import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
 
 export const mainNavigation = [
     {
@@ -55,6 +56,12 @@ export const mainNavigation = [
 ];
 
 export const secondaryNavigation = [
+    {
+        title: 'Forums',
+        link: '/forums',
+        icon: <ForumTwoToneIcon />,
+        iconLarge: <ForumTwoToneIcon className="Logo" />
+    },
     {
         title: 'Perm Upgrades',
         link: '/upgrades',

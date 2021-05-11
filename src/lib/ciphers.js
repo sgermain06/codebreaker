@@ -94,15 +94,15 @@ Example:
 
 const cypher = {
     blocks: 7489324,
-    type: 'polymorphic',
-    payoutPerBlock: 4
+    type: { name: 'polymorphic', ... },
+    payoutPerBlock: 0.04
 };
 */
 
 export const generateCipher = (level) => {
     const blocks = Math.ceil((Math.random() * (200 * level)) + (200 * level));
-    const type = Math.floor(Math.random() * cipherTypes.length);
-    const payoutPerBlock = Math.ceil(Math.random() * (level + 4));
+    const type = cipherTypes[Math.floor(Math.random() * cipherTypes.length)];
+    const payoutPerBlock = Math.ceil(Math.random() * (level * 0.04));
 
     return { blocks, type, payoutPerBlock };
 };

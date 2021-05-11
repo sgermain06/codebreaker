@@ -7,6 +7,8 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
 
+import StationStatus from '../stationStatus';
+
 import styles from "./styles";
 
 import { MainListItems, SecondaryListItems } from "./listitems";
@@ -31,6 +33,7 @@ function SideBar() {
                 <MainListItems />
                 <Divider />
                 <SecondaryListItems />
+                <StationStatus className={classes.stationStatus} />
             </div>
         </Drawer>
     );

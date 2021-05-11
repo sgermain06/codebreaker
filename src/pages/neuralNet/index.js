@@ -84,12 +84,15 @@ function NeuralNet(props) {
             setDataPoints(dp);
         };
 
-        const gameUpdate = (frames, counts, exponent) => {
-            setFrames(Number(frames.toFixed(3)));
-            setCounts(counts);
-            setExponent(exponent);
-            if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
-                handleDataPoints(exponent);
+        const gameUpdate = {
+            id: 'neuralNet', 
+            callback: (frames, counts, exponent) => {
+                setFrames(Number(frames.toFixed(3)));
+                setCounts(counts);
+                setExponent(exponent);
+                if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
+                    handleDataPoints(exponent);
+                }
             }
         };
 

@@ -47,11 +47,14 @@ function CodeBreakingAnimation(props) {
             console.log('Cell:', cell);
         };
 
-        const gameUpdate = (frames) => {
-            if (brokenGrid.length <= (width * height)) {
-                randomizeGrid();
-                if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
-                    resolvePoint()
+        const gameUpdate = {
+            id: 'cipherUpdate', 
+            callback: (frames) => {
+                if (brokenGrid.length <= (width * height)) {
+                    randomizeGrid();
+                    if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
+                        resolvePoint()
+                    }
                 }
             }
         };

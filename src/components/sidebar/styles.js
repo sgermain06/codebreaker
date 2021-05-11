@@ -5,13 +5,14 @@ export default function styles(theme) {
         drawer: {
             width: drawerWidth,
             height: "100vh",
-            flexShring: 0,
+            flexShrink: 0,
         },
         drawerPaper: {
             width: drawerWidth,
         },
         drawerContainer: {
             overflow: "auto",
+            height: '100%',
         },
     };
 }

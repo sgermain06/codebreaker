@@ -111,13 +111,16 @@ function Header(props) {
         setIsRunning(props.gameController.toggleGameLoop());
     };
 
-    const headerUpdate = (frames, count, expo) => {
-        setFrames(Number(frames.toFixed(7)));
-        setCounts(Number(count));
-        setExponent(Number(expo));
-    };
-
     useEffect(() => {
+        const headerUpdate = {
+            id: 'headerUpdate',
+            callback: (frames, count, expo) => {
+                setFrames(Number(frames.toFixed(7)));
+                setCounts(Number(count));
+                setExponent(Number(expo));
+            }
+        };
+
         if (!processLoaded) {
             props.gameController.addProcess(headerUpdate);
             setProcessLoaded(true);

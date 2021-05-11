@@ -10,6 +10,7 @@ const returnObj = {
         }
         else {
             console.log('Cannot afford:', amount);
+            throw new Error(`Cannot afford: ${amount}`);
         }
     },
 };

@@ -19,6 +19,15 @@ const returnObj = {
     resetCpuCores: () => dispatch => {
         dispatch(Events.SetCpuCores(1));
     },
+    useCpuCores: cores => (dispatch, getState) => {
+        if (fromState.Station.hasEnoughAvailableCpuCores(cores)(getState())) {
+            dispatch(Events.UseCpuCores(cores));
+        }
+        else {
+            const availableCores = fromState.Station.availableCores()(getState());
+            throw new Error(`Not enough available CPU cores: ${cores}. Available: ${availableCores}`);
+        }
+    },
     increaseBroadbandSpeed: () => (dispatch, getState) => {
         const currentBroadbandSpeed = fromState.Station.broadbandSpeed()(getState());
         dispatch(Events.SetBroadbandSpeed(Number((currentBroadbandSpeed + 1).toFixed(2))));
@@ -35,23 +44,19 @@ const returnObj = {
     resetBroadbandType: () => dispatch => {
         dispatch(Events.SetBroadbandType(0));
     },
-
     increaseStorageSize: () => (dispatch, getState) => {
         const currentStorageSize = fromState.Station.storageSize()(getState());
         dispatch(Events.SetStorageSize(Number(currentStorageSize * 2 )));
     },
-
     resetStorageSize: () => dispatch => {
         dispatch(Events.SetStorageSize(2));
     },
-
     increaseStorageType: () => (dispatch,getState) => {
         const currentStorageType = fromState.Station.storageType()(getState());
         if (currentStorageType < storageSpeeds.length - 1) {
             dispatch(Events.SetStorageType(currentStorageType + 1));
         }
     },
-
     resetStorageType: () => dispatch => {
         dispatch(Events.SetStorageType(0));
     },

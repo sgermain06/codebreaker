@@ -1,4 +1,14 @@
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import isPlainObject from 'lodash/isPlainObject';
+
 const FPS = 60;
+
+function validateProcess(process) {
+    if (!isPlainObject(process)) {
+        throw new Error('Process needs to be a plain object with an id and a callback.');
+    }
+}
 
 // Exporting main game controller
 export default class GameController {
@@ -41,8 +51,8 @@ export default class GameController {
     };
 
     addProcess = (process) => {
-        // Make sure you can't duplicate processes
-        if (!this.processes.includes(process)) {
+        // Make sure the process object is valid and you can't duplicate processes
+        if (validateProcess(process) && isEmpty(this.processes.filter(i => get(i, 'id') === get(process, 'id')))) {
             this.processes.push(process);
         }
         console.log('Processes', this.processes.length);
