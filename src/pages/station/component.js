@@ -23,52 +23,7 @@ function Station(props) {
 
     useEffect(() => {
         document.title = `Current CPU: Codium ${cpu.speed} GHz ${cpu.cores} Cores`;
-    });
-
-    //#region Upgrade Memory Size
-    const [memorySize, setMemory] = useState(2);
-    const upgradeMemory = () => {
-        setMemory(memorySize * 2);
-    };
-    const resetMemory = () => {
-        setMemory(2);
-    };
-    //#endregion
-
-    //#region Upgrade Memory Speed
-    let [memorySpeed, setMemorySpeed] = useState(1);
-    const upgradeMemorySpeed = () => {
-        if (memorySpeed >= 6) {
-            memorySpeed = 6;
-        } else {
-            setMemorySpeed(memorySpeed + 1);
-        }
-    };
-    const resetMemorySpeed = () => {
-        setMemorySpeed(1);
-    };
-    //#endregion
-
-    //#region Upgrade Video Card Memory
-    const [gpuMemorySize, setGPUMemory] = useState(1024);
-    const upgradeGPUMemory = () => {
-        setGPUMemory(gpuMemorySize * 2);
-    };
-    const resetGPUMemory = () => {
-        setGPUMemory(1024);
-    };
-    //#endregion
-
-    //#region Upgrade Video Card Clock Speed
-    const [gpuClock, setGPUClock] = useState(10);
-    const upgradeGPUClock = () => {
-        setGPUClock(Number((gpuClock + 10).toFixed(2)));
-    };
-    const resetGPUClock = () => {
-        setGPUClock(10);
-    };
-    //#endregion
-
+    });   
 
     // //#region Upgrade Codebreaker Subscription
     // const [subTier, setSubTier] = useState(0);
@@ -117,15 +72,15 @@ function Station(props) {
                         <UpgradableSection title="RAM" value="Obsidium">
                             <UpgradableItem
                                 title="Size"
-                                value={dataSizeSuffix(memorySize, 1)}
-                                upgradeAction={upgradeMemory}
-                                resetAction={resetMemory}
+                                value={dataSizeSuffix(props.ramSize, 1)}
+                                upgradeAction={props.increaseRamSize}
+                                resetAction={props.resetRamSize}
                             />
                             <UpgradableItem
                                 title="Speed"
-                                value={"DDR" + memorySpeed}
-                                upgradeAction={upgradeMemorySpeed}
-                                resetAction={resetMemorySpeed}
+                                value={"DDR" + props.ramType}
+                                upgradeAction={props.increaseRamType}
+                                resetAction={props.resetRamType}
                             />
                         </UpgradableSection>
                     </Grid>
@@ -133,11 +88,11 @@ function Station(props) {
                         <UpgradableSection title="Video Card" value="CodeVidia">
                             <UpgradableItem
                                 title="Memory"
-                                value={dataSizeSuffix(gpuMemorySize, 1)}
-                                upgradeAction={upgradeGPUMemory}
-                                resetAction={resetGPUMemory}
+                                value={dataSizeSuffix(props.graphicsMemory, 1)}
+                                upgradeAction={props.increaseGraphicsMemory}
+                                resetAction={props.resetGraphicsMemory}
                             />
-                            <UpgradableItem title="Clock" value={gpuClock} suffix="MHz" upgradeAction={upgradeGPUClock} resetAction={resetGPUClock} />
+                            <UpgradableItem title="Clock" value={props.graphicsClock} suffix="MHz" upgradeAction={props.increaseGraphicsClock} resetAction={props.resetGraphicsClock} />
                         </UpgradableSection>
                     </Grid>
                 </Grid>

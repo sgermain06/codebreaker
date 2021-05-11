@@ -28,6 +28,36 @@ const returnObj = {
             throw new Error(`Not enough available CPU cores: ${cores}. Available: ${availableCores}`);
         }
     },
+    increaseRamSize: () => (dispatch, getState) => {
+        const currentRamSize = fromState.Station.ramSize()(getState());
+        dispatch(Events.SetRamSize(currentRamSize * 2));
+    },
+    resetRamSize: () => dispatch => {
+        dispatch(Events.SetRamSize(2));
+    },
+    increaseRamType: () => (dispatch, getState) => {
+        const currentRamType = fromState.Station.ramType()(getState());
+        if (currentRamType < 6) {
+            dispatch(Events.SetRamType(currentRamType + 1));
+        }
+    },
+    resetRamType: () => dispatch => {
+        dispatch(Events.SetRamType(1));
+    },
+    increaseGraphicsMemory: () => (dispatch, getState) => {
+        const currentGraphicsMemory = fromState.Station.graphicsMemory()(getState());
+        dispatch(Events.SetGraphicsMemory(currentGraphicsMemory * 2));
+    },
+    resetGraphicsMemory: () => dispatch => {
+        dispatch(Events.SetGraphicsMemory(1024));
+    },
+    increaseGraphicsClock: () => (dispatch, getState) => {
+        const currentGraphicsClock = fromState.Station.graphicsClock()(getState());
+        dispatch(Events.SetGraphicsClock(currentGraphicsClock + 10 ));
+    },
+    resetGraphicsClock: () => dispatch => {
+        dispatch(Events.SetGraphicsClock(10));
+    },
     increaseBroadbandSpeed: () => (dispatch, getState) => {
         const currentBroadbandSpeed = fromState.Station.broadbandSpeed()(getState());
         dispatch(Events.SetBroadbandSpeed(Number((currentBroadbandSpeed + 1).toFixed(2))));
