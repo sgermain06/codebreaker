@@ -8,8 +8,8 @@ import fromState from '../../state/selectors';
 
 const mapStateToProps = state => ({
     cpu: fromState.Station.cpu()(state),
-    ramSize: fromState.Station.ramSize()(state),
     ramType: fromState.Station.ramType()(state),
+    ram: fromState.Station.ram()(state),
     graphicsMemory: fromState.Station.graphicsMemory()(state),
     graphicsClock: fromState.Station.graphicsClock()(state),
     storageSize: fromState.Station.storageSize()(state),

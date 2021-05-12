@@ -72,7 +72,7 @@ function Station(props) {
                         <UpgradableSection title="RAM" value="Obsidium">
                             <UpgradableItem
                                 title="Size"
-                                value={dataSizeSuffix(props.ramSize, 1)}
+                                value={dataSizeSuffix(props.ram.size, props.ram.dataSuffixOffset)}
                                 upgradeAction={props.increaseRamSize}
                                 resetAction={props.resetRamSize}
                             />

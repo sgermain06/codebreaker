@@ -32,7 +32,7 @@ function StationStatus(props) {
                 </Grid>
                 <Grid container>
                     <Grid item xs={8}><Typography component="h6" className={classes.sectionTitle}>RAM:</Typography></Grid>
-                    <Grid item xs={4}><Typography component="h6" className={classes.sectionValue}>{dataSizeSuffix(props.ram.size)}</Typography></Grid>
+                    <Grid item xs={4}><Typography component="h6" className={classes.sectionValue}>{dataSizeSuffix(props.ram.size, props.ram.dataSuffixOffset)}</Typography></Grid>
                 </Grid>
             </CardContent>
         </Card>
