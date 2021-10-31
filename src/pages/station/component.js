@@ -55,8 +55,6 @@ function Station(props) {
     };
     //#endregion
 
-    console.log(props.broadbandType)
-
     return (
         <div className={classes.container}>
             <PageHeader />

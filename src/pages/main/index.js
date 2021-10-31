@@ -10,6 +10,7 @@ import Networks from '../networks';
 import DarkWeb from '../darkWeb';
 import NeuralNet from '../neuralNet';
 import Forums from '../forums';
+import Upgrades from '../upgrades';
 function Main(props) {
     return (
         <React.Fragment>
@@ -36,6 +37,9 @@ function Main(props) {
             </Route>
             <Route path='/forums'>
                 <Forums gameController={props.gameController} />
+            </Route>
+            <Route path='/upgrades'>
+                <Upgrades />
             </Route>
         </React.Fragment>
     );

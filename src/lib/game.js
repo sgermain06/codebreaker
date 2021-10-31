@@ -8,6 +8,7 @@ function validateProcess(process) {
     if (!isPlainObject(process)) {
         throw new Error('Process needs to be a plain object with an id and a callback.');
     }
+    return isPlainObject(process);
 }
 
 // Exporting main game controller
@@ -21,7 +22,7 @@ export default class GameController {
     }
 
     startGameLoop = () => {
-        this.interval = setInterval(this.update, 1000 / FPS);
+        this.interval = setInterval(this.update, 10000 / FPS);
     };
 
     stopGameLoop = () => {
@@ -52,7 +53,8 @@ export default class GameController {
 
     addProcess = (process) => {
         // Make sure the process object is valid and you can't duplicate processes
-        if (validateProcess(process) && isEmpty(this.processes.filter(i => get(i, 'id') === get(process, 'id')))) {
+        const processExists = this.processes.filter(i => get(i, 'id') === get(process, 'id'));
+        if (validateProcess(process) && isEmpty(processExists)) {
             this.processes.push(process);
         }
         console.log('Processes', this.processes.length);
@@ -95,7 +97,7 @@ export default class GameController {
         }
 
         for (let process of this.processes) {
-            process(this.currentFrame, this.currentCount, this.currentExponent);
+            process.callback(this.currentFrame, this.currentCount, this.currentExponent);
         }
     };
 }

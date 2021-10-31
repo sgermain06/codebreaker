@@ -1,0 +1,110 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Codebreaker API
+  description: This API handles all server operations for Codebreaker
+basePath: /api/v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: General
+    description: General info about this API
+securityDefinitions:
+  jwt:
+    description: JSON Web Token
+    type: apiKey
+    name: Authorization
+    in: header
+
+paths:
+  /:
+    x-hapi-handler: about
+    get:
+      summary: About This API
+      description: Returns name and build of this API
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/about"
+      tags:
+        - General
+
+  # /health:
+  #   x-hapi-handler: health
+  #   get:
+  #     summary: Health Check
+  #     description: This route executes a health check for connectivity to dependent services.
+  #     responses:
+  #       200:
+  #         description: Success
+  #         schema:
+  #           $ref: "#/definitions/health"
+  #     tags:
+  #       - General
+
+  /swagger:
+    x-hapi-handler: about
+    get:
+      summary: Swagger Documentation
+      operationId: swaggerDefinition
+      description: Retrieve the swagger documentation for this API
+      responses:
+        200:
+          description: Success
+      tags:
+        - General
+
+definitions:
+  error:
+    type: object
+    description: Error response object
+    properties:
+      message:
+        description: User facing error message
+        type: string
+      internalMessage:
+        description: Internal message for logging and troubleshooting
+        type: string
+      code:
+        description: Error code
+        type: integer
+        format: int32
+
+  about:
+    type: object
+    description: About this API response object
+    properties:
+      name:
+        description: Name of this version
+        type: string
+      build:
+        description: Build number of this version
+        type: string
+
+  health:
+    type: object
+    description: Health Response for this API
+    properties:
+      title:
+        description: Description of this response
+        type: string
+      date:
+        description: Date of health check
+        type: number
+      totalDuration:
+        description: Duration of health check request
+        type: string
+      results:
+        type: object
+        properties:
+          storage broker:
+            type: object
+            $ref: "#/definitions/about"
+          crypto broker:
+            type: object
+            $ref: "#/definitions/about"

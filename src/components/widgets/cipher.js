@@ -76,6 +76,7 @@ function CodeBreakingAnimation(props) {
     return (
         <div>
             <table className={classes.cipherTable}>
+                <tbody>
                 {rows.map((_, rowIndex) =>
                     <tr key={'row-' + rowIndex}>
                         {characterGrid.slice(rowIndex * height, (rowIndex * height) + width).map((cell, colIndex) => {
@@ -84,13 +85,14 @@ function CodeBreakingAnimation(props) {
                         })}
                     </tr>
                 )}
+                </tbody>
             </table>
         </div>
     );
 }
 
 CodeBreakingAnimation.propTypes = {
-    gameController: PropTypes.func.isRequired,
+    gameController: PropTypes.object.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number,
 };

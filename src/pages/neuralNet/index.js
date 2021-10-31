@@ -90,7 +90,7 @@ function NeuralNet(props) {
                 setFrames(Number(frames.toFixed(3)));
                 setCounts(counts);
                 setExponent(exponent);
-                if ((Number(frames.toFixed(3)) * 100) % 5 === 0) {
+                if ((Number(frames.toFixed(3)) * 1000) % 5 === 0) {
                     handleDataPoints(exponent);
                 }
             }

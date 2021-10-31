@@ -1,4 +1,4 @@
-import background from '../../assets/datacenter_bg.png';
+import background from '../../assets/computer_store_bg.png';
 
 export default function styles(theme) {
     return {

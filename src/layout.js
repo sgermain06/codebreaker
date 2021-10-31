@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
         flexShrink: 1,
         flexGrow: 1,
         flexBasis: "auto",
+        display: 'flex',
     },
     box: {
         display: "flex",
@@ -61,6 +62,9 @@ export default function Layout() {
             createMuiTheme({
                 palette: {
                     type: prefersDarkMode ? "dark" : "light",
+                    background: {
+                        paper: 'rgba(66, 66, 66, 0.85)',
+                    }
                 },
             }),
         [prefersDarkMode]

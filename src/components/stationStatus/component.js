@@ -18,7 +18,6 @@ const useStyles = makeStyles(styles);
 function StationStatus(props) {
     const classes = useStyles();
 
-    console.log(props.cpu)
     return (
         <Card className={classes.stationStatus}>
             <CardHeader className={classes.cardHeader} title={<Typography variant="h5" component="h2" className={classes.header}>Station Status</Typography>} />
