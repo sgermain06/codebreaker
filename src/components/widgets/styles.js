@@ -2,12 +2,8 @@ import { grey, lightGreen } from "@material-ui/core/colors";
 
 export default function styles(theme) {
     return {
-        cipherTable: {
-            marginLeft: 5,
-            marginTop: 5,
-        },
         cipherGrid: {
-            width: '30px',
+            minWidth: '25px',
             textAlign: 'center',
         },
         solved: {

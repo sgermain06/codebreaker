@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import isPlainObject from 'lodash/isPlainObject';
 
 const FPS = 60;
@@ -53,11 +52,15 @@ export default class GameController {
 
     addProcess = (process) => {
         // Make sure the process object is valid and you can't duplicate processes
-        const processExists = this.processes.filter(i => get(i, 'id') === get(process, 'id'));
-        if (validateProcess(process) && isEmpty(processExists)) {
+        const processIndex = this.processes.findIndex(i => get(i, 'id') === get(process, 'id'));
+        if (validateProcess(process) && processIndex === -1) {
             this.processes.push(process);
+            console.log('Processes', this.processes.length);
         }
-        console.log('Processes', this.processes.length);
+        else {
+            this.processes[processIndex] = process;
+        }
+        return processIndex !== -1;
     };
 
     removeProcess = (process) => {

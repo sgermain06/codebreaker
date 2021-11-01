@@ -5,6 +5,9 @@ const returnObj = {
     updateCipher: (cipher, update) => dispatch => dispatch(Events.UpdateCipher(cipher, update)),
     completeCipher: cipher => dispatch => dispatch(Events.CompleteCipher(cipher)),
     cancelCipher: cipher => dispatch => dispatch(Events.CancelCipher(cipher)),
+    setCharacterGrid: characterGrid => dispatch => dispatch(Events.SetCharacterGrid(characterGrid)),
+    addBrokenGridCell: cell => dispatch => dispatch(Events.AddBrokenGridCell(cell)),
+    resetBrokenGrid: () => dispatch => dispatch(Events.ResetBrokenGrid()),
 };
 
 export default returnObj;
