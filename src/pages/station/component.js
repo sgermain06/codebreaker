@@ -9,6 +9,8 @@ import UpgradableItem from "../../components/upgradableItem";
 import UpgradableSection from "../../components/upgradableSection";
 
 import PageHeader from "../../components/pageHeader";
+import CipherWidget from '../../components/widgets/cipherBreak';
+import CipherQueueWidget from '../../components/widgets/cipherQueue';
 
 import styles from "./styles";
 
@@ -134,6 +136,12 @@ function Station(props) {
                             Modular : No
                         </UpgradableSection>
                     </Grid>
+                </Grid>
+                <Grid item xs={4}>
+                    <CipherWidget gameController={props.gameController} width={20} height={10} />
+                </Grid>
+                <Grid item xs={4}>
+                    <CipherQueueWidget />
                 </Grid>
             </Grid>
         </div>

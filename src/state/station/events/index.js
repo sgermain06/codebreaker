@@ -14,8 +14,8 @@ const definition = {
     SetStorageSize: singleParameter,
     SetBroadbandType: singleParameter,
     SetBroadbandSpeed: singleParameter,
-
     UseCpuCores: singleParameter,
+    AddCpuLoad: singleParameter,
 };
 
 const {types, events} = buildEvents('station', definition);

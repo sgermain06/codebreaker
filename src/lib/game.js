@@ -55,7 +55,6 @@ export default class GameController {
         const processIndex = this.processes.findIndex(i => get(i, 'id') === get(process, 'id'));
         if (validateProcess(process) && processIndex === -1) {
             this.processes.push(process);
-            console.log('Processes', this.processes.length);
         }
         else {
             this.processes[processIndex] = process;
@@ -64,7 +63,7 @@ export default class GameController {
     };
 
     removeProcess = (process) => {
-        const processIndex = this.processes.indexOf(process);
+        const processIndex = this.processes.findIndex(i => get(i, 'id') === get(process, 'id'));
         // Make sure the process exists before trying to remove it.
         if (processIndex > -1) {
             this.processes = [

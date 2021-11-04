@@ -15,7 +15,7 @@ function Main(props) {
     return (
         <React.Fragment>
             <Route exact path='/'>
-                <Station />
+                <Station gameController={props.gameController} />
             </Route>
             <Route path='/servers'>
                 <Servers />

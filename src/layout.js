@@ -78,7 +78,7 @@ export default function Layout() {
                         <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
                             <ThemeProvider theme={theme}>
                                 <CssBaseline />
-                                <Header gameController={gameController} />
+                                <Header gameController={gameController} persistor={persistor} />
                                 <SideBar />
                                 <main className={classes.content}>
                                     <div className={classes.box}>

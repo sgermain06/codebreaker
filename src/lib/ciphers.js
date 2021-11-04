@@ -1,3 +1,4 @@
+const uuid = require('uuid').v4;
 // We can add as much as we want
 /*
 
@@ -93,6 +94,7 @@ const cipherTypes = [
 Example:
 
 const cypher = {
+    id: <uuid>,
     blocks: 7489324,
     type: { name: 'polymorphic', ... },
     payoutPerBlock: 0.04
@@ -104,5 +106,10 @@ export const generateCipher = (level) => {
     const type = cipherTypes[Math.floor(Math.random() * cipherTypes.length)];
     const payoutPerBlock = Math.ceil(Math.random() * (level * 0.04));
 
-    return { blocks, type, payoutPerBlock };
+    return {
+        id: uuid(),
+        blocks,
+        type,
+        payoutPerBlock,
+    };
 };

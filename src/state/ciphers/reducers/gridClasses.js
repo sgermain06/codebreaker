@@ -4,7 +4,7 @@ import genericReducer from '../../_common/reducers/generic-reducer';
 const initialState = [];
 
 const reductionLookup = {
-    [EventTypes.SetCharacterGrid]: (_, grid) => grid,
+    [EventTypes.SetGridClasses]: (_, grid) => grid,
     [EventTypes.ResetGrid]: () => initialState,
 };
 

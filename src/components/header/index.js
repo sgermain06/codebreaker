@@ -8,6 +8,7 @@ import fromState from '../../state/selectors';
 
 const mapStateToProps = state => ({
     currency: fromState.Player.currency()(state),
+    notifications: fromState.Player.notifications()(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -6,8 +6,9 @@ const definition = {
     CompleteCipher: singleParameter,
     CancelCipher: singleParameter,
     SetCharacterGrid: singleParameter,
+    SetGridClasses: singleParameter,
     AddBrokenGridCell: singleParameter,
-    ResetBrokenGrid: noParameters,
+    ResetGrid: noParameters,
 };
 
 const {types, events} = buildEvents('ciphers', definition);

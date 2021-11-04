@@ -4,8 +4,8 @@ import genericReducer from '../../_common/reducers/generic-reducer';
 const initialState = [];
 
 const reductionLookup = {
-    [EventTypes.ResetBrokenGrid]: () => initialState,
     [EventTypes.AddBrokenGridCell]: (state, cell) => [ ...state, cell ],
+    [EventTypes.ResetGrid]: () => initialState,
 };
 
 export default genericReducer(initialState, reductionLookup);

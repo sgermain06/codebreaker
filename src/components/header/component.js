@@ -19,6 +19,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from "@material-ui/core/Typography";
 
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -27,6 +28,7 @@ import PlayIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -39,6 +41,8 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoneyTwoTone';
 import styles from "./styles";
 import { Button, TextField } from "@material-ui/core";
 
+import Notifications from '../notifications';
+
 const useStyles = makeStyles(styles);
 
 function Header(props) {
@@ -46,6 +50,10 @@ function Header(props) {
     const [mailDrawer, setMailDrawerState] = React.useState({
         right: false,
     });
+
+    const {
+        notifications
+    } = props;
 
     const debugCurrencyAmount = useRef(null);
     const [openCurrency, setOpenCurrency] = React.useState(false);
@@ -157,6 +165,11 @@ function Header(props) {
         handleCloseCurrency();
     }
 
+    const clearStore = async () => {
+        await props.persistor.purge();
+        window.location.reload();
+    }
+
     return (
         <React.Fragment>
             <Dialog open={openCurrency} onClose={handleCloseCurrency}>
@@ -182,21 +195,36 @@ function Header(props) {
                     <Typography component="h6" color="inherit" noWrap className={classes.title}>
                         [DEBUG]
                     </Typography>
-                    <IconButton color="inherit" onClick={increaseExponent}>
-                        <KeyboardArrowUpIcon />
-                    </IconButton>
-                    <IconButton color="inherit" onClick={decreaseExponent}>
-                        <KeyboardArrowDownIcon />
-                    </IconButton>
-                    <IconButton color="inherit" onClick={toggleGameLoop}>
-                        {isRunning ? <PauseIcon /> : <PlayIcon />}
-                    </IconButton>
+                    <Tooltip title="Increase Exponent">
+                        <IconButton color="inherit" onClick={increaseExponent}>
+                            <KeyboardArrowUpIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Decrease Exponent">
+                        <IconButton color="inherit" onClick={decreaseExponent}>
+                            <KeyboardArrowDownIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Toggle Game Controller Timer">
+                        <IconButton color="inherit" onClick={toggleGameLoop}>
+                            {isRunning ? <PauseIcon /> : <PlayIcon />}
+                        </IconButton>
+                    </Tooltip>
                     <Typography component="h6" color="inherit" noWrap className={classes.title}>
                         Frames: {frames.toFixed(7)}, Counts: {counts}, Exponent: {exponent}, Value: {Math.pow(frames + counts, exponent).toFixed(7)}
                     </Typography>
+                    <Tooltip title={<div align="center">Clear Redux State<br />(Refreshes Page)</div>}>
+                        <IconButton color="inherit" onClick={clearStore}>
+                            <DeleteForeverTwoToneIcon />
+                        </IconButton>
+                    </Tooltip>
                     <div className={classes.spacer} />
                     <Typography component="h6" color="inherit" noWrap className={classes.title}>
-                        <IconButton onClick={handleOpenCurrency}><AttachMoneyIcon /></IconButton>
+                        <Tooltip title="Set Currency">
+                            <IconButton onClick={handleOpenCurrency}>
+                                <AttachMoneyIcon />
+                            </IconButton>
+                        </Tooltip>
                         Funds: {currency(props.currency)}
                     </Typography>
                     <IconButton color="inherit" onClick={toggleDrawer('right', true)}>
@@ -215,7 +243,7 @@ function Header(props) {
                         </Badge>
                     </IconButton>
                     <IconButton color="inherit" onClick={handleClick}>
-                        <Badge badgeContent={4} color="secondary">
+                        <Badge badgeContent={notifications.length} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -233,11 +261,7 @@ function Header(props) {
                         }}
                     >
                         <Box p={2}>
-                            <Typography>Kemis likes your post about Bananas!</Typography>
-                            <Divider />
-                            <Typography>Makros went live on onlydans.com</Typography>
-                            <Divider />
-                            <Typography>Bob started bossing everyone around again.</Typography>
+                            <Notifications notifications={notifications} />
                         </Box>
                     </Popover>
                 </Toolbar>
@@ -249,6 +273,7 @@ function Header(props) {
 Header.propTypes = {
     gameController: PropTypes.object,
     currency: PropTypes.number,
+    persistor: PropTypes.object,
 };
 
 export default Header;

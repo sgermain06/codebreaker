@@ -45,6 +45,7 @@ export default common.bindToReducer('station', {
     usedCpuCores: common.get('cpu.usedCores'),
     availableCpuCores: () => (state) => state.cpu.cores - state.cpu.usedCores,
     hasEnoughAvailableCpuCores: cores => (state) => (state.cpu.cores - state.cpu.usedCores) >= cores,
+    cpuLoad: common.get('cpu.load'),
     display: common.get('display'),
     displayResolution: resolutions[common.get('display.resolution')],
     displayType: common.get('display.type'),
