@@ -2,7 +2,10 @@ import React from "react";
 import clsx from 'clsx';
 import { withRouter } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
-import { withSnackbar } from 'notistack';
+
+import { connect } from 'react-redux';
+
+import Commands from '../../state/commands';
 
 import styles from './styles';
 
@@ -32,4 +35,11 @@ function DarkWeb(props) {
     );
 }
 
-export default withRouter(withSnackbar(DarkWeb));
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+    enqueueSnackbar: (message, options) => dispatch(Commands.Snackbar.enqueueSnackbar(message, options)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DarkWeb));

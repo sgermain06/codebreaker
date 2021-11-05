@@ -1,24 +1,27 @@
 import Events from '../events';
-
 import isEmpty from 'lodash/isEmpty';
 
 import Commands from '../../commands';
 
 const returnObj = {
     addCipher: cipher => dispatch => {
+        const message = `Adding Cipher with ID ${cipher.id}`
         dispatch(Commands.Player.addNotification({
-            message: `Adding Cipher with ID ${cipher.id}`,
+            message,
             level: 'success'
         }));
+        dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'success' }));
         return dispatch(Events.AddCipher(cipher));
     },
     updateCipher: (cipher, update) => dispatch => dispatch(Events.UpdateCipher(cipher, update)),
     completeCipher: cipher => dispatch => {
         if (!isEmpty(cipher)) {
+            const message = `Completed Cipher with ID ${cipher.id}`;
             dispatch(Commands.Player.addNotification({
-                message: `Completed Cipher with ID ${cipher.id}`,
+                message,
                 level: 'success'
             }));
+            dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'success' }));
             dispatch(Commands.Player.receiveCurrency(cipher.blocks * cipher.payoutPerBlock));
             return dispatch(Events.CompleteCipher(cipher));
         }
@@ -28,10 +31,12 @@ const returnObj = {
     },
     cancelCipher: cipher => dispatch => {
         if (!isEmpty(cipher)) {
+            const message = `Canceled Cipher with ID ${cipher.id}`;
             dispatch(Commands.Player.addNotification({
-                message: `Canceled Cipher with ID ${cipher.id}`,
+                message,
                 level: 'warning'
             }));
+            dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'warning' }));
             return dispatch(Events.CancelCipher(cipher))
         }
         else {
