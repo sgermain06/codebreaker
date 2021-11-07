@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import fromState from '../../../state/selectors';
 import Commands from '../../../state/commands';
 
-import CodeBreakingAnimation from './component';
+import Component from './component';
 
 const mapStateToProps = (state) => ({
     brokenGrid: fromState.Ciphers.getBrokenGrid()(state),
@@ -29,4 +29,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     cancelCipher: dispatchProps.cancelCipher(stateProps.activeCipher),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(CodeBreakingAnimation);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Component);
