@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
     currency: fromState.Player.currency()(state),
     cpu: fromState.Station.cpu()(state),
     ram: fromState.Station.ram()(state),
+    storage: fromState.Station.storage()(state),
 });
 
 const component = withRouter(Component);

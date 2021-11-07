@@ -1,3 +1,4 @@
+import { dataSizeFromSuffix, dataSizeSuffixes } from '../../../lib/utils';
 import common from '../../_common/selectors/_common';
 
 const resolutions = [
@@ -61,5 +62,17 @@ export default common.bindToReducer('station', {
     storage: common.get('storage'),
     storageSize: common.get('storage.size'),
     storageType: common.get('storage.type'),
+    storageUsed: common.get('storage.used'),
+    availableStorage: () => (state) => {
+        const size = state.storage.size;
+        const unit = dataSizeSuffixes[state.storage.dataSuffixOffset]
+        return dataSizeFromSuffix({size, unit}) - state.storage.used;
+    },
     storageTypeSpeed: () => (state) => storageSpeeds[state.storage.type],
+    hasEnoughAvailableStorage: requestedSize => (state) => {
+        const size = state.storage.size;
+        const unit = dataSizeSuffixes[state.storage.dataSuffixOffset]
+        const total = dataSizeFromSuffix({size, unit});
+        return total - state.storage.used >= requestedSize;
+    },
 });

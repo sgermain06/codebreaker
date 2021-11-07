@@ -17,6 +17,7 @@ import DarkWeb from '../darkWeb';
 import NeuralNet from '../neuralNet';
 import Forums from '../forums';
 import Upgrades from '../upgrades';
+import Statistics from '../statistics';
 function Main(props) {
 
     const {
@@ -94,6 +95,9 @@ function Main(props) {
             </Route>
             <Route path='/upgrades'>
                 <Upgrades />
+            </Route>
+            <Route path='/stats'>
+                <Statistics />
             </Route>
         </>
     );

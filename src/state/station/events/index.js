@@ -12,6 +12,7 @@ const definition = {
     SetRamSize: singleParameter,
     SetStorageType: singleParameter,
     SetStorageSize: singleParameter,
+    SetStorageUsed: singleParameter,
     SetBroadbandType: singleParameter,
     SetBroadbandSpeed: singleParameter,
     UseCpuCores: singleParameter,

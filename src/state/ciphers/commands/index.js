@@ -1,18 +1,41 @@
 import Events from '../events';
 import isEmpty from 'lodash/isEmpty';
 
+import { dataSizeFromSuffix, dataSizeSuffix } from '../../../lib/utils';
+
+import fromState from '../../selectors';
 import Commands from '../../commands';
 
 const returnObj = {
-    addCipher: cipher => dispatch => {
-        const message = `Adding Cipher with ID ${cipher.id}`
-        dispatch(Commands.Player.addNotification({
-            message,
-            level: 'success'
-        }));
-        return dispatch(Events.AddCipher(cipher));
+    // Add cipher check list:
+    addCipher: cipher => (dispatch, getState) => {
+        const cipherSize = dataSizeFromSuffix(cipher.type.block) * cipher.blocks;
+        const hasEnoughAvailableStorage = fromState.Station.hasEnoughAvailableStorage(cipherSize)(getState());
+        const availableStorage = fromState.Station.availableStorage()(getState());
+        console.log('Cipher Size:', cipherSize, 'Available Storage:', availableStorage);
+        if (!hasEnoughAvailableStorage) {
+            return dispatch(Commands.Player.addNotification({
+                message: `Not enough storage. Required: ${dataSizeSuffix(cipherSize)}, Available ${dataSizeSuffix(availableStorage)}`,
+                level: 'error'
+            }));
+    
+        }
+        else {
+            dispatch(Commands.Station.useStorage(cipherSize));
+            dispatch(Commands.Player.addNotification({
+                message: `Adding Cipher with ID ${cipher.id}`,
+                level: 'success'
+            }));
+            return dispatch(Events.AddCipher(cipher));
+        }
     },
-    updateCipher: (cipher, update) => dispatch => dispatch(Events.UpdateCipher(cipher, update)),
+    updateCipher: (cipher, prop) => dispatch => {
+        const update = {
+            ...cipher,
+            ...prop
+        };
+        return dispatch(Events.UpdateCipher(cipher, update));
+    },
     completeCipher: cipher => dispatch => {
         if (!isEmpty(cipher)) {
             const message = `Completed Cipher with ID ${cipher.id}`;

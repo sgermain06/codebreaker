@@ -73,14 +73,14 @@ function CodeBreakingAnimation(props) {
             setCharacterGrid(newArray);
         };
     
-        const resolvePoint = () => {
-            let cell = Math.floor(Math.random() * (activeCipher.blocks));
+        // const resolvePoint = () => {
+        //     let cell = Math.floor(Math.random() * (activeCipher.blocks));
     
-            while (brokenGrid.includes(cell)) {
-                cell = Math.floor(Math.random() * (activeCipher.blocks));
-            }
-            addBrokenGridCell(cell);
-        };
+        //     while (brokenGrid.includes(cell)) {
+        //         cell = Math.floor(Math.random() * (activeCipher.blocks));
+        //     }
+        //     addBrokenGridCell(cell);
+        // };
         
         const gameUpdate = {
             id: 'cipherUpdate', 
@@ -89,9 +89,9 @@ function CodeBreakingAnimation(props) {
                 if (frame === frames) return;
                 setFrames(frame);
                 randomizeGrid();
-                if ((Number(frame.toFixed(3)) * 1000) % 5 === 0) {
-                    resolvePoint()
-                }
+                // if ((Number(frame.toFixed(3)) * 1000) % 5 === 0) {
+                //     resolvePoint()
+                // }
             }
         };
 

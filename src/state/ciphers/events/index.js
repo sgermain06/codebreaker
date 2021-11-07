@@ -9,6 +9,8 @@ const definition = {
     SetGridClasses: singleParameter,
     AddBrokenGridCell: singleParameter,
     ResetGrid: noParameters,
+    StartDownloadCipher: singleParameter,
+    DownloadCipherComplete: singleParameter,
 };
 
 const {types, events} = buildEvents('ciphers', definition);

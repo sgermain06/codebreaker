@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
     ram: fromState.Station.ram()(state),
     graphicsMemory: fromState.Station.graphicsMemory()(state),
     graphicsClock: fromState.Station.graphicsClock()(state),
-    storageSize: fromState.Station.storageSize()(state),
+    storage: fromState.Station.storage()(state),
     storageType: fromState.Station.storageTypeSpeed()(state),
     broadbandType: fromState.Station.broadbandTypeDescription()(state),
     broadbandProvider: fromState.Station.broadbandProvider()(state),

@@ -70,6 +70,16 @@ const returnObj = {
         }
     },
     addCpuLoad: load => dispatch => dispatch(Events.AddCpuLoad(load)),
+
+    useStorage: size => (dispatch, getState) => {
+        if (fromState.Station.hasEnoughAvailableStorage(size)(getState())) {
+            dispatch(Events.SetStorageUsed(fromState.Station.storageUsed()(getState()) + size));
+        }
+        else {
+            const availableStorage = fromState.Station.availableStorage()(getState());
+            throw new Error(`Not enough available storage: ${size}. Available: ${availableStorage}`);
+        }
+    },
 };
 
 export default returnObj;

@@ -33,6 +33,10 @@ function StationStatus(props) {
                     <Grid item xs={8}><Typography component="h6" className={classes.sectionTitle}>RAM:</Typography></Grid>
                     <Grid item xs={4}><Typography component="h6" className={classes.sectionValue}>{dataSizeSuffix(props.ram.size, props.ram.dataSuffixOffset)}</Typography></Grid>
                 </Grid>
+                <Grid container>
+                    <Grid item xs={4}><Typography component="h6" className={classes.sectionTitle}>Disk:</Typography></Grid>
+                    <Grid item xs={8}><Typography component="h6" className={classes.sectionValue}>{dataSizeSuffix(props.storage.used)}/{dataSizeSuffix(props.storage.size, props.storage.dataSuffixOffset)}</Typography></Grid>
+                </Grid>
             </CardContent>
         </Card>
     );
@@ -45,6 +49,10 @@ StationStatus.propTypes = {
     }),
     ram: PropTypes.shape({
         size: PropTypes.number.isRequired,
+    }),
+    storage: PropTypes.shape({
+        size: PropTypes.number.isRequired,
+        used: PropTypes.number.isRequired,
     }),
 };
 

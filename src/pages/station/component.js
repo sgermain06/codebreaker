@@ -98,7 +98,7 @@ function Station(props) {
                     <UpgradableSection title="Storage" value="Eastern Digital">
                         <UpgradableItem
                             title="Size"
-                            value={dataSizeSuffix(props.storageSize, 2)}
+                            value={dataSizeSuffix(props.storage.size, props.storage.dataSuffixOffset)}
                             upgradeAction={props.increaseStorageSize}
                             resetAction={props.resetStorageSize}
                         />

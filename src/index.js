@@ -24,10 +24,7 @@ function Main() {
                     },
                     secondary: {
                         main: red[500],
-                    },
-                    // action: {
-                    //     selected: prefersDarkMode ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.08)',
-                    // }
+                    }
                 }
             }),
         [prefersDarkMode]
