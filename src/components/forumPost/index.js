@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 
-import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
-import EmailIcon from '@material-ui/icons/EmailTwoTone';
-import DraftIcon from '@material-ui/icons/DraftsTwoTone';
-import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@mui/icons-material/DeleteTwoTone';
+import EmailIcon from '@mui/icons-material/EmailTwoTone';
+import DraftIcon from '@mui/icons-material/DraftsTwoTone';
+import Typography from '@mui/material/Typography';
 
 import useStyles from './styles';
 
@@ -42,14 +42,14 @@ function ForumPost(props) {
                         }
                     />
                     <ListItemSecondaryAction className={classes.actions}>
-                        <IconButton aria-label="delete" onClick={props.onDelete}>
+                        <IconButton aria-label="delete" onClick={props.onDelete} size="large">
                             <DeleteIcon />
                         </IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>
             </List>
         </Paper>
-    )
+    );
 }
 
 ForumPost.propTypes = {

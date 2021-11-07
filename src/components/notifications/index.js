@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 import NotificationItem from '../notificationItem';
 
 function Notifications(props) {

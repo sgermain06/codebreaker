@@ -1,8 +1,7 @@
 import React from "react";
 
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { makeStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import makeStyles from '@mui/styles/makeStyles';
 import { HashRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -11,12 +10,12 @@ import configureStore from './state';
 
 import { SnackbarProvider } from 'notistack';
 
-import Toolbar from "@material-ui/core/Toolbar";
+import Toolbar from "@mui/material/Toolbar";
 
 import Header from "./components/header";
 import SideBar from "./components/sidebar";
 import Footer from "./components/footer";
-
+import CodeBreaker from './components/codeBreaker';
 import Main from "./pages/main";
 
 import GameController from "./lib/game";
@@ -55,41 +54,25 @@ const gameController = new GameController();
 export default function Layout() {
     const classes = useStyles();
 
-    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
-    const theme = React.useMemo(
-        () =>
-            createMuiTheme({
-                palette: {
-                    type: prefersDarkMode ? "dark" : "light",
-                    background: {
-                        paper: 'rgba(66, 66, 66, 0.85)',
-                    }
-                },
-            }),
-        [prefersDarkMode]
-    );
-
     return (
         <div className={classes.root}>
             <Provider store={store}>
                 <PersistGate persistor={persistor}>
                     <HashRouter>
                         <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                            <ThemeProvider theme={theme}>
-                                <CssBaseline />
-                                <Header gameController={gameController} persistor={persistor} />
-                                <SideBar />
-                                <main className={classes.content}>
-                                    <div className={classes.box}>
-                                        <Toolbar />
-                                        <div className={classes.mainContent}>
-                                            <Main gameController={gameController} />
-                                        </div>
-                                        <Footer />
+                            <CssBaseline />
+                            <Header gameController={gameController} persistor={persistor} />
+                            <SideBar />
+                            <main className={classes.content}>
+                                <div className={classes.box}>
+                                    <Toolbar />
+                                    <div className={classes.mainContent}>
+                                        <Main gameController={gameController} />
                                     </div>
-                                </main>
-                            </ThemeProvider>
+                                    <Footer />
+                                </div>
+                            </main>
+                            <CodeBreaker gameController={gameController} />
                         </SnackbarProvider>
                     </HashRouter>
                 </PersistGate>

@@ -2,7 +2,7 @@ import common from '../../_common/selectors/_common';
 
 export default common.bindToReducer('ciphers', {
     getActive: common.get('active'),
-    getCurrentCipher: common.get('active')[0],
+    getCurrentCipher: common.lookup('active.0'),
     getCompleted: common.get('completed'),
     getCanceled: common.get('canceled'),
     getBrokenGrid: common.lookup('grid.broken'),

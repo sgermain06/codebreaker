@@ -10,7 +10,6 @@ const returnObj = {
             message,
             level: 'success'
         }));
-        dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'success' }));
         return dispatch(Events.AddCipher(cipher));
     },
     updateCipher: (cipher, update) => dispatch => dispatch(Events.UpdateCipher(cipher, update)),
@@ -21,7 +20,6 @@ const returnObj = {
                 message,
                 level: 'success'
             }));
-            dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'success' }));
             dispatch(Commands.Player.receiveCurrency(cipher.blocks * cipher.payoutPerBlock));
             return dispatch(Events.CompleteCipher(cipher));
         }
@@ -36,7 +34,6 @@ const returnObj = {
                 message,
                 level: 'warning'
             }));
-            dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: 'warning' }));
             return dispatch(Events.CancelCipher(cipher))
         }
         else {

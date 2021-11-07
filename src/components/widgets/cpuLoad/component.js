@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 
 import { VictoryAxis, VictoryChart, VictoryArea } from 'victory';
 
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 
 import last from 'lodash/last';
 

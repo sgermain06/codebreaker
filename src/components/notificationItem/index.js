@@ -1,14 +1,14 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
-import WarningTwoToneIcon from '@material-ui/icons/WarningTwoTone';
-import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
-import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
-import InfoTwoToneIcon from '@material-ui/icons/InfoTwoTone';
+import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import isEmpty from 'lodash/isEmpty';
 
 function NotificationItem(props) {

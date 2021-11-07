@@ -1,14 +1,14 @@
-import ImportantDevicesTwoToneIcon from "@material-ui/icons/ImportantDevicesTwoTone";
-import StorageTwoToneIcon from "@material-ui/icons/StorageTwoTone";
-import CalendarViewDayTwoToneIcon from "@material-ui/icons/CalendarViewDayTwoTone";
-import ApartmentTwoToneIcon from "@material-ui/icons/ApartmentTwoTone";
-import RouterTwoToneIcon from "@material-ui/icons/RouterTwoTone";
-import PublicTwoToneIcon from "@material-ui/icons/PublicTwoTone";
-import PublishTwoToneIcon from "@material-ui/icons/PublishTwoTone";
-import SettingsBackupRestoreTwoToneIcon from "@material-ui/icons/SettingsBackupRestoreTwoTone";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import ShareTwoToneIcon from "@material-ui/icons/ShareTwoTone";
-import ForumTwoToneIcon from '@material-ui/icons/ForumTwoTone';
+import ImportantDevicesTwoToneIcon from "@mui/icons-material/ImportantDevicesTwoTone";
+import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
+import CalendarViewDayTwoToneIcon from "@mui/icons-material/CalendarViewDayTwoTone";
+import ApartmentTwoToneIcon from "@mui/icons-material/ApartmentTwoTone";
+import RouterTwoToneIcon from "@mui/icons-material/RouterTwoTone";
+import PublicTwoToneIcon from "@mui/icons-material/PublicTwoTone";
+import PublishTwoToneIcon from "@mui/icons-material/PublishTwoTone";
+import SettingsBackupRestoreTwoToneIcon from "@mui/icons-material/SettingsBackupRestoreTwoTone";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
+import ForumTwoToneIcon from '@mui/icons-material/ForumTwoTone';
 
 export const mainNavigation = [
     {

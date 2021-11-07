@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import styles from './styles';
 import { mainNavigation, secondaryNavigation } from '../../lib/navigation';

@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from 'clsx';
 import { withRouter } from "react-router";
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { connect } from 'react-redux';
 
@@ -10,7 +10,7 @@ import Commands from '../../state/commands';
 import styles from './styles';
 
 import PageHeader from '../../components/pageHeader';
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 const useStyles = makeStyles(styles);
 

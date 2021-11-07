@@ -2,10 +2,10 @@ import React from "react";
 
 import { withRouter } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Toolbar from "@material-ui/core/Toolbar";
+import makeStyles from '@mui/styles/makeStyles';
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import Toolbar from "@mui/material/Toolbar";
 
 import StationStatus from '../stationStatus';
 

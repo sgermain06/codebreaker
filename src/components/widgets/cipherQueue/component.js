@@ -1,18 +1,18 @@
 import React from 'react';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
-import ExpandLessTwoTone from '@material-ui/icons/ExpandLessTwoTone';
-import ExpandMoreTwoTone from '@material-ui/icons/ExpandMoreTwoTone';
-import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
+import ExpandLessTwoTone from '@mui/icons-material/ExpandLessTwoTone';
+import ExpandMoreTwoTone from '@mui/icons-material/ExpandMoreTwoTone';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 import CipherListItem from '../../cipherListItems';
 
@@ -46,7 +46,7 @@ function CipherQueue(props) {
                 title='Cipher Queue'
                 action={
                     <Tooltip title='Add Cipher'>
-                        <IconButton onClick={handleAddCipher}>
+                        <IconButton onClick={handleAddCipher} size="large">
                             <AddCircleTwoToneIcon />
                         </IconButton>
                     </Tooltip>

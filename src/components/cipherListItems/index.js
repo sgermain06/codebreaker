@@ -1,14 +1,14 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import IconButton from '@mui/material/IconButton';
 
-import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -35,24 +35,22 @@ function CipherListItem(props) {
         action(cipher);
     }
 
-    return (
-        !isEmpty(ciphers) ? (
-            ciphers.map((cipher, index) =>
-            <ListItem key={index} className={`${nested ? classes.nested : ''}`}>
-                <ListItemText primary={`Algorithm: ${cipher.type.name}`} secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`} />
-                {action &&
-                    <ListItemSecondaryAction>
-                        <IconButton onClick={handleAction(cipher)}>
-                            <CheckCircleTwoToneIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                }
-            </ListItem>)
-        ) :
-        <ListItem className={`${nested ? classes.nested : ''}`}>
-            <ListItemText primary={empty} />
-        </ListItem>
-    );
+    return !isEmpty(ciphers) ? (
+        ciphers.map((cipher, index) =>
+        <ListItem key={index} className={`${nested ? classes.nested : ''}`}>
+            <ListItemText primary={`Algorithm: ${cipher.type.name}`} secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`} />
+            {action &&
+                <ListItemSecondaryAction>
+                    <IconButton onClick={handleAction(cipher)} size="large">
+                        <CheckCircleTwoToneIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            }
+        </ListItem>)
+    ) :
+    <ListItem className={`${nested ? classes.nested : ''}`}>
+        <ListItemText primary={empty} />
+    </ListItem>;
 }
 
 CipherListItem.propTypes = {

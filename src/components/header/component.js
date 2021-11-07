@@ -1,45 +1,45 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 
 import clsx from "clsx";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 
-import Box from "@material-ui/core/Box";
-import Popover from "@material-ui/core/Popover";
+import Box from "@mui/material/Box";
+import Popover from "@mui/material/Popover";
 
-import AppBar from "@material-ui/core/AppBar";
-import Badge from "@material-ui/core/Badge";
-import IconButton from "@material-ui/core/IconButton";
-import Toolbar from "@material-ui/core/Toolbar";
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from "@material-ui/core/Typography";
+import AppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from '@mui/material/Tooltip';
+import Typography from "@mui/material/Typography";
 
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import EmailTwoToneIcon from "@material-ui/icons/EmailTwoTone";
-import PlayIcon from "@material-ui/icons/PlayArrow";
-import PauseIcon from "@material-ui/icons/Pause";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import EmailTwoToneIcon from "@mui/icons-material/EmailTwoTone";
+import PlayIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
-import AttachMoneyIcon from '@material-ui/icons/AttachMoneyTwoTone';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoneyTwoTone';
 
 import styles from "./styles";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField } from "@mui/material";
 
 import Notifications from '../notifications';
 
@@ -196,17 +196,17 @@ function Header(props) {
                         [DEBUG]
                     </Typography>
                     <Tooltip title="Increase Exponent">
-                        <IconButton color="inherit" onClick={increaseExponent}>
+                        <IconButton color="inherit" onClick={increaseExponent} size="large">
                             <KeyboardArrowUpIcon />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Decrease Exponent">
-                        <IconButton color="inherit" onClick={decreaseExponent}>
+                        <IconButton color="inherit" onClick={decreaseExponent} size="large">
                             <KeyboardArrowDownIcon />
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Toggle Game Controller Timer">
-                        <IconButton color="inherit" onClick={toggleGameLoop}>
+                        <IconButton color="inherit" onClick={toggleGameLoop} size="large">
                             {isRunning ? <PauseIcon /> : <PlayIcon />}
                         </IconButton>
                     </Tooltip>
@@ -214,20 +214,20 @@ function Header(props) {
                         Frames: {frames.toFixed(7)}, Counts: {counts}, Exponent: {exponent}, Value: {Math.pow(frames + counts, exponent).toFixed(7)}
                     </Typography>
                     <Tooltip title={<div align="center">Clear Redux State<br />(Refreshes Page)</div>}>
-                        <IconButton color="inherit" onClick={clearStore}>
+                        <IconButton color="inherit" onClick={clearStore} size="large">
                             <DeleteForeverTwoToneIcon />
                         </IconButton>
                     </Tooltip>
                     <div className={classes.spacer} />
                     <Typography component="h6" color="inherit" noWrap className={classes.title}>
                         <Tooltip title="Set Currency">
-                            <IconButton onClick={handleOpenCurrency}>
+                            <IconButton onClick={handleOpenCurrency} size="large">
                                 <AttachMoneyIcon />
                             </IconButton>
                         </Tooltip>
                         Funds: {currency(props.currency)}
                     </Typography>
-                    <IconButton color="inherit" onClick={toggleDrawer('right', true)}>
+                    <IconButton color="inherit" onClick={toggleDrawer('right', true)} size="large">
                         <Badge badgeContent={7} color="secondary">
                             <React.Fragment>
                                 <EmailTwoToneIcon>{'right'}</EmailTwoToneIcon>
@@ -242,7 +242,7 @@ function Header(props) {
                             </React.Fragment>
                         </Badge>
                     </IconButton>
-                    <IconButton color="inherit" onClick={handleClick}>
+                    <IconButton color="inherit" onClick={handleClick} size="large">
                         <Badge badgeContent={notifications.length} color="secondary">
                             <NotificationsIcon />
                         </Badge>

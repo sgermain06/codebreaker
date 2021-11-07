@@ -1,6 +1,7 @@
 import Events from '../events';
 
 import fromState from '../../selectors';
+import Commands from '../../commands';
 
 const returnObj = {
     receiveCurrency: amount => dispatch => {
@@ -16,7 +17,10 @@ const returnObj = {
             throw new Error(`Cannot afford: ${amount}`);
         }
     },
-    addNotification: ({ message, obj, level = 'info' }) => dispatch => dispatch(Events.AddNotification(message, obj, level)),
+    addNotification: ({ message, obj, level = 'info' }) => dispatch => {
+        dispatch(Commands.Snackbar.enqueueSnackbar(message, { variant: level }));
+        dispatch(Events.AddNotification(message, obj, level))
+    },
     resetNotifications: () => dispatch => dispatch(Events.ResetNotifications()),
 };
 

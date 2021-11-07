@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router-dom';
 
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
-import IndeterminateCheckBoxTwoToneIcon from '@material-ui/icons/IndeterminateCheckBoxTwoTone';
+import IconButton from '@mui/material/IconButton';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import IndeterminateCheckBoxTwoToneIcon from '@mui/icons-material/IndeterminateCheckBoxTwoTone';
 function UpgradableItem(props) {
     return (
         <Grid container style={{ alignItems: 'center' }}>
@@ -16,20 +16,20 @@ function UpgradableItem(props) {
             </Grid>
             {props.upgradeAction &&
                 <Grid item>
-                    <IconButton onClick={props.upgradeAction}>
+                    <IconButton onClick={props.upgradeAction} size="large">
                         <AddCircleTwoToneIcon />
                     </IconButton>
                 </Grid>
             }
             {props.resetAction &&
                 <Grid item>
-                    <IconButton onClick={props.resetAction}>
+                    <IconButton onClick={props.resetAction} size="large">
                         <IndeterminateCheckBoxTwoToneIcon color='action' />
                     </IconButton>
                 </Grid>
             }
         </Grid>
-    )
+    );
 }
 
 UpgradableItem.propTypes = {

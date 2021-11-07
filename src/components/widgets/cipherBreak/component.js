@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 
 import LinearProgressWithPercent from '../../LinearProgressWithPercent';
 
@@ -135,7 +135,7 @@ function CodeBreakingAnimation(props) {
                 action={
                     !isEmpty(activeCipher) &&
                     <Tooltip title='Cancel Cipher Breaking'>
-                        <IconButton onClick={handleCancelCipher}>
+                        <IconButton onClick={handleCancelCipher} size="large">
                             <CancelTwoToneIcon />
                         </IconButton>
                     </Tooltip>
