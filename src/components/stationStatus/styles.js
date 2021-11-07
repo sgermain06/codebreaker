@@ -4,6 +4,7 @@ export default function styles(theme) {
             width: '100%',
             bottom: 0,
             position: 'absolute',
+            background: 'rgba(66, 66, 66, 1)'
         },
         cardHeader: {
             padding: '5px',

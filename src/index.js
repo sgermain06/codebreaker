@@ -1,25 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from "@mui/material/styles";
+import { ThemeProvider, StyledEngineProvider, createTheme } from "@mui/material/styles";
 
 import Layout from './layout';
 
 import "./index.css";
+import { indigo, red } from "@mui/material/colors";
 
 function Main() {
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
     const theme = React.useMemo(
         () =>
-            createTheme(adaptV4Theme({
+            createTheme({
                 palette: {
                     mode: prefersDarkMode ? "dark" : "light",
                     background: {
                         paper: 'rgba(66, 66, 66, 0.85)',
-                    }
-                },
-            })),
+                    },
+                    primary: {
+                        main: indigo[800]
+                    },
+                    secondary: {
+                        main: red[500],
+                    },
+                    // action: {
+                    //     selected: prefersDarkMode ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.08)',
+                    // }
+                }
+            }),
         [prefersDarkMode]
     );
     return (

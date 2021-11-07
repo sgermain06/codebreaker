@@ -1,6 +1,8 @@
 import React from "react";
+import makeStyles from '@mui/styles/makeStyles';
+
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
@@ -8,12 +10,21 @@ import ListSubheader from "@mui/material/ListSubheader";
 import { NavLink, withRouter } from "react-router-dom";
 import { mainNavigation, secondaryNavigation } from '../../lib/navigation';
 
+import styles from './styles';
+const useStyles = makeStyles(styles);
+
 function ListItemNavLink(props) {
+    const classes = useStyles();
     const { to: toLink } = props;
     return (
-        <ListItem selected={props.location.pathname === toLink} button component={NavLink} to={toLink}>
+        <ListItemButton
+            className={classes.listItem}
+            selected={props.location.pathname === toLink}
+            component={NavLink}
+            to={toLink}
+        >
             {props.children}
-        </ListItem>
+        </ListItemButton>
     );
 }
 
