@@ -12,7 +12,6 @@ const returnObj = {
         const cipherSize = dataSizeFromSuffix(cipher.type.block) * cipher.blocks;
         const hasEnoughAvailableStorage = fromState.Station.hasEnoughAvailableStorage(cipherSize)(getState());
         const availableStorage = fromState.Station.availableStorage()(getState());
-        console.log('Cipher Size:', cipherSize, 'Available Storage:', availableStorage);
         if (!hasEnoughAvailableStorage) {
             return dispatch(Commands.Player.addNotification({
                 message: `Not enough storage. Required: ${dataSizeSuffix(cipherSize)}, Available ${dataSizeSuffix(availableStorage)}`,

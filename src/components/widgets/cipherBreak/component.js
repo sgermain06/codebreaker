@@ -13,6 +13,8 @@ import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 
 import LinearProgressWithPercent from '../../LinearProgressWithPercent';
 
+import { dataSizeFromSuffix, dataSizeSuffix } from '../../../lib/utils';
+
 import styles from './styles';
 import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
@@ -41,11 +43,11 @@ function CodeBreakingAnimation(props) {
         activeCipher,
     } = props;
 
-    if (!isEmpty(activeCipher)) {
-        height = Math.ceil(activeCipher.blocks / width);
-    }
-
     const [frames, setFrames] = React.useState(props.gameController.frames || 0);
+    const [progress, setProgress] = React.useState({
+        message: '',
+        percent: 0,
+    });
 
     useEffect(() => {
 
@@ -57,13 +59,13 @@ function CodeBreakingAnimation(props) {
         // Check if the grid class was initialized. If not, create an array with classes. We're doing this here instead of the
         // reducer's initial state because classes are imported in this component file.
         if (!isEmpty(activeCipher) && isEmpty(gridClasses)) {
-            setGridClasses(Array(activeCipher.blocks).fill('').map((_, i) => brokenGrid.includes(i) ? classes.solved : randomProcessingClass()))
+            setGridClasses(Array(width * height).fill('').map((_, i) => brokenGrid.includes(i) ? classes.solved : randomProcessingClass()))
         };
     
         const randomizeGrid = () => {
             const newArray = [];
             const newGridClasses = [];
-            for (let i = 0; i < (activeCipher.blocks); i++) {
+            for (let i = 0; i < (width * height); i++) {
                 const broken = brokenGrid.includes(i);
                 const currentCharactedGrid = isNumber(characterGrid[i]) ? characterGrid[i] : Math.round(Math.random());
                 newArray.push(broken ? currentCharactedGrid : characters[Math.floor(Math.random() * characters.length)]);
@@ -73,14 +75,14 @@ function CodeBreakingAnimation(props) {
             setCharacterGrid(newArray);
         };
     
-        // const resolvePoint = () => {
-        //     let cell = Math.floor(Math.random() * (activeCipher.blocks));
+        const resolvePoint = () => {
+            let cell = Math.floor(Math.random() * (width * height));
     
-        //     while (brokenGrid.includes(cell)) {
-        //         cell = Math.floor(Math.random() * (activeCipher.blocks));
-        //     }
-        //     addBrokenGridCell(cell);
-        // };
+            while (brokenGrid.includes(cell)) {
+                cell = Math.floor(Math.random() * (width * height));
+            }
+            addBrokenGridCell(cell);
+        };
         
         const gameUpdate = {
             id: 'cipherUpdate', 
@@ -88,15 +90,38 @@ function CodeBreakingAnimation(props) {
                 if (isEmpty(activeCipher)) return;
                 if (frame === frames) return;
                 setFrames(frame);
-                randomizeGrid();
-                // if ((Number(frame.toFixed(3)) * 1000) % 5 === 0) {
-                //     resolvePoint()
-                // }
+
+                switch(activeCipher.status) {
+                    case 'downloading':
+                        const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
+                        const progress = ((activeCipher.progress / cipherSize) * 100) || 0;
+                        setProgress({
+                            message: <>Algorithm: {activeCipher.type.name}<br />Downloading Blocks... ({dataSizeSuffix(activeCipher.progress)}/{dataSizeSuffix(cipherSize)})</>,
+                            progress,
+                        });
+                        resetGrid();
+                        break;
+                    case 'breaking':
+                        setProgress({
+                            message: <>Algorithm: {activeCipher.type.name}<br />Blocks: {activeCipher.progress}/{activeCipher.blocks}</>,
+                            progress: ((activeCipher.progress / activeCipher.blocks) * 100) || 0,
+                        });
+                        randomizeGrid();
+                        const percentage = Math.floor((Number(activeCipher.progress / activeCipher.blocks) * 1000) / 5);
+                        if (percentage > brokenGrid.length) {
+                            resolvePoint()
+                        }
+                        break;
+                    default:
+                        if (characterGrid.length > 0) {
+                            resetGrid();
+                        }
+                        break;
+                }
             }
         };
 
-        if (brokenGrid.length >= activeCipher.blocks) {
-            completeCipher(activeCipher);
+        if (!activeCipher) {
             props.gameController.removeProcess(gameUpdate);
             resetGrid();
         }
@@ -118,6 +143,7 @@ function CodeBreakingAnimation(props) {
         characterGrid,
         completeCipher,
         activeCipher,
+        setProgress,
     ]);
 
     const rows = Array(height).fill(0);
@@ -147,20 +173,16 @@ function CodeBreakingAnimation(props) {
                     <table className={classes.cipherGrid}>
                         <tbody>
                             <tr>
-                                <td colSpan={width}>
-                                    Algorithm: {activeCipher.type.name}<br />
-                                    Blocks: {brokenGrid.length}/{activeCipher.blocks}
-                                </td>
+                                <td colSpan={width}>{progress.message}</td>
                             </tr>
                             <tr>
                                 <td colSpan={width}>
-                                    <LinearProgressWithPercent value={(brokenGrid.length / activeCipher.blocks) * 100} />
+                                    <LinearProgressWithPercent value={progress.progress} />
                                 </td>
                             </tr>
                         {rows.map((_, rowIndex) =>
                             <tr key={'row-' + rowIndex}>
                                 {characterGrid.slice(rowIndex * height, (rowIndex * height) + width).map((cell, colIndex) => {
-                                    if (colIndex + (rowIndex * height) > activeCipher.blocks) return <td></td>;
                                     const cellClasses = `${classes.cipherGridCell} ${gridClasses[colIndex + (rowIndex * height)]}`
                                     return (<td className={cellClasses} key={'cell-' + colIndex}>{cell}</td>)
                                 })}

@@ -77,44 +77,59 @@ function CodeBreaker(props) {
         const {
             activeCipher,
             broadbandBitrate,
+            completeCipher,
             updateCipher,
             gameController,
         } = props;
     
+        const downloadBlock = activeCipher => {
+            const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
+            const networkSpeed = (broadbandBitrate / 10);
+
+            let downloadedBlockSize = networkSpeed;
+            const returnObj = {};
+
+            if (activeCipher.progress < cipherSize) {
+                if (cipherSize - activeCipher.progress < networkSpeed) {
+                    downloadedBlockSize = cipherSize - activeCipher.progress;
+                }
+                returnObj.progress = (activeCipher.progress + downloadedBlockSize);
+            }
+            else {
+                returnObj.progress = 0;
+                returnObj.status = 'breaking';
+            }
+            return returnObj;
+        }
+
         const update = {
             id: 'codeBreaker',
-            callback: (frames, count, exponent) => {
+            callback: (frame, count, exponent) => {
                 // This is where we calculate the parameters for breaking the cipher.
                 // The algorithm is described in the /lib/cipher.js file.
-                console.debug(`[CODE BREAKER] Frames: ${frames}, Count: ${count}, Exponent: ${exponent}`);
+                console.debug(`[CODE BREAKER] Frames: ${frame}, Count: ${count}, Exponent: ${exponent}`);
                 // Flow:
                 if (!isEmpty(activeCipher)) {
                     switch(activeCipher.status) {
                         case 'downloading':
                             const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
-                            const networkSpeed = broadbandBitrate;
-                            if (activeCipher.progress < cipherSize) {
-                                let downloadedBlockSize = networkSpeed;
-                                let status = activeCipher.status;
-                                if (cipherSize - activeCipher.progress < networkSpeed) {
-                                    downloadedBlockSize = cipherSize - activeCipher.progress;
-                                }
-                                if (activeCipher.progress + downloadedBlockSize === cipherSize) {
-                                    status = 'downloaded';
-                                }
-                                updateCipher({ status, progress: activeCipher.progress + downloadedBlockSize });
-                            }
+                            updateCipher(downloadBlock(activeCipher));
                             console.debug('Downloading! Progress:', activeCipher.progress, 'Cipher size:', dataSizeSuffix(cipherSize));
                             break;
-                        case 'downloaded':
-                            console.debug('Downloaded!');
+                        case 'breaking':
+                            if ((Number(frame.toFixed(3)) * 1000) % 5 === 0) {
+                                updateCipher({ progress: activeCipher.progress + 1 });
+                            }
+                            if (activeCipher.progress >= activeCipher.blocks) {
+                                completeCipher(activeCipher);
+                            }
                             break;
                         default:
                             updateCipher({ status: 'downloading', progress: 0 });
                             break;
                     }
 
-                    console.log('Active Cipher Status:', activeCipher.status);
+                    // console.log('Active Cipher Status:', activeCipher.status);
                 }
             }
         };

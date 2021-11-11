@@ -2,7 +2,7 @@ import {types as EventTypes} from '../events';
 import genericReducer from '../../_common/reducers/generic-reducer';
 
 const initialState = {
-    size: 2048,
+    size: 204800,
     type: 0,
     used: 0,
     dataSuffixOffset: 2,

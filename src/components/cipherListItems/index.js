@@ -10,11 +10,16 @@ import IconButton from '@mui/material/IconButton';
 
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 
+import LightGreen from '@material-ui/core/colors/lightGreen';
+
 import isEmpty from 'lodash/isEmpty';
 
 const useStyles = makeStyles((theme) => ({
     nested: {
       paddingLeft: theme.spacing(4),
+    },
+    active: {
+        color: LightGreen.A400,
     },
   })
 );
@@ -35,10 +40,16 @@ function CipherListItem(props) {
         action(cipher);
     }
 
+    const activeCipher = ciphers[0];
+
     return !isEmpty(ciphers) ? (
         ciphers.map((cipher, index) =>
         <ListItem key={index} className={`${nested ? classes.nested : ''}`}>
-            <ListItemText primary={`Algorithm: ${cipher.type.name}`} secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`} />
+            <ListItemText
+                classes={ (cipher === activeCipher ? { primary: classes.active, secondary: classes.active } : '') }
+                primary={`Algorithm: ${cipher.type.name}${(cipher === activeCipher ? ' (Active)' : '')}`}
+                secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`}
+            />
             {action &&
                 <ListItemSecondaryAction>
                     <IconButton onClick={handleAction(cipher)} size="large">

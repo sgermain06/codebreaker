@@ -52,11 +52,11 @@ export const broadbandTypes = [
                 name: '75 Mbps',
             },
             {
-                bitrate: 15360000000,
+                bitrate: 1536000000,
                 name: '150 Mbps',
             },
             {
-                bitrate: 51200000000,
+                bitrate: 5120000000,
                 name: '500 Mbps',
             },
         ],
@@ -67,19 +67,19 @@ export const broadbandTypes = [
         avgUptime: 0.94,
         speeds: [
             {
-                bitrate: 25600000000,
+                bitrate: 2560000000,
                 name: '250 Mbps',
             },
             {
-                bitrate: 51200000000,
+                bitrate: 5120000000,
                 name: '500 Mbps',
             },
             {
-                bitrate: 102400000000,
+                bitrate: 10240000000,
                 name: '1 Gbps',
             },
             {
-                bitrate: 204800000000,
+                bitrate: 20480000000,
                 name: '2 Gbps',
             },
         ],
@@ -90,19 +90,19 @@ export const broadbandTypes = [
         avgUptime: 0.99,
         speeds: [
             {
-                bitrate: 102400000000,
+                bitrate: 10240000000,
                 name: '1 Gbps',
             },
             {
-                bitrate: 204800000000,
+                bitrate: 20480000000,
                 name: '2 Gbps',
             },
             {
-                bitrate: 409600000000,
+                bitrate: 40960000000,
                 name: '4 Gbps',
             },
             {
-                bitrate: 1024000000000,
+                bitrate: 102400000000,
                 name: '10 Gbps',
             },
         ],
