@@ -18,18 +18,94 @@ export const broadbandTypes = [
     {
         type: 'DSL',
         provider: 'BU&U',
+        avgUptime: 0.8,
+        speeds: [
+            {
+                bitrate: 30720000,
+                name: '3 Mbps',
+            },
+            {
+                bitrate: 61440000,
+                name: '6 Mbps',
+            },
+            {
+                bitrate: 102400000,
+                name: '10 Mbps',
+            },
+            {
+                bitrate: 204800000,
+                name: '20 Mbps',
+            },
+        ],
     },
     {
         type: 'DOCSIS',
         provider: 'Codecast',
+        avgUptime: 0.85,
+        speeds: [
+            {
+                bitrate: 307200000,
+                name: '30 Mbps',
+            },
+            {
+                bitrate: 768000000,
+                name: '75 Mbps',
+            },
+            {
+                bitrate: 15360000000,
+                name: '150 Mbps',
+            },
+            {
+                bitrate: 51200000000,
+                name: '500 Mbps',
+            },
+        ],
     },
     {
         type: 'Fiber Optic',
         provider: 'Foogle Fiber',
+        avgUptime: 0.94,
+        speeds: [
+            {
+                bitrate: 25600000000,
+                name: '250 Mbps',
+            },
+            {
+                bitrate: 51200000000,
+                name: '500 Mbps',
+            },
+            {
+                bitrate: 102400000000,
+                name: '1 Gbps',
+            },
+            {
+                bitrate: 204800000000,
+                name: '2 Gbps',
+            },
+        ],
     },
     {
         type: 'Dedicated Ethernet',
-        provider: 'Level4'
+        provider: 'Level4',
+        avgUptime: 0.99,
+        speeds: [
+            {
+                bitrate: 102400000000,
+                name: '1 Gbps',
+            },
+            {
+                bitrate: 204800000000,
+                name: '2 Gbps',
+            },
+            {
+                bitrate: 409600000000,
+                name: '4 Gbps',
+            },
+            {
+                bitrate: 1024000000000,
+                name: '10 Gbps',
+            },
+        ],
     },
 ];
 
@@ -38,7 +114,8 @@ export default common.bindToReducer('station', {
     broadbandType: common.get('broadband.type'),
     broadbandTypeDescription: () => (state) => broadbandTypes[state.broadband.type].type,
     broadbandProvider: () => (state) => broadbandTypes[state.broadband.type].provider,
-    broadbandSpeed: common.get('broadband.speed'),
+    broadbandReliability: () => state => broadbandTypes[state.broadband.type].avgUptime,
+    broadbandSpeed: () => state => broadbandTypes[state.broadband.type].speeds[state.broadband.speed],
     cpu: common.get('cpu'),
     cpuType: common.get('cpu.type'),
     cpuSpeed: common.get('cpu.speed'),

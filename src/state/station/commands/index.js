@@ -12,7 +12,7 @@ const returnObj = {
     resetRamType: () => dispatch => dispatch(Events.SetRamType(1)),
     resetGraphicsMemory: () => dispatch => dispatch(Events.SetGraphicsMemory(1024)),
     resetGraphicsClock: () => dispatch => dispatch(Events.SetGraphicsClock(10)),
-    resetBroadbandSpeed: () => dispatch => dispatch(Events.SetBroadbandSpeed(1)),
+    resetBroadbandSpeed: () => dispatch => dispatch(Events.SetBroadbandSpeed(0)),
     resetBroadbandType: () => dispatch => dispatch(Events.SetBroadbandType(0)),
     resetStorageSize: () => dispatch => dispatch(Events.SetStorageSize(2)),
     resetStorageType: () => dispatch => dispatch(Events.SetStorageType(0)),
@@ -43,8 +43,8 @@ const returnObj = {
         dispatch(Events.SetGraphicsClock(currentGraphicsClock + 10 ));
     },
     increaseBroadbandSpeed: () => (dispatch, getState) => {
-        const currentBroadbandSpeed = fromState.Station.broadbandSpeed()(getState());
-        dispatch(Events.SetBroadbandSpeed(Number((currentBroadbandSpeed + 1).toFixed(2))));
+        const currentBroadband = fromState.Station.broadband()(getState());
+        dispatch(Events.SetBroadbandSpeed(Math.min(Number(currentBroadband.speed + 1), broadbandTypes[0].speeds.length - 1)));
     },
     increaseBroadbandType: () => (dispatch, getState) => {
         const currentBroadbandType = fromState.Station.broadbandType()(getState());

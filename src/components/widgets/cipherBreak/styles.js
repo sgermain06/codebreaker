@@ -3,8 +3,20 @@ import { grey, lightGreen } from "@mui/material/colors";
 export default function styles(theme) {
     return {
         cipherGrid: {
-            minWidth: '25px',
+            width: '100%',
+            borderCollapse: 'collapse',
+        },
+        cipherGridCell: {
+            width: '5%',
             textAlign: 'center',
+            whiteSpace: 'nowrap',
+            fontSize: '1vw',
+            [theme.breakpoints.only('md')]: {
+                fontSize: '1.5vw',
+            },
+            [theme.breakpoints.down('md')]: {
+                fontSize: '2vw',
+            },
         },
         solved: {
             color: lightGreen['A400'],

@@ -144,7 +144,7 @@ function CodeBreakingAnimation(props) {
             <CardContent>
                 {!isEmpty(activeCipher) ?
                 <div>
-                    <table>
+                    <table className={classes.cipherGrid}>
                         <tbody>
                             <tr>
                                 <td colSpan={width}>
@@ -161,7 +161,7 @@ function CodeBreakingAnimation(props) {
                             <tr key={'row-' + rowIndex}>
                                 {characterGrid.slice(rowIndex * height, (rowIndex * height) + width).map((cell, colIndex) => {
                                     if (colIndex + (rowIndex * height) > activeCipher.blocks) return <td></td>;
-                                    const cellClasses = `${classes.cipherGrid} ${gridClasses[colIndex + (rowIndex * height)]}`
+                                    const cellClasses = `${classes.cipherGridCell} ${gridClasses[colIndex + (rowIndex * height)]}`
                                     return (<td className={cellClasses} key={'cell-' + colIndex}>{cell}</td>)
                                 })}
                             </tr>

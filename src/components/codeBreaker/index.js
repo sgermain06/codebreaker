@@ -12,6 +12,8 @@ import Commands from '../../state/commands';
 
 const mapStateToProps = state => ({
     activeCipher: fromState.Ciphers.getCurrentCipher()(state),
+    broadbandBitrate: fromState.Station.broadbandSpeed()(state).bitrate,
+    broadbandReliability: fromState.Station.broadbandReliability()(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -74,12 +76,11 @@ function CodeBreaker(props) {
 
         const {
             activeCipher,
+            broadbandBitrate,
             updateCipher,
             gameController,
         } = props;
     
-        console.log(activeCipher);
-
         const update = {
             id: 'codeBreaker',
             callback: (frames, count, exponent) => {
@@ -90,14 +91,31 @@ function CodeBreaker(props) {
                 if (!isEmpty(activeCipher)) {
                     switch(activeCipher.status) {
                         case 'downloading':
-                            console.log('Downloading! Progress:', activeCipher.progress, 'Cipher size:', dataSizeSuffix(dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks));
+                            const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
+                            const networkSpeed = broadbandBitrate;
+                            if (activeCipher.progress < cipherSize) {
+                                let downloadedBlockSize = networkSpeed;
+                                let status = activeCipher.status;
+                                if (cipherSize - activeCipher.progress < networkSpeed) {
+                                    downloadedBlockSize = cipherSize - activeCipher.progress;
+                                }
+                                if (activeCipher.progress + downloadedBlockSize === cipherSize) {
+                                    status = 'downloaded';
+                                }
+                                updateCipher({ status, progress: activeCipher.progress + downloadedBlockSize });
+                            }
+                            console.debug('Downloading! Progress:', activeCipher.progress, 'Cipher size:', dataSizeSuffix(cipherSize));
+                            break;
+                        case 'downloaded':
+                            console.debug('Downloaded!');
                             break;
                         default:
                             updateCipher({ status: 'downloading', progress: 0 });
                             break;
                     }
+
                     console.log('Active Cipher Status:', activeCipher.status);
-                    }
+                }
             }
         };
 

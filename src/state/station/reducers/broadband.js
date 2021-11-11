@@ -3,7 +3,7 @@ import genericReducer from '../../_common/reducers/generic-reducer';
 
 const initialState = {
     type: 0,
-    speed: 3,
+    speed: 0,
 };
 
 const reductionLookup = {

@@ -111,7 +111,7 @@ function Station(props) {
                     </UpgradableSection>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={4}>
-                    <UpgradableSection title="Broadband" value={props.broadbandProvider}>
+                    <UpgradableSection title="Broadband" value={`${props.broadbandProvider} (Uptime: ${props.broadbandReliability * 100}%)`}>
                         <UpgradableItem
                             title="Type"
                             value={props.broadbandType}
@@ -120,7 +120,6 @@ function Station(props) {
                         />
                         <UpgradableItem
                             title="Network Speed"
-                            suffix="mbps"
                             value={props.broadbandSpeed}
                             upgradeAction={props.increaseBroadbandSpeed}
                             resetAction={props.resetBroadbandSpeed}

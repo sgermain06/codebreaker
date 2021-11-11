@@ -16,7 +16,8 @@ const mapStateToProps = state => ({
     storageType: fromState.Station.storageTypeSpeed()(state),
     broadbandType: fromState.Station.broadbandTypeDescription()(state),
     broadbandProvider: fromState.Station.broadbandProvider()(state),
-    broadbandSpeed: fromState.Station.broadbandSpeed()(state),
+    broadbandSpeed: fromState.Station.broadbandSpeed()(state).name,
+    broadbandReliability: fromState.Station.broadbandReliability()(state),
 });
 
 const mapDispatchToProps = dispatch => ({
