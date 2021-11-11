@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   })
 );
 
-
 function CipherListItem(props) {
     
     const classes = useStyles();
@@ -46,8 +45,8 @@ function CipherListItem(props) {
         ciphers.map((cipher, index) =>
         <ListItem key={index} className={`${nested ? classes.nested : ''}`}>
             <ListItemText
-                classes={ (cipher === activeCipher ? { primary: classes.active, secondary: classes.active } : '') }
-                primary={`Algorithm: ${cipher.type.name}${(cipher === activeCipher ? ' (Active)' : '')}`}
+                classes={ (cipher === activeCipher && !nested ? { primary: classes.active, secondary: classes.active } : '') }
+                primary={`Algorithm: ${cipher.type.name}${(cipher === activeCipher && !nested ? ' (Active)' : '')}`}
                 secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`}
             />
             {action &&
