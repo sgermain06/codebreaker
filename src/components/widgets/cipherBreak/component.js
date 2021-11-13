@@ -16,6 +16,8 @@ import LinearProgressWithPercent from '../../LinearProgressWithPercent';
 import { dataSizeFromSuffix, dataSizeSuffix } from '../../../lib/utils';
 
 import styles from './styles';
+
+import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
 import isEmpty from 'lodash/isEmpty';
@@ -177,7 +179,7 @@ function CodeBreakingAnimation(props) {
                             </tr>
                             <tr>
                                 <td colSpan={width}>
-                                    <LinearProgressWithPercent value={progress.progress} />
+                                    <LinearProgressWithPercent value={get(progress, 'progress', 0)} />
                                 </td>
                             </tr>
                         {rows.map((_, rowIndex) =>

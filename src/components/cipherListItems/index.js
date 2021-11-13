@@ -45,7 +45,7 @@ function CipherListItem(props) {
         ciphers.map((cipher, index) =>
         <ListItem key={index} className={`${nested ? classes.nested : ''}`}>
             <ListItemText
-                classes={ (cipher === activeCipher && !nested ? { primary: classes.active, secondary: classes.active } : '') }
+                classes={ (cipher === activeCipher && !nested ? { primary: classes.active, secondary: classes.active } : {}) }
                 primary={`Algorithm: ${cipher.type.name}${(cipher === activeCipher && !nested ? ' (Active)' : '')}`}
                 secondary={`Payout: $${cipher.blocks * cipher.payoutPerBlock}`}
             />
