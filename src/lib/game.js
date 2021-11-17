@@ -21,7 +21,7 @@ export default class GameController {
     }
 
     startGameLoop = () => {
-        this.interval = setInterval(this.update, 10000 / FPS);
+        this.interval = setInterval(this.update, 5000 / FPS);
     };
 
     stopGameLoop = () => {

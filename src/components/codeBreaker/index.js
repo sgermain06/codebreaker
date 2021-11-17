@@ -117,7 +117,7 @@ function CodeBreaker(props) {
                             console.debug('Downloading! Progress:', activeCipher.progress, 'Cipher size:', dataSizeSuffix(cipherSize));
                             break;
                         case 'breaking':
-                            if ((Number(frame.toFixed(3)) * 1000) % 5 === 0) {
+                            if ((Number(frame.toFixed(3)) * 250) % 5 === 0) {
                                 updateCipher({ progress: activeCipher.progress + 1 });
                             }
                             if (activeCipher.progress >= activeCipher.blocks) {
