@@ -3,6 +3,7 @@ import Forums from './forums/commands';
 import Player from './player/commands';
 import Snackbar from './snackbar/commands';
 import Station from './station/commands';
+import Terminal from './terminal/commands';
 
 const returnObj = {
     Ciphers,
@@ -10,6 +11,7 @@ const returnObj = {
     Player,
     Snackbar,
     Station,
+    Terminal,
 };
 
 export default returnObj;

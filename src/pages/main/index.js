@@ -85,7 +85,7 @@ function Main(props) {
                 <Networks />
             </Route>
             <Route path='/darkWeb'>
-                <DarkWeb />
+                <DarkWeb terminalController={props.terminalController} />
             </Route>
             <Route path='/neuralNet'>
                 <NeuralNet gameController={props.gameController} />
@@ -104,7 +104,8 @@ function Main(props) {
 }
 
 Main.propTypes = {
-    gameController: PropTypes.object
+    gameController: PropTypes.object,
+    terminalController: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

@@ -1,6 +1,6 @@
 const Hapi = require('@hapi/hapi');
 
-const server = new Hapi.server({ port: 5000 });
+const server = new Hapi.server({ host: '0.0.0.0', port: 5000 });
 
 const init = async () => {
     await server.register({

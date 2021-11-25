@@ -21,6 +21,7 @@ import Background from './components/background';
 import Main from './pages/main';
 
 import GameController from './lib/game';
+import Terminal from './lib/terminal';
 
 const { store, persistor } = configureStore();
 
@@ -56,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const gameController = new GameController();
+const terminalController = new Terminal({
+    historySize: 10,
+});
 
 export default function Layout() {
     const classes = useStyles();
@@ -73,7 +77,7 @@ export default function Layout() {
                             <main className={classes.content}>
                                 <Toolbar />
                                 <div className={classes.mainContent}>
-                                    <Main gameController={gameController} />
+                                    <Main gameController={gameController} terminalController={terminalController} />
                                 </div>
                                 <Footer />
                             </main>

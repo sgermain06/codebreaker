@@ -4,6 +4,13 @@ export default function styles(theme) {
             padding: theme.spacing(2),
             textAlign: 'center',
             width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        fullHeight: {
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
         },
         button: {
             margin: 8,
