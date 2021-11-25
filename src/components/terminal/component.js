@@ -36,6 +36,7 @@ function Terminal(props) {
     const [commandLoaded, setCommandLoaded] = useState(true);
     const [stdInCallback, setStdInCallback] = useState(null);
     const [stdInCharacterMode, setStdInCharacterMode] = useState(false);
+    const [terminalLoaded, setTerminalLoaded] = useState(false);
 
     const handleStdIn = (callback, { characterMode = false } = {}) => {
         setStdInCharacterMode(characterMode);
@@ -95,6 +96,13 @@ function Terminal(props) {
         stderr: handleStdErr,
     });
 
+    useEffect(() => {
+        if (terminalLines.length === 0 && !terminalLoaded) {
+            terminalController.initialize();
+            setTerminalLoaded(true);
+        }
+    }, [terminalController, terminalLines, terminalLoaded]);
+
     // Window key capture handling
     useEffect(() => {
         inputRef.current.focus();
@@ -120,6 +128,7 @@ function Terminal(props) {
     const newLine = useCallback(() => {
         addLine({ prompt, value: '' });
         setCursorPosition(0);
+        setCursorOffset(0);
     }, [addLine, prompt]);
     
     // Window scrolling to the bottom
@@ -140,8 +149,13 @@ function Terminal(props) {
         clear: () => {
             clearTerminal();
         },
+        reboot: () => {
+            setTerminalLoaded(false);
+            clearTerminal();
+        }
     };
 
+    //#region Terminal input handling
     const handleKeyUp = async (event) => {
         if (!commandLoaded && !stdInCallback) return;
 
@@ -275,6 +289,7 @@ function Terminal(props) {
             inputRef.current.focus();
         };
     }
+    //#endregion
 
     const displayPrompt = (prompt, error = false) => <span className={clsx(error ? classes.error : classes.prompt)}>{prompt}</span>;
 
@@ -312,7 +327,6 @@ function Terminal(props) {
     };
     const displayLineWithCursor = line => <span>{line.value.slice(0, (cursorPosition + cursorOffset))}<span className={clsx(classes.cursor, (focus && commandLoaded) ? classes.active : '')}>{line.value[cursorPosition + cursorOffset] || '\u00a0'}</span>{line.value.slice(cursorPosition + cursorOffset + 1)}</span>;
 
-    console.log(terminalLines);
     return (
         <div className={classes.root}>
             <div className={classes.header}>Terminal</div>

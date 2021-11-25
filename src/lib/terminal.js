@@ -7,6 +7,8 @@ const Brown = require('@mui/material/colors/brown').default;
 
 const Ping = require('./terminalApps/ping');
 const HttpRequest = require('./terminalApps/http');
+const Dig = require('./terminalApps/dig');
+const ScanVulnerabilities = require('./terminalApps/scanVulnerabilities');
 
 const isArray = require('lodash/isArray');
 const isPlainObject = require('lodash/isPlainObject');
@@ -21,6 +23,27 @@ module.exports = class Terminal {
         this.options = options;
         this._history = [];
         this.commandId = 0;
+    }
+
+    initialize() {
+        const welcomeScreen = String.raw`
+   _____    ________  _________________ ________
+  /  _  \  /  _____/ /  _____|______   \\_____  \
+ /  /_\  \/   \  ___/   \  ___|       _/ /   |   \
+/    |    \    \_\  \    \_\  \    |   \/    |    \
+\____|__  /\______  /\______  /____|_  /\_______  /
+        \/        \/        \/       \/         \/
+  _________ __            .___.__
+ /   _____//  |_ __ __  __| _/|__| ____
+ \_____  \\   __\  |  \/ __ | |  |/  _ \
+ /        \|  | |  |  / /_/ | |  (  <_> )
+/_______  /|__| |____/\____ | |__|\____/
+        \/                 \/`
+        
+        welcomeScreen.split('\n').forEach(line => {
+            this.stdout(line.replace(/ /g, '\u00a0'));
+        });
+        this.stdout('Welcome to the terminal!');
     }
 
     addHistory(commandLine, commandId) {
@@ -105,7 +128,9 @@ module.exports = class Terminal {
 
     log(message, depth = 2, indent = 0) {
         const margin = (extras = 0) => '\u00a0'.repeat(indent + extras);
+        
         if (indent === 0) this.stdout('');
+
         if (isArray(message)) {
             if (indent / 2 > depth) {
                 this.stdout('[Array...]', { characterMode: true, color: Purple['A400'] });
@@ -234,8 +259,18 @@ module.exports = class Terminal {
                 const ping = new Ping(this);
                 await ping.run(...args);
                 break;
+            case 'dig':
+                const dig = new Dig(this);
+                await dig.run(...args);
+                break;
+            case 'scan':
+                const scan = new ScanVulnerabilities(this);
+                await scan.run(...args);
+                break;
             case 'clear':
                 return { command: 'clear' };
+            case 'reboot':
+                return { command: 'reboot' };
             case 'anyKey':
                 try {
                     await this.readChar('Press any key to continue...');
