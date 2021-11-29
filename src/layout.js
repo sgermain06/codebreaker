@@ -1,10 +1,12 @@
 import React from 'react';
+import { Route, Switch } from 'react-router';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import makeStyles from '@mui/styles/makeStyles';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { createHashHistory } from 'history';
 
 import configureStore from './state';
 
@@ -19,11 +21,16 @@ import CodeBreaker from './components/codeBreaker';
 import Background from './components/background';
 
 import Main from './pages/main';
+import Admin from './pages/admin';
+import Login from './pages/login';
 
 import GameController from './lib/game';
 import Terminal from './lib/terminal';
+import PrivateRoute from './components/privateRoute';
 
-const { store, persistor } = configureStore();
+const history = createHashHistory();
+
+const { store, persistor } = configureStore(history);
 
 if (window.location.search === '?purge') {
     persistor.purge().then(() => console.log('Done purging!'));
@@ -75,12 +82,18 @@ export default function Layout() {
                             <Header gameController={gameController} persistor={persistor} />
                             <SideBar />
                             <main className={classes.content}>
-                                <Toolbar />
-                                <div className={classes.mainContent}>
-                                    <Main gameController={gameController} terminalController={terminalController} />
-                                </div>
-                                <Footer />
-                            </main>
+                                        <Toolbar />
+                                        <div className={classes.mainContent}>
+                                            <Switch>
+                                                <Route exact path="/login" component={Login} />
+                                                <PrivateRoute path="/admin" component={Admin} redirectTo="/login" />
+                                                <Route path='/' render={() =>
+                                                    <Main gameController={gameController} terminalController={terminalController} />
+                                                } />
+                                            </Switch>
+                                        </div>
+                                        <Footer />
+                                    </main>
                             <CodeBreaker gameController={gameController} />
                         </SnackbarProvider>
                     </HashRouter>

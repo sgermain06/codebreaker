@@ -1,0 +1,4 @@
+mongodb:
+  host: codebreaker.aggrostudios.games
+  port: 27017
+  database: codebreaker

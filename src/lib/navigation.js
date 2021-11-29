@@ -9,6 +9,23 @@ import SettingsBackupRestoreTwoToneIcon from "@mui/icons-material/SettingsBackup
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
 import ForumTwoToneIcon from '@mui/icons-material/ForumTwoTone';
+import PeopleTwoToneIcon from '@mui/icons-material/PeopleTwoTone';
+import PestControlTwoToneIcon from '@mui/icons-material/PestControlTwoTone';
+
+export const adminNavigation = [
+    {
+        title: 'Players',
+        link: '/admin/players',
+        icon: <PeopleTwoToneIcon />,
+        iconLarge: <PeopleTwoToneIcon className="logo" />
+    },
+    {
+        title: 'Vulnerabilities',
+        link: '/admin/vulnerabilities',
+        icon: <PestControlTwoToneIcon />,
+        iconLarge: <PestControlTwoToneIcon className="logo" />
+    }
+];
 
 export const mainNavigation = [
     {

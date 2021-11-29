@@ -1,3 +1,4 @@
+import Authentication from './authentication/commands';
 import Ciphers from './ciphers/commands';
 import Forums from './forums/commands';
 import Player from './player/commands';
@@ -6,6 +7,7 @@ import Station from './station/commands';
 import Terminal from './terminal/commands';
 
 const returnObj = {
+    Authentication,
     Ciphers,
     Forums,
     Player,

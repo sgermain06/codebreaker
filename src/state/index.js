@@ -1,5 +1,6 @@
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { routerMiddleware } from 'connected-react-router';
 
 import reducer from './reducer';
 
@@ -14,14 +15,15 @@ const config = {
     storage,
 };
 
-export default function state() {
+export default function state(history) {
 
     const middleware = [
         thunk,
+        routerMiddleware(history),
     ];
 
     const store = createStore(
-        persistReducer(config, reducer),
+        persistReducer(config, reducer(history)),
         composeEnhancers(applyMiddleware(...middleware))
     );
 

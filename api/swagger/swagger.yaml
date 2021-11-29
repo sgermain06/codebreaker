@@ -1,24 +1,81 @@
-swagger: "2.0"
+openapi: 3.0.3
 info:
-  version: "1.0.0"
+  version: 1.0.0
   title: Codebreaker API
   description: This API handles all server operations for Codebreaker
-basePath: /api/v1
-schemes:
-  - https
-consumes:
-  - application/json
-produces:
-  - application/json
+servers:
+  - url: http://localhost:5000/api/v1
+    variables:
+      protocol:
+        enum:
+          - http
+        default: http
 tags:
   - name: General
     description: General info about this API
-securityDefinitions:
-  jwt:
-    description: JSON Web Token
-    type: apiKey
-    name: Authorization
-    in: header
+components:
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    about:
+      type: object
+      description: About this API response object
+      properties:
+        name:
+          description: Name of this version
+          type: string
+        build:
+          description: Build number of this version
+          type: string
+    login:
+      type: object
+      description: Login request object
+      properties:
+        username:
+          description: Username
+          type: string
+        password:
+          description: Password
+          type: string
+    vulnerability:
+      type: object
+      description: Vulnerability object
+      properties:
+        name:
+          description: Name of this vulnerability
+          type: string
+        description:
+          description: Description of this vulnerability
+          type: string
+        service:
+          description: Service this vulnerability belongs to
+          type: string
+        version:
+          description: Version this vulnerability belongs to
+          type: string
+    loginResponse:
+      type: object
+      description: Login response object
+      properties:
+        token:
+          description: JWT token
+          type: string
+    player:
+      type: object
+      description: Player response object
+      properties:
+        name:
+          description: Name of the player
+          type: string
+        username:
+          description: Username of the player
+          type: string
+        password:
+          description: Password of the player
+          type: string
 
 paths:
   /:
@@ -29,96 +86,365 @@ paths:
       responses:
         200:
           description: Success
-          schema:
-            $ref: "#/definitions/about"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/about'
       tags:
         - General
 
-  # /health:
-  #   x-hapi-handler: health
-  #   get:
-  #     summary: Health Check
-  #     description: This route executes a health check for connectivity to dependent services.
-  #     responses:
-  #       200:
-  #         description: Success
-  #         schema:
-  #           $ref: "#/definitions/health"
-  #     tags:
-  #       - General
+  /security/login:
+    x-hapi-handler: login
+    post:
+      summary: Login
+      operationId: apiLogin
+      description: This route handles login requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/login"
+      tags:
+        - Security
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginResponse"
+        400:
+          description: Bad Request
+
+  /security/refreshToken:
+    x-hapi-handler: login
+    get:
+      security:
+        - jwt: []
+      summary: Refresh Token
+      operationId: apiRefreshToken
+      description: This route handles refresh token requests.
+      tags:
+        - Security
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginResponse"
+        403:
+          description: Forbidden
 
   /request:
     x-hapi-handler: http
     get:
+      security:
+        - jwt: []
       summary: HTTP Request
       description: This route executes an HTTP request.
       parameters:
         - name: url
           description: URL to request
           in: query
-          type: string
-      responses:
-        200:
-          description: Success
-
-  /swagger:
-    x-hapi-handler: about
-    get:
-      summary: Swagger Documentation
-      operationId: swaggerDefinition
-      description: Retrieve the swagger documentation for this API
-      responses:
-        200:
-          description: Success
+          schema:
+            type: string
+            format: uri
       tags:
-        - General
+        - Proxy
+      responses:
+        200:
+          description: Success
+  
+  /players:
+    x-hapi-handler: players
+    get:
+      parameters:
+        - name: page
+          description: Current page
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: size
+          description: Size of page
+          in: query
+          schema:
+            default: 10
+            type: integer
+        - name: search
+          description: Search string
+          in: query
+          schema:
+            type: string
+      security:
+        - jwt: []
+      summary: Get Players
+      operationId: playersGetAll
+      description: This route handles get players requests.
+      tags:
+        - Players
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRecords:
+                    type: integer
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/player'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    post:
+      security:
+        - jwt: []
+      summary: Create Player
+      operationId: playerCreate
+      description: This route handles create player requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/player'
+      tags:
+        - Players
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/player'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
 
-definitions:
-  error:
-    type: object
-    description: Error response object
-    properties:
-      message:
-        description: User facing error message
-        type: string
-      internalMessage:
-        description: Internal message for logging and troubleshooting
-        type: string
-      code:
-        description: Error code
-        type: integer
-        format: int32
+  /players/{id}:
+    x-hapi-handler: players
+    parameters:
+      - name: id
+        in: path
+        description: id to get vulnerabilities for
+        required: true
+        schema:
+          type: string
+    get:
+      security:
+        - jwt: []
+      summary: Get Player details
+      description: This route handles get players requests.
+      operationId: playerDetails
+      tags:
+        - Players
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/player'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    put:
+      security:
+        - jwt: []
+      summary: Update Player
+      operationId: playerUpdate
+      description: This route handles update player requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/player'
+      tags:
+        - Players
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/player'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+  
+  /vulnerabilities:
+    x-hapi-handler: vulnerabilities
+    get:
+      parameters:
+        - name: page
+          description: Current page
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: size
+          description: Size of page
+          in: query
+          schema:
+            default: 10
+            type: integer
+      security:
+        - jwt: []
+      summary: Get Vulnerabilities
+      operationId: vulnerabilitiesGetAll
+      description: This route handles get vulnerabilities requests.
+      tags:
+        - Vulnerabilities
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRecords:
+                    type: integer
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/vulnerability'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    post:
+      security:
+        - jwt: []
+      summary: Create Vulnerability
+      operationId: vulnerabilityCreate
+      description: This route handles create vulnerability requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vulnerability'
+      tags:
+        - Vulnerabilities
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vulnerability'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
 
-  about:
-    type: object
-    description: About this API response object
-    properties:
-      name:
-        description: Name of this version
-        type: string
-      build:
-        description: Build number of this version
-        type: string
+  /vulnerabilities/{id}:
+    x-hapi-handler: vulnerabilities
+    parameters:
+      - name: id
+        in: path
+        description: id to get vulnerabilities for
+        required: true
+        style: simple
+        schema:
+          type: string
+    get:
+      security:
+        - jwt: []
+      summary: Get Vulnerability details
+      description: This route handles get vulnerabilities requests.
+      operationId: vulnerabilityDetails
+      tags:
+        - Vulnerabilities
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vulnerability'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    put:
+      security:
+        - jwt: []
+      summary: Update Vulnerability
+      operationId: vulnerabilityUpdate
+      description: This route handles update vulnerability requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vulnerability'
+      tags:
+        - Vulnerabilities
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vulnerability'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
 
-  health:
-    type: object
-    description: Health Response for this API
-    properties:
-      title:
-        description: Description of this response
-        type: string
-      date:
-        description: Date of health check
-        type: number
-      totalDuration:
-        description: Duration of health check request
-        type: string
-      results:
-        type: object
-        properties:
-          storage broker:
-            type: object
-            $ref: "#/definitions/about"
-          crypto broker:
-            type: object
-            $ref: "#/definitions/about"
+  /vulnerabilities/service/{service}:
+    x-hapi-handler: vulnerabilities
+    parameters:
+      - name: service
+        in: path
+        description: Service to get vulnerabilities for
+        required: true
+        schema:
+          type: string
+    get:
+      parameters:
+        - name: page
+          description: Current page
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: size
+          description: Size of page
+          in: query
+          schema:
+            default: 10
+            type: integer
+        - name: version
+          description: Service version
+          in: query
+          schema:
+            type: string
+      security:
+        - jwt: []
+      summary: Get Vulnerabilities
+      description: This route handles get vulnerabilities requests.
+      operationId: vulnerabilitiesGetByService
+      tags:
+        - Vulnerabilities
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/vulnerability'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
