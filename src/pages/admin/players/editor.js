@@ -39,7 +39,7 @@ function PlayerEditor(props) {
             console.log(values);
             console.log(id);
             console.log(password);
-            // const response = await axios.put(`http://localhost:5000/api/v1/players/${id}`, values);
+            // const response = await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
             // console.log(response.data);
             // await login(values);
         }
@@ -68,7 +68,7 @@ function PlayerEditor(props) {
         const getData = async id => {
             try {
                 if (id !== 'new') {
-                    const response = await axios.get(`http://localhost:5000/api/v1/players/${id}`)
+                    const response = await axios.get(`${$config.endpoint}/api/v1/players/${id}`)
                     setPlayer({
                         ...mapValues(pick(response.data, ['name', 'username']), (v, k) => ({ label: capitalize(k), value: v, required: true })),
                         password: {

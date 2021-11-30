@@ -37,7 +37,7 @@ function Vulnerabilities(props) {
             search
         }, i => isNumber(i) || !isEmpty(i)), (v, k) => `${k}=${v}`).join('&');
 
-        const response = await axios.get(`http://localhost:5000/api/v1/vulnerabilities?${params}`);
+        const response = await axios.get(`${$config.endpoint}/api/v1/vulnerabilities?${params}`);
         setRows(response.data.records);
         setCount(response.data.totalRecords);
     }, []);

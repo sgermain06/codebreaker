@@ -9,7 +9,7 @@ module.exports = class HttpRequest {
 
     async run(url, ...args) {
         this.terminal.stdout(`Requesting GET from ${url}...`);
-        const response = await axios.get(`http://localhost:5000/api/v1/request?url=${url}`);
+        const response = await axios.get(`${$config.endpoint}/api/v1/request?url=${url}`);
         return response.data;
     }
 }

@@ -11,7 +11,7 @@ const returnObj = {
     login: ({ username, password, rememberUsername }) => async (dispatch, getState) => {
         try {
             console.log(`Should be trying to login with ${username}/${password}`);
-            const response = await axios.post('http://localhost:5000/api/v1/security/login', { username, password });
+            const response = await axios.post(`${$config.endpoint}/api/v1/security/login`, { username, password });
             dispatch(Events.SetToken(response.data.token));
             if (rememberUsername) {
                 dispatch(Events.SetRememberUsername(username));
