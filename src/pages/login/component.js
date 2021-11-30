@@ -38,7 +38,6 @@ function Login(props) {
         onSubmit: async (values, actions) => {
             actions.setSubmitting(true);
             try {
-                console.log(values);
                 await login(values);
             }
             catch (error) {
@@ -50,7 +49,6 @@ function Login(props) {
     });
 
     const handleCheckboxChange = (event) => {
-        console.log('Checked?', event.target.checked);
         formik.setFieldValue('rememberUsername', event.target.checked);
     }
 
