@@ -136,6 +136,7 @@ function PlayerEditor(props) {
                 console.log(err);
             }
         };
+        console.log('ID:', id);
         getData(id);
     }, [id, setPlayer]);
 

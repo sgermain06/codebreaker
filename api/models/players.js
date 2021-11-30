@@ -51,4 +51,4 @@ exports.getAll = async ({ page, size, search = '' }) => {
     const { records, totalRecords } = results[0];
     return { totalRecords: get(totalRecords, '0.totalRecords', 0), records: records.map(record => omit(record, ['password'])) };
 };
-exports.getById = async id => await Player.findOne({ id });
+exports.getById = async id => await Player.findById(id);
