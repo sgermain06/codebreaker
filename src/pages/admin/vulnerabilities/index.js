@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { push } from 'connected-react-router';
 
 import Component from './component';
 
@@ -9,4 +10,8 @@ const mapStateToProps = state => ({
     token: fromState.Authentication.token()(state),
 });
 
-export default connect(mapStateToProps)(withRouter(Component));
+const mapDispatchToProps = dispatch => ({
+    navigateTo: (id = 'new') => dispatch(push(`/admin/vulnerabilities/${id}`)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Component));

@@ -18,9 +18,13 @@ export default function styles(theme) {
             '& .Mui-focused': {
                 color: 'white'
             },
-            '& .Mui-focused fieldset': {
-                borderColor: 'white !important'
-            }
+            '& :after': {
+                borderColor: 'white !important',
+            },
         },
+        clearButton: {
+            width: theme.spacing(4),
+            height: theme.spacing(4),
+        }
     };
 }

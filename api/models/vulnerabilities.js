@@ -67,6 +67,7 @@ exports.getAll = async ({ page, size, search }) => {
             { $limit: size }
         ],
         totalRecords: [
+            { $match: match },
             { $count: 'totalRecords' }
         ]
     };

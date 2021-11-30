@@ -7,7 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
 import { NavLink, withRouter } from "react-router-dom";
-import { adminNavigation } from '../../lib/navigation';
+import { adminNavigation } from '../../../lib/navigation';
 
 import styles from './styles';
 const useStyles = makeStyles(styles);

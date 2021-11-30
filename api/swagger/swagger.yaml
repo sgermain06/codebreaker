@@ -296,6 +296,11 @@ paths:
           schema:
             default: 10
             type: integer
+        - name: search
+          description: Search string
+          in: query
+          schema:
+            type: string
       security:
         - jwt: []
       summary: Get Vulnerabilities
