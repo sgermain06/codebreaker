@@ -10,6 +10,11 @@ export default function styles(theme) {
         spacer: {
             flexGrow: 1,
         },
+        row: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
         searchBox: {
             display: 'flex',
             flexDirection: 'row',

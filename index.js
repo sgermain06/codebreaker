@@ -2,10 +2,7 @@ const Hapi = require('@hapi/hapi');
 const mongoose = require('mongoose');
 const config = require('config');
 
-const server = new Hapi.server({
-    host: '0.0.0.0',
-    port: 5000,
-}, { cors: true });
+const server = new Hapi.server(config.get('server'), { cors: true });
 
 const jwtSecret = process.env.JWT_SECRET;
 

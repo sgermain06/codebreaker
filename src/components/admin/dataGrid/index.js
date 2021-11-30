@@ -16,6 +16,9 @@ import TableBody from '@mui/material/TableBody';
 import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
 
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -57,64 +60,68 @@ function DataGrid(props) {
     }, [page, rowsPerPage, searchTerm, onUpdate]);
 
     return (
-        <TableContainer>
-            <Box className={classes.searchBox}>
-                <TextField
-                    variant='standard'
-                    label='Search'
-                    onChange={evt => handleChange(evt.target.value)}
-                    value={displaySearch}
-                    InputProps={{
-                        endAdornment: (
-                            <>
-                                {displaySearch !== '' && <IconButton onClick={handleClear} className={classes.clearButton}><ClearIcon /></IconButton>}
-                            </>
-                        )
-                    }}
-                />
-                <Box className={classes.spacer} />
-                <Tooltip title='Add New Player'>
-                    <Button variant="contained" onClick={props.onAddNew} endIcon={<AddIcon />}>Add New</Button>
-                </Tooltip>
-            </Box>
-            <Table stickyHeader style={{ width: '100%' }}>
-                <TableHead>
-                    <TableRow>
-                        {props.columns.map((column, index) => 
-                            <TableCell key={`DataGrid-${index}`}>{capitalize(column)}</TableCell>
-                        )}
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {props.rows.length > 0 ? props.rows.map((row, index) => 
-                        <TableRow key={`grid-${index}`}>
-                            {props.columns.map((column, index) => 
-                                <TableCell key={`DataGrid-${index}`}>{row[column]}</TableCell>
-                            )}
-                            <TableCell>
-                                {props.rowActions(row._id)}
-                            </TableCell>
-                        </TableRow>
-                    ) : <TableRow>
-                            <TableCell colSpan={3} className={classes.centered}>{props.noData || 'No data found.'}</TableCell>
-                        </TableRow>
-                    }
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={[10, 25, 100, { label: 'All', value: -1 }]}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            count={count}
-                            onPageChange={(_, newPage) => setPage(newPage)}
-                            onRowsPerPageChange={(event) => setRowsPerPage(parseInt(event.target.value, 10))}
+        <Card>
+            <CardContent>
+                <TableContainer>
+                    <Box className={classes.searchBox}>
+                        <TextField
+                            variant='standard'
+                            label='Search'
+                            onChange={evt => handleChange(evt.target.value)}
+                            value={displaySearch}
+                            InputProps={{
+                                endAdornment: (
+                                    <>
+                                        {displaySearch !== '' && <IconButton onClick={handleClear} className={classes.clearButton}><ClearIcon /></IconButton>}
+                                    </>
+                                )
+                            }}
                         />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
+                        <Box className={classes.spacer} />
+                        <Tooltip title='Add New Player'>
+                            <Button variant="contained" onClick={props.onAddNew} endIcon={<AddIcon />}>Add New</Button>
+                        </Tooltip>
+                    </Box>
+                    <Table stickyHeader style={{ width: '100%' }}>
+                        <TableHead>
+                            <TableRow>
+                                {props.columns.map((column, index) => 
+                                    <TableCell key={`DataGrid-${index}`}>{capitalize(column)}</TableCell>
+                                )}
+                                <TableCell>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {props.rows.length > 0 ? props.rows.map((row, index) => 
+                                <TableRow key={`grid-${index}`} className={classes.row}>
+                                    {props.columns.map((column, index) => 
+                                        <TableCell key={`DataGrid-${index}`}>{row[column]}</TableCell>
+                                    )}
+                                    <TableCell>
+                                        {props.rowActions(row._id)}
+                                    </TableCell>
+                                </TableRow>
+                            ) : <TableRow>
+                                    <TableCell colSpan={3} className={classes.centered}>{props.noData || 'No data found.'}</TableCell>
+                                </TableRow>
+                            }
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 100, { label: 'All', value: -1 }]}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    count={count}
+                                    onPageChange={(_, newPage) => setPage(newPage)}
+                                    onRowsPerPageChange={(event) => setRowsPerPage(parseInt(event.target.value, 10))}
+                                />
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableContainer>
+            </CardContent>
+        </Card>
     );
 }
 

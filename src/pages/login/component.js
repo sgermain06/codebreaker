@@ -82,8 +82,8 @@ function Login(props) {
                                         name="password"
                                         label="Password"
                                         type="password"
-                                        disabled={formik.isSubmitting}
                                         value={formik.values.password}
+                                        disabled={formik.isSubmitting}
                                         onChange={formik.handleChange}
                                         error={formik.touched.password && Boolean(formik.errors.password)}
                                         helperText={formik.touched.password && formik.errors.password}

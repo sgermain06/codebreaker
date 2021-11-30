@@ -4,6 +4,8 @@ import { withRouter } from 'react-router';
 
 import axios from 'axios';
 
+import crypto from 'crypto';
+
 import fromState from '../../../state/selectors';
 
 import DataEditor from '../../../components/admin/dataEditor';
@@ -11,6 +13,8 @@ import DataEditor from '../../../components/admin/dataEditor';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import capitalize from 'lodash/capitalize';
+
+const hex_md5 = string => crypto.createHash('md5').update(string).digest('hex');
 
 function PlayerEditor(props) {
 
@@ -44,6 +48,22 @@ function PlayerEditor(props) {
         }
     };
 
+    const handleValidation = (values) => {
+        const errors = {};
+        if (values.password) {
+            if (values.confirmPassword === '') {
+                errors.confirmPassword = 'Confirm password is required when password is provided';
+            }
+            else if (values.confirmPassword !== values.password) {
+                errors.confirmPassword = 'Passwords must match.';
+            }
+            else if (hex_md5(values.password) === password) {
+                errors.password = 'Password must be different from previous password.';
+            }
+        }
+        return errors;
+    };
+
     useEffect(() => {
         const getData = async id => {
             try {
@@ -54,10 +74,12 @@ function PlayerEditor(props) {
                         password: {
                             label: 'Password',
                             value: '',
+                            type: 'password',
                         },
                         confirmPassword: {
                             label: 'Confirm Password',
-                            value: ''
+                            value: '',
+                            type: 'password',
                         }
                     });
                     setPassword(response.data.password);
@@ -76,6 +98,7 @@ function PlayerEditor(props) {
             onSave={handleSave}
             entity={player}
             id={id}
+            validation={handleValidation}
         />
     )
 }
