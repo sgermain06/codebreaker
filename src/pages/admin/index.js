@@ -14,6 +14,7 @@ import Sidebar from '../../components/admin/sidebar';
 import Players from './players';
 import PlayerEditor from './players/editor';
 import Vulnerabilities from './vulnerabilities';
+import VulnerabilitiesEditor from './vulnerabilities/editor';
 
 import styles from './styles';
 
@@ -34,7 +35,8 @@ function Admin(props) {
                             <div className={classes.mainContent}>
                                 <Route exact path='/admin/players' component={Players} />
                                 <Route path='/admin/players/:id' component={PlayerEditor} />
-                                <Route path='/admin/vulnerabilities' component={Vulnerabilities} />
+                                <Route exact path='/admin/vulnerabilities' component={Vulnerabilities} />
+                                <Route path='/admin/vulnerabilities/:id' component={VulnerabilitiesEditor} />
                             </div>
                         </div>
                     </CardContent>

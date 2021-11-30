@@ -42,9 +42,10 @@ function PlayerEditor(props) {
             console.log(password);
             delete values.confirmPassword;
             if (id === 'new') {
+                debugger;
                 const { data } = await axios.post(`${$config.endpoint}/api/v1/players`, {
                     ...values,
-                    password: hex_md5(password)
+                    password: hex_md5(values.password)
                 });
                 console.log(data);
             }

@@ -78,7 +78,7 @@ function DataGrid(props) {
                             }}
                         />
                         <Box className={classes.spacer} />
-                        <Tooltip title='Add New Player'>
+                        <Tooltip title='Add New Entity'>
                             <Button variant="contained" onClick={props.onAddNew} endIcon={<AddIcon />}>Add New</Button>
                         </Tooltip>
                     </Box>
@@ -102,7 +102,7 @@ function DataGrid(props) {
                                     </TableCell>
                                 </TableRow>
                             ) : <TableRow>
-                                    <TableCell colSpan={3} className={classes.centered}>{props.noData || 'No data found.'}</TableCell>
+                                    <TableCell colSpan={props.columns.length + 1} className={classes.centered}>{props.noData || 'No data found.'}</TableCell>
                                 </TableRow>
                             }
                         </TableBody>

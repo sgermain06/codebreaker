@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 const server = new Hapi.server({
-    ...config.get('server'),
-    routes: { 
-        cors: true,
-    }
+    ...config.get('server')
 });
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -48,6 +45,9 @@ const init = async () => {
                 handlersPath: './api/controllers',
                 docs: {
                     path: '/api-docs',
+                },
+                cors: {
+                    origin: ['*']
                 },
             }
         },
