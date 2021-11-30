@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import axios from 'axios';
-import { useFormik } from 'formik';
 
 import fromState from '../../../state/selectors';
 
-import TextField from '@mui/material/TextField';
-import LoadingButton from '@mui/lab/LoadingButton';
+import DataEditor from '../../../components/admin/dataEditor';
 
 import pick from 'lodash/pick';
+import mapValues from 'lodash/mapValues';
+import capitalize from 'lodash/capitalize';
 
 function PlayerEditor(props) {
 
@@ -27,35 +27,40 @@ function PlayerEditor(props) {
         }
     }));
 
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            username: '',
-            password: '',
-        },
-        onSubmit: async (values, actions) => {
-            actions.setSubmitting(true);
-            try {
-                console.log(values);
-                const response = await axios.put(`http://localhost:5000/api/v1/players/${id}`, values);
-                console.log(response.data);
-                // await login(values);
-            }
-            catch (error) {
-                console.log(error);
-            }
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        } 
-    });
+    const [player, setPlayer] = useState({});
+    const [password, setPassword] = useState('');
 
-    const setValues = formik.setValues;
+    const handleSave = async (values, id) => {
+        try {
+            console.log(values);
+            console.log(id);
+            console.log(password);
+            // const response = await axios.put(`http://localhost:5000/api/v1/players/${id}`, values);
+            // console.log(response.data);
+            // await login(values);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         const getData = async id => {
             try {
                 if (id !== 'new') {
                     const response = await axios.get(`http://localhost:5000/api/v1/players/${id}`)
-                    setValues(pick(response.data, ['name', 'username', 'password']));
+                    setPlayer({
+                        ...mapValues(pick(response.data, ['name', 'username']), (v, k) => ({ label: capitalize(k), value: v, required: true })),
+                        password: {
+                            label: 'Password',
+                            value: '',
+                        },
+                        confirmPassword: {
+                            label: 'Confirm Password',
+                            value: ''
+                        }
+                    });
+                    setPassword(response.data.password);
                 }
             }
             catch (err) {
@@ -63,42 +68,15 @@ function PlayerEditor(props) {
             }
         };
         getData(id);
-    }, [id, setValues]);
+    }, [id, setPlayer]);
 
     return (
-        <>
-            <h2>Player editor for {id}</h2>
-            <form onSubmit={formik.handleSubmit}>
-                <TextField
-                    variant='standard'
-                    id="username"
-                    name="username"
-                    label='Username'
-                    disabled={formik.isSubmitting}
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                    error={formik.touched.username && Boolean(formik.errors.username)}
-                    helperText={formik.touched.username && formik.errors.username}
-                />
-                <TextField
-                    variant='standard'
-                    id="name"
-                    name="name"
-                    label='Name'
-                    disabled={formik.isSubmitting}
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                />
-                <LoadingButton
-                    loading={formik.isSubmitting}
-                    variant="contained"
-                    type="submit"
-                >Save</LoadingButton>
-
-            </form>
-        </>
+        <DataEditor
+            title={id === 'new' ? 'New Player' : 'Edit Player'}
+            onSave={handleSave}
+            entity={player}
+            id={id}
+        />
     )
 }
 
