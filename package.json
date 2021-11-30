@@ -76,8 +76,6 @@
     "devDependencies": {
         "cross-env": "^7.0.3",
         "electron": "^11.3.0",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^5.1.1",
         "react-app-rewired": "^2.1.8",
         "webpack-cli": "^4.9.1"
     }
