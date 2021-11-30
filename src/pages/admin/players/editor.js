@@ -37,17 +37,12 @@ function PlayerEditor(props) {
 
     const handleSave = async (values, id) => {
         try {
-            console.log(values);
-            console.log(id);
-            console.log(password);
             delete values.confirmPassword;
             if (id === 'new') {
-                debugger;
-                const { data } = await axios.post(`${$config.endpoint}/api/v1/players`, {
+                await axios.post(`${$config.endpoint}/api/v1/players`, {
                     ...values,
                     password: hex_md5(values.password)
                 });
-                console.log(data);
             }
             else {
                 if (!isEmpty(values.password)) {
@@ -56,9 +51,7 @@ function PlayerEditor(props) {
                 else {
                     delete values.password;
                 }
-                console.log(values);
-                const { data } = await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
-                console.log(data);
+                await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
             }
             props.history.push('/admin/players');
             // const response = await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
@@ -136,7 +129,6 @@ function PlayerEditor(props) {
                 console.log(err);
             }
         };
-        console.log('ID:', id);
         getData(id);
     }, [id, setPlayer]);
 
