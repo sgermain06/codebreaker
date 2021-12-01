@@ -1,12 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import { withSnackbar } from 'notistack';
-
-import fromState from '../../state/selectors';
-import Commands from '../../state/commands';
 
 import Station from '../station';
 import Servers from '../servers';
@@ -19,53 +13,6 @@ import Forums from '../forums';
 import Upgrades from '../upgrades';
 import Statistics from '../statistics';
 function Main(props) {
-
-    const {
-        notifications,
-        removeSnackbar,
-        closeSnackbar,
-        enqueueSnackbar,
-    } = props;
-
-    let displayed = useRef([]);
-        
-    useEffect(() => {
-
-        const storeDisplayed = key => {
-            displayed.current = [ ...displayed.current, key ]
-        };
-        const removeDisplayed = key => {
-            displayed.current = displayed.current.filter(k => k !== key)
-        };
-    
-        notifications.forEach(({ key, message, options = {}, dismissed = false }) => {
-            if (dismissed) {
-                closeSnackbar(key);
-                return;
-            }
-
-            if (displayed.current.includes(key)) {
-                return;
-            }
-
-            enqueueSnackbar(message, {
-                key,
-                ...options,
-                onClose: (event, reason, key) => {
-                    if (options.onClose) {
-                        options.onClose(event, reason, key);
-                    }
-                },
-                onExited: (_, key) => {
-                    removeSnackbar(key);
-                    removeDisplayed(key);
-                },
-            });
-
-            storeDisplayed(key);
-        });
-
-    }, [notifications, displayed, closeSnackbar, enqueueSnackbar, removeSnackbar]);
 
     return (
         <>
@@ -108,12 +55,4 @@ Main.propTypes = {
     terminalController: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-    notifications: fromState.Snackbar.getNotifications()(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    removeSnackbar: key => dispatch(Commands.Snackbar.removeSnackbar(key)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withRouter(Main)));
+export default withRouter(Main);

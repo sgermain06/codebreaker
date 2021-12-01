@@ -41,9 +41,8 @@ function Login(props) {
                 await login(values);
             }
             catch (error) {
-                console.log(error);
+                // Swallow
             }
-            await new Promise(resolve => setTimeout(resolve, 1000));
             actions.setSubmitting(false);
         }
     });

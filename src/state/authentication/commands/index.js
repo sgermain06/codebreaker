@@ -24,7 +24,7 @@ const returnObj = {
             }
         }
         catch (error) {
-            Commands.Snackbar.enqueueSnackbar(error.response.data.message, { variant: 'error' });
+            dispatch(Commands.Snackbar.enqueueSnackbar(error.response.data.message, { variant: 'error' }));
             throw error;
         }
     },

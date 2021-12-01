@@ -54,9 +54,6 @@ function PlayerEditor(props) {
                 await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
             }
             props.history.push('/admin/players');
-            // const response = await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
-            // console.log(response.data);
-            // await login(values);
         }
         catch (error) {
             console.log(error);

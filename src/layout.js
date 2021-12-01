@@ -14,6 +14,8 @@ import { SnackbarProvider } from 'notistack';
 
 import Toolbar from '@mui/material/Toolbar';
 
+import SnackbarHandler from './components/snackbarHandler';
+
 import Header from './components/header';
 import SideBar from './components/sidebar';
 import Footer from './components/footer';
@@ -77,24 +79,26 @@ export default function Layout() {
                 <PersistGate persistor={persistor}>
                     <HashRouter>
                         <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                            <Background />
-                            <CssBaseline />
-                            <Header gameController={gameController} persistor={persistor} />
-                            <SideBar />
-                            <main className={classes.content}>
-                                        <Toolbar />
-                                        <div className={classes.mainContent}>
-                                            <Switch>
-                                                <Route exact path="/login" component={Login} />
-                                                <PrivateRoute path="/admin" component={Admin} redirectTo="/login" />
-                                                <Route path='/' render={() =>
-                                                    <Main gameController={gameController} terminalController={terminalController} />
-                                                } />
-                                            </Switch>
-                                        </div>
-                                        <Footer />
-                                    </main>
-                            <CodeBreaker gameController={gameController} />
+                            <SnackbarHandler>
+                                <Background />
+                                <CssBaseline />
+                                <Header gameController={gameController} persistor={persistor} />
+                                <SideBar />
+                                <main className={classes.content}>
+                                    <Toolbar />
+                                    <div className={classes.mainContent}>
+                                        <Switch>
+                                            <Route exact path="/login" component={Login} />
+                                            <PrivateRoute path="/admin" component={Admin} redirectTo="/login" />
+                                            <Route path='/' render={() =>
+                                                <Main gameController={gameController} terminalController={terminalController} />
+                                            } />
+                                        </Switch>
+                                    </div>
+                                    <Footer />
+                                </main>
+                                <CodeBreaker gameController={gameController} />
+                            </SnackbarHandler>
                         </SnackbarProvider>
                     </HashRouter>
                 </PersistGate>
