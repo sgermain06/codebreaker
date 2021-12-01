@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
-import axios from 'axios';
-
-import crypto from 'crypto';
-
-import fromState from '../../../state/selectors';
-
-import DataEditor from '../../../components/admin/dataEditor';
+import DataEditor from '../../../../components/admin/dataEditor';
 
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
@@ -17,28 +9,22 @@ import capitalize from 'lodash/capitalize';
 function VulnerabilitiesEditor(props) {
 
     const {
-        token
+        get,
+        post,
+        put
     } = props;
     const { id } = props.match.params;
-
-    axios.interceptors.request.use(config => ({
-        ...config,
-        headers: {
-            ...config.headers,
-            Authorization: `Bearer ${token}`
-        }
-    }));
 
     const [vulnerability, setVulnerability] = useState({});
 
     const handleSave = async (values, id) => {
         try {
             if (id === 'new') {
-                const { data } = await axios.post(`${$config.endpoint}/api/v1/vulnerabilities`, values);
+                const { data } = await post('/vulnerabilities', values);
                 console.log(data);
             }
             else {
-                const { data } = await axios.put(`${$config.endpoint}/api/v1/vulnerabilities/${id}`, values);
+                const { data } = await put(`/vulnerabilities/${id}`, values);
                 console.log(data);
             }
             props.history.push('/admin/vulnerabilities');
@@ -52,7 +38,7 @@ function VulnerabilitiesEditor(props) {
         const getData = async id => {
             try {
                 if (id !== 'new') {
-                    const response = await axios.get(`${$config.endpoint}/api/v1/vulnerabilities/${id}`)
+                    const response = await get(`/vulnerabilities/${id}`)
                     setVulnerability(mapValues(pick(response.data, ['name', 'description', 'service', 'version']), (v, k) => ({ label: capitalize(k), value: v, required: true })));
                 }
                 else {
@@ -97,8 +83,4 @@ function VulnerabilitiesEditor(props) {
     )
 }
 
-const mapStateToProps = state => ({
-    token: fromState.Authentication.token()(state),
-});
-
-export default connect(mapStateToProps)(withRouter(VulnerabilitiesEditor));
+export default VulnerabilitiesEditor;

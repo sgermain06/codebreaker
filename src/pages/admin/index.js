@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@mui/styles';
 
-import { Route } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -33,10 +33,13 @@ function Admin(props) {
                         <div className={classes.mainContainer}>
                             <Sidebar className={classes.sidebar} />
                             <div className={classes.mainContent}>
-                                <Route exact path='/admin/players' component={Players} />
-                                <Route path='/admin/players/:id' component={PlayerEditor} />
-                                <Route exact path='/admin/vulnerabilities' component={Vulnerabilities} />
-                                <Route path='/admin/vulnerabilities/:id' component={VulnerabilitiesEditor} />
+                                <Switch>
+                                    <Route exact path='/admin/players' component={Players} />
+                                    <Route path='/admin/players/:id' component={PlayerEditor} />
+                                    <Route exact path='/admin/vulnerabilities' component={Vulnerabilities} />
+                                    <Route path='/admin/vulnerabilities/:id' component={VulnerabilitiesEditor} />
+                                    <Redirect to='/admin/players' />
+                                </Switch>
                             </div>
                         </div>
                     </CardContent>

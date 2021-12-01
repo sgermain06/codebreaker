@@ -31,8 +31,10 @@ const request = ({method, path, body, anonymous = false}) => async (dispatch, ge
                 dispatch(Commands.Authentication.setToken(null));
                 break;
             default:
-                throw error;
+                // Nothing special.
+                break;
         }
+        throw error;
     }
 };
 
