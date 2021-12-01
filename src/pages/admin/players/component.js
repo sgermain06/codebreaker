@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import axios from 'axios';
 
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -19,15 +18,8 @@ function Players(props) {
         token,
         navigateTo,
         disablePlayer,
+        get,
     } = props;
-
-    axios.interceptors.request.use(config => ({
-        ...config,
-        headers: {
-            ...config.headers,
-            Authorization: `Bearer ${token}`,
-        }
-    }));
 
     const [rows, setRows] = useState([]);
     const [count, setCount] = useState(0);
@@ -39,7 +31,7 @@ function Players(props) {
             search
         }, i => isNumber(i) || !isEmpty(i)), (v, k) => `${k}=${v}`).join('&');
 
-        const response = await axios.get(`${$config.endpoint}/api/v1/players?${params}`);
+        const response = await get(`/players?${params}`);
         setRows(response.data.records);
         setCount(response.data.totalRecords);
     }, []);

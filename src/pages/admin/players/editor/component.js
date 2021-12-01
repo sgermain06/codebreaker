@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-
-import axios from 'axios';
 
 import crypto from 'crypto';
 
-import fromState from '../../../state/selectors';
-
-import DataEditor from '../../../components/admin/dataEditor';
+import DataEditor from '../../../../components/admin/dataEditor';
 
 import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
@@ -20,17 +14,11 @@ const hex_md5 = string => crypto.createHash('md5').update(string).digest('hex');
 function PlayerEditor(props) {
 
     const {
-        token
+        get,
+        post,
+        put,
     } = props;
     const { id } = props.match.params;
-
-    axios.interceptors.request.use(config => ({
-        ...config,
-        headers: {
-            ...config.headers,
-            Authorization: `Bearer ${token}`
-        }
-    }));
 
     const [player, setPlayer] = useState({});
     const [password, setPassword] = useState('');
@@ -39,7 +27,7 @@ function PlayerEditor(props) {
         try {
             delete values.confirmPassword;
             if (id === 'new') {
-                await axios.post(`${$config.endpoint}/api/v1/players`, {
+                await post('/players', {
                     ...values,
                     password: hex_md5(values.password)
                 });
@@ -51,7 +39,7 @@ function PlayerEditor(props) {
                 else {
                     delete values.password;
                 }
-                await axios.put(`${$config.endpoint}/api/v1/players/${id}`, values);
+                await put(`/players/${id}`, values);
             }
             props.history.push('/admin/players');
         }
@@ -80,7 +68,7 @@ function PlayerEditor(props) {
         const getData = async id => {
             try {
                 if (id !== 'new') {
-                    const response = await axios.get(`${$config.endpoint}/api/v1/players/${id}`)
+                    const response = await get(`/players/${id}`)
                     setPlayer({
                         ...mapValues(pick(response.data, ['name', 'username']), (v, k) => ({ label: capitalize(k), value: v, required: true })),
                         password: {
@@ -140,8 +128,4 @@ function PlayerEditor(props) {
     )
 }
 
-const mapStateToProps = state => ({
-    token: fromState.Authentication.token()(state),
-});
-
-export default connect(mapStateToProps)(withRouter(PlayerEditor));
+export default PlayerEditor;

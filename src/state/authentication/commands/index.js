@@ -1,5 +1,4 @@
 import Events from '../events';
-import axios from 'axios';
 
 import { replace } from 'connected-react-router';
 
@@ -10,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 const returnObj = {
     login: ({ username, password, rememberUsername }) => async (dispatch, getState) => {
         try {
-            const response = await axios.post(`${$config.endpoint}/api/v1/security/login`, { username, password });
+            const response = await dispatch(Commands.API.post('/security/login', { username, password }, true));
             dispatch(Events.SetToken(response.data.token));
             if (rememberUsername) {
                 dispatch(Events.SetRememberUsername(username));
@@ -28,19 +27,15 @@ const returnObj = {
             throw error;
         }
     },
+    setToken: token => async dispatch => dispatch(Events.SetToken(token)),
     logout: () => async dispatch => {
         dispatch(Events.Logout());
     },
     refreshToken: () => (dispatch, getState) => {
-        const token = getState().token;
-        console.log('Token:', token);
-        // dispatch(Events.RefreshToken())
+        dispatch(Events.RefreshToken())
     },
     setRedirectTo: redirectTo => dispatch => dispatch(Events.RedirectTo(redirectTo)),
-    redirect: redirectTo => dispatch => {
-        console.log('Redirecting! Should be replacing URL to', redirectTo);
-        dispatch(replace(redirectTo))
-    },
+    redirect: redirectTo => dispatch => dispatch(replace(redirectTo)),
 };
 
 export default returnObj;

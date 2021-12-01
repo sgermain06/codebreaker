@@ -5,8 +5,10 @@ import Player from './player/commands';
 import Snackbar from './snackbar/commands';
 import Station from './station/commands';
 import Terminal from './terminal/commands';
+import API from './api/commands';
 
 const returnObj = {
+    API,
     Authentication,
     Ciphers,
     Forums,

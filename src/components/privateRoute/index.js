@@ -14,7 +14,7 @@ import isEmpty from 'lodash/isEmpty';
 function PrivateRoute(props) {
 
     const {
-        path,
+        location,
         token,
         redirectTo,
         setRedirectTo,
@@ -22,7 +22,7 @@ function PrivateRoute(props) {
     } = props;
 
     if (isEmpty(token)) {
-        setRedirectTo(path);
+        setRedirectTo(location.pathname);
         redirect(redirectTo);
     }
 
