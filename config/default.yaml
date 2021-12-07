@@ -2,6 +2,7 @@ mongodb:
   host: codebreaker.aggrostudios.games
   port: 27017
   database: codebreaker
+  username: codebreaker
 server:
   host: 0.0.0.0
   port: 5000

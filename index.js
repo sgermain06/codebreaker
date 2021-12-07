@@ -21,9 +21,19 @@ const validate = async decoded => ({ isValid: !!decoded });
 
 const init = async () => {
 
-    const { host, port, database } = config.get('mongodb');
+    const { host, port, database, username } = config.get('mongodb');
+    const passwd = process.env.MONGO_PASSWORD;
 
-    await mongoose.connect(`mongodb://${host}:${port}/${database}`, { useNewUrlParser: true });
+    const mongoUrl = new URL(`mongodb://${host}:${port}/${database}`);
+    mongoUrl.username = username;
+    mongoUrl.password = passwd;
+
+    try {
+        await mongoose.connect(mongoUrl.href, { useNewUrlParser: true });
+    }
+    catch (err) {
+        console.error(err);
+    }
 
     // Need to register this alone before registering openapi,
     // so the jwt security option becomes available.

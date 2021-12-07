@@ -1,29 +1,23 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-
-const {
-    get,
-    isEmpty,
-    isNil,
-    isNumber,
-    pickBy,
-} = require('lodash');
+const Mongoose = require('mongoose');
+const Schema = Mongoose.Schema;
+const Domain = require('./domain');
+const Vulnerability = require('./vulnerability');
 
 const schema = new Schema({
+    domain: {
+        type: Schema.Types.ObjectId,
+        ref: Mongoose.model('domains', Domain.schema),
+    },
     name: String,
-    service: String,
-    version: String,
-    description: String,
+    ipAddress: String,
+    vulnerabilities: [{
+        type: Schema.Types.ObjectId,
+        ref: Mongoose.model('vulnerabilities', Vulnerability.schema),
+    }],
 });
 
-const Vulnerabilities = mongoose.model('vulnerabilities', schema);
-
-const findByService = async (service, { page, size, version }) => {
-
-    const match = pickBy({
-        service,
-        version
-    }, i => isNumber(i) || !isNil(i));
+const findByDomainId = async (domainId, { page, size }) => {
+    const match = { domain: domainId };
 
     const query = {
         records: [
@@ -37,20 +31,16 @@ const findByService = async (service, { page, size, version }) => {
         ]
     };
 
-    const results = await Vulnerabilities.aggregate([{ '$facet': query }]);
+    const results = await Vulnerabilities.Subdomain([{ '$facet': query }]);
     const { records, totalRecords } = results[0];
     return { totalRecords: get(totalRecords, '0.totalRecords', 0), records };
 };
 
-const create = async (props) => {
-    const vulnerability = new Vulnerabilities(props);
-    return await vulnerability.save();
+const findByVulnerabilityId = async (vulnerabilityId, { page, size, search }) => {
+    await Subdomain.findOne({ vulnerabilities: vulnerabilityId });
 };
 
-const update = async (id, props) => {
-    await Vulnerabilities.findByIdAndUpdate(id, props);
-    return { id };
-};
+const findByIpAddress = async ipAddress => await Subdomain.findOne({ ipAddress });
 
 const getAll = async ({ page, size, search }) => {
 
@@ -79,13 +69,10 @@ const getAll = async ({ page, size, search }) => {
     return { totalRecords: get(totalRecords, '0.totalRecords', 0), records };
 };
 
-const getById = async id => await Vulnerabilities.findById(id);
-
-module.exports = ({
+module.exports = {
     schema,
-    getById,
+    findByDomainId,
+    findByVulnerabilityId,
+    findByIpAddress,
     getAll,
-    update,
-    create,
-    findByService,
-});
+};
