@@ -139,8 +139,6 @@ paths:
   /request:
     x-hapi-handler: http
     get:
-      security:
-        - jwt: []
       summary: HTTP Request
       description: This route executes an HTTP request.
       parameters:

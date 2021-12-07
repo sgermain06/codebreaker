@@ -1,0 +1,38 @@
+.react-flow__node {
+  background: #444;
+  border-width: 2px;
+  color: #dedede;
+  border-color: var(--box-shadow-color);
+}
+
+.react-flow__node-test {
+  --box-shadow-color: green;
+  width: 150px;
+  border: 2px solid var(--box-shadow-color);
+  border-radius: 4px;
+}
+
+.react-flow__node-input {
+  --box-shadow-color: #0041d0 !important;
+}
+
+.react-flow__node-output {
+  --box-shadow-color: #ff0072 !important;
+}
+
+.react-flow__node.selected, .react-flow__node.selected:hover {
+  box-shadow: 0 0 0 2px var(--box-shadow-color);
+}
+
+.react-flow__node-default {
+  --box-shadow-color: #999 !important;
+}
+
+.react-flow__minimap {
+  background-color: #666;
+}
+
+.react-flow__controls-button {
+  background-color: #666;
+  border-bottom: 1px solid #555;
+}

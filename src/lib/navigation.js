@@ -11,6 +11,7 @@ import ShareTwoToneIcon from "@mui/icons-material/ShareTwoTone";
 import ForumTwoToneIcon from '@mui/icons-material/ForumTwoTone';
 import PeopleTwoToneIcon from '@mui/icons-material/PeopleTwoTone';
 import PestControlTwoToneIcon from '@mui/icons-material/PestControlTwoTone';
+import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 
 export const adminNavigation = [
     {
@@ -24,6 +25,12 @@ export const adminNavigation = [
         link: '/admin/vulnerabilities',
         icon: <PestControlTwoToneIcon />,
         iconLarge: <PestControlTwoToneIcon className="logo" />
+    },
+    {
+        title: 'Scenario Builder',
+        link: '/admin/scenarioBuilder',
+        icon: <AccountTreeTwoToneIcon />,
+        iconLarge: <AccountTreeTwoToneIcon className="logo" />
     }
 ];
 

@@ -23,6 +23,7 @@ export default function styles(theme) {
             flexDirection: 'column',
         },
         mainContainer: {
+            height: '100%',
             display: 'flex',
             flexDirection: 'row',
         },
@@ -32,6 +33,7 @@ export default function styles(theme) {
         mainContent: {
             marginLeft: theme.spacing(2),
             flexGrow: 1,
+            height: '100%',
         },
     };
 }

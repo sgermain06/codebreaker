@@ -1,0 +1,16 @@
+.react-flow__edge body {
+    background-color: transparent;
+}
+
+.react-flow__edge button {
+    opacity: 0;
+}
+
+.react-flow__edge button:hover {
+    opacity: 1;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+    stroke: #b1b1b7;
+    stroke-width: 2px;
+}

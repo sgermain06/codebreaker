@@ -15,6 +15,7 @@ import Players from './players';
 import PlayerEditor from './players/editor';
 import Vulnerabilities from './vulnerabilities';
 import VulnerabilitiesEditor from './vulnerabilities/editor';
+import ScenarioBuilder from './scenarioBuilder';
 
 import styles from './styles';
 
@@ -38,6 +39,7 @@ function Admin(props) {
                                     <Route path='/admin/players/:id' component={PlayerEditor} />
                                     <Route exact path='/admin/vulnerabilities' component={Vulnerabilities} />
                                     <Route path='/admin/vulnerabilities/:id' component={VulnerabilitiesEditor} />
+                                    <Route path='/admin/scenarioBuilder' component={ScenarioBuilder} />
                                     <Redirect to='/admin/players' />
                                 </Switch>
                             </div>
