@@ -3,18 +3,22 @@ import Events from '../events';
 import fromState from '../../../state/selectors';
 
 const returnObj = {
-    updateCurrentLine: ({prompt, value, error}) => (dispatch, getState) => {
-        const terminalLines = fromState.Terminal.lines()(getState());
-        const index = terminalLines.length - 1;
-        return dispatch(Events.UpdateLine(index, prompt, value, error));
+    updateLine: ({prompt, value, error}, index = -1) => (dispatch, getState) => {
+        index = index > -1 ? index : fromState.Terminal.lastLineIndex()(getState());
+        return dispatch(Events.UpdateLine(index, prompt, value, error))
     },
-    appendCurrentLine: value => (dispatch, getState) => {
-        const terminalLines = fromState.Terminal.lines()(getState());
-        const index = terminalLines.length - 1;
+    appendLine: (value, index = -1) => (dispatch, getState) => {
+        index = index > -1 ? index : fromState.Terminal.lastLineIndex()(getState());
         return dispatch(Events.AppendLine(index, value));
     },
-    updateLine: (index, {prompt, value, error}) => dispatch => dispatch(Events.UpdateLine(index, prompt, value, error)),
-    appendLine: (index, value) => dispatch => dispatch(Events.AppendLine(index, value)),
+    replaceRange: ({prompt, value, error, start, end}, index = -1) => (dispatch, getState) => {
+        index = index > -1 ? index : fromState.Terminal.lastLineIndex()(getState());
+        if (start < 0) {
+            const line = fromState.Terminal.lines()(getState())[index].value;
+            start = line.length + start;
+        }
+        return dispatch(Events.ReplaceRange(index, prompt, value, error, start, end))
+    },
     addLine: ({prompt, value, error}) => dispatch => dispatch(Events.AddLine(prompt, value, error)),
     clearTerminal: () => dispatch => dispatch(Events.ClearTerminal()),
 };

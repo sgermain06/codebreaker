@@ -14,6 +14,10 @@ const schema = new Schema({
     service: String,
     version: String,
     description: String,
+    deleted: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const Vulnerabilities = mongoose.model('vulnerabilities', schema);
@@ -52,6 +56,9 @@ const update = async (id, props) => {
     return { id };
 };
 
+const getById = async id => await Vulnerabilities.findById(id);
+
+
 const getAll = async ({ page, size, search }) => {
 
     const fields = Object.keys(Vulnerabilities.schema.obj);
@@ -78,8 +85,6 @@ const getAll = async ({ page, size, search }) => {
     const { records, totalRecords } = results[0];
     return { totalRecords: get(totalRecords, '0.totalRecords', 0), records };
 };
-
-const getById = async id => await Vulnerabilities.findById(id);
 
 module.exports = ({
     schema,

@@ -10,10 +10,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    updateLine: (index, line) => dispatch(Commands.Terminal.updateLine(index, line)),
-    updateCurrentLine: line => dispatch(Commands.Terminal.updateCurrentLine(line)),
-    appendCurrentLine: line => dispatch(Commands.Terminal.appendCurrentLine(line)),
-    appendLine: (index, line) => dispatch(Commands.Terminal.appendLine(index, line)),
+    updateLine: (line, index) => dispatch(Commands.Terminal.updateLine(line, index)),
+    appendLine: (line, index) => dispatch(Commands.Terminal.appendLine(line, index)),
+    replaceCharsForRange: ({prompt, value, error, start, end}, index) =>
+        dispatch(Commands.Terminal.replaceRange({prompt, value, error, start, end}, index)),
     addLine: line => dispatch(Commands.Terminal.addLine(line)),
     clearTerminal: () => dispatch(Commands.Terminal.clearTerminal()),
 });

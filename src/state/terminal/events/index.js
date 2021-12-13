@@ -4,6 +4,7 @@ const definition = {
     UpdateLine: namedParams('index', 'prompt', 'value', 'error'),
     AddLine: namedParams('prompt', 'value', 'error'),
     AppendLine: namedParams('index', 'value'),
+    ReplaceRange: namedParams('index', 'prompt', 'value', 'error', 'start', 'end'),
     ClearTerminal: noParameters,
 };
 

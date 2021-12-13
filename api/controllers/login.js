@@ -26,6 +26,9 @@ module.exports = {
         else {
             const exp = Math.floor(new Date() / 1000) + (60 * 60);
             const playerRecord = await Players.getByUsername(username);
+            if (playerRecord.deleted) {
+                throw Boom.forbidden('Account is inactive.');
+            }
             if (playerRecord && hex_md5(password) === playerRecord.password) {
                 token = jwt.sign({ ...pick(playerRecord, ['id', 'name', 'username']), exp }, jwtSecret);
             }

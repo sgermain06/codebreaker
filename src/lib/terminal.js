@@ -1,5 +1,6 @@
 const LightBlue = require('@mui/material/colors/lightBlue').default;
 const LightGreen = require('@mui/material/colors/lightGreen').default;
+const Cyan = require('@mui/material/colors/cyan').default;
 const Amber = require('@mui/material/colors/amber').default;
 const Purple = require('@mui/material/colors/purple').default;
 const Grey = require('@mui/material/colors/grey').default;
@@ -23,25 +24,33 @@ module.exports = class Terminal {
         this.options = options;
         this._history = [];
         this.commandId = 0;
+        this.loaderTimer = null;
+        this.loaderChar = '';
     }
 
     initialize() {
-        const welcomeScreen = String.raw`
+        const welcomeScreenLine1 = String.raw`
    _____    ________  _________________ ________
   /  _  \  /  _____/ /  _____|______   \\_____  \
  /  /_\  \/   \  ___/   \  ___|       _/ /   |   \
 /    |    \    \_\  \    \_\  \    |   \/    |    \
 \____|__  /\______  /\______  /____|_  /\_______  /
-        \/        \/        \/       \/         \/
+        \/        \/        \/       \/         \/`;
+        const welcomeScreenLine2 = String.raw`
   _________ __            .___.__
  /   _____//  |_ __ __  __| _/|__| ____
  \_____  \\   __\  |  \/ __ | |  |/  _ \
  /        \|  | |  |  / /_/ | |  (  <_> )
 /_______  /|__| |____/\____ | |__|\____/
-        \/                 \/`
+        \/                 \/`;
         
-        welcomeScreen.split('\n').forEach(line => {
-            this.stdout(line.replace(/ /g, '\u00a0'));
+        welcomeScreenLine1.split('\n').forEach((line, index) => {
+            const colorIndex = (welcomeScreenLine1.split('\n').length - index) * 100;
+            this.stdout(line.replaceAll(' ', '\u00a0'), { color: LightBlue[colorIndex] });
+        });
+        welcomeScreenLine2.split('\n').forEach((line, index) => {
+            const colorIndex = (welcomeScreenLine2.split('\n').length - index) * 100;
+            this.stdout(line.replaceAll(' ', '\u00a0'), { color: Cyan[colorIndex] });
         });
         this.stdout('Welcome to the terminal!');
     }
@@ -91,12 +100,12 @@ module.exports = class Terminal {
         });
     }
 
-    async readChar(prompt, limitedCharacters = [], defaultCharacter = '', caseSensitive = true) {
+    async readChar(limitedCharacters = [], defaultCharacter = '', caseSensitive = true) {
         return await new Promise((resolve, reject) => {
             const characterSetPrompt = limitedCharacters.length ? `(${limitedCharacters.join('/')}) ` : '';
             const defaultPrompt = defaultCharacter !== '' ? ` [${defaultCharacter}] ` : '';
-            const finalPrompt = `${prompt}${characterSetPrompt}${defaultPrompt}`;
-            this.stdout(finalPrompt, { caretAtEnd: true });
+            const finalPrompt = `${characterSetPrompt}${defaultPrompt}`;
+            this.stdout(finalPrompt, { characterMode: true });
             this.stdin(char => {
                 if (char === '^C') {
                     this.stdin(null);
@@ -124,6 +133,76 @@ module.exports = class Terminal {
                 }
             }, { characterMode: true });
         });
+    }
+
+    showLoader(loaderCharacters = ['|', '/', '-', '\\']) {
+        if (isNull(this.loaderTimer)) {
+            let loaderIndex = 0;
+            this.loaderChar = loaderCharacters[loaderIndex];
+            this.stdout(this.loaderChar, { characterMode: true });
+            this.loaderTimer = setInterval(() => {
+                loaderIndex++;
+                if (loaderIndex >= loaderCharacters.length) {
+                    loaderIndex = 0;
+                }
+                this.loaderChar = loaderCharacters[loaderIndex];
+                this.stdout(this.loaderChar, { replaceRange: [-(this.loaderChar.length)] })
+            }, 70);
+        }
+    }
+
+    hideLoader() {
+        if (!isNull(this.loaderTimer)) {
+            clearInterval(this.loaderTimer);
+            this.stdout('', { replaceRange: [-(this.loaderChar.length)] });
+            this.loaderTimer = null;
+            this.loaderChar = '';
+        }
+    }
+
+    async progressBar(total, delay, options = { width: 20 }) {
+
+        return await new Promise(async (resolve, reject) => {
+            let shouldExit = false;
+            this.stdin(char => {
+                switch (char) {
+                    case '^C':
+                        shouldExit = true;
+                        reject([`${previousString}^C`, { replaceRange: [-(previousString.length)] }]);
+                        break;
+                }
+            });
+
+            const drawBar = (progress, total) => {
+                const percent = Math.ceil((progress / total) * 100);
+                const filled = Math.ceil((progress / total) * options.width);
+                const empty = options.width - filled;
+                const filledBar = '█'.repeat(filled);
+                const emptyBar = '░'.repeat(empty);
+                const bar = `${filledBar}${emptyBar}`;
+                return ` ${bar} ${percent}%`;
+            }
+            const barStr = drawBar(0, total);
+            let previousString = barStr;
+            this.stdout(barStr, { characterMode: true });
+
+            for (let progress = 0; progress <= total; progress++) {
+                if (shouldExit) break;
+                const returnStr = drawBar(progress, total);
+                this.stdout(returnStr, { replaceRange: [-(previousString.length)] });
+                previousString = returnStr;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+            this.stdin(null);
+            if (!shouldExit) resolve();
+        });
+    }
+
+    async withLoader(callback, loaderCharacters) {
+        this.showLoader(loaderCharacters);
+        const result = await callback();
+        this.hideLoader();
+        return result;
     }
 
     log(message, depth = 2, indent = 0) {
@@ -273,16 +352,17 @@ module.exports = class Terminal {
                 return { command: 'reboot' };
             case 'anyKey':
                 try {
-                    await this.readChar('Press any key to continue...');
+                    this.stdout('Press any key to continue...');
+                    await this.readChar();
                 }
                 catch (error) {
                     this.stderr(error, { updateMode: true });
-                    console.log('readChar Rejection:', error);
                 }
                 break;
             case 'yesno':
                 try {
-                    const response = await this.readChar('Select an option: ', ['y', 'n'], 'y', false);
+                    this.stdout('Select an option:');
+                    const response = await this.readChar(['y', 'n'], 'y', false);
                     this.stdout(`You selected ${response}`);
                 }
                 catch (error) {
@@ -297,7 +377,6 @@ module.exports = class Terminal {
                 catch (error) {
                     // Swallow
                     this.stderr(error, { updateMode: true });
-                    console.log('readSecure Rejection:', error);
                 }
                 break;
             case 'input':
@@ -308,7 +387,6 @@ module.exports = class Terminal {
                 catch (error) {
                     // Swallow
                     this.stderr(error, { updateMode: true });
-                    console.log('readLine Rejection:', error);
                 }
                 break;
             case 'help':
@@ -316,6 +394,26 @@ module.exports = class Terminal {
                 hello!
                 Multi line thing!`.split('\n').forEach(line => this.stdout(line));
                 await new Promise(resolve => setTimeout(resolve, 1000));
+                break;
+            case 'loader':
+                this.stdout('Loading...');
+                this.showLoader();
+                await this.readChar();
+                this.hideLoader();
+                break;
+            case 'fancyLoader':
+                const loader = [ '⠷', '⠯', '⠟', '⠻', '⠽', '⠾' ];
+                this.stdout('Loading... ');
+                await this.withLoader(async () => await this.readChar(), loader);
+                break;
+            case 'progress':
+                this.stdout('Testing progress bar... what if I make this longer?');
+                try {
+                    await this.progressBar(100, 100);
+                }
+                catch (err) {
+                    this.stderr(...err);
+                }
                 break;
             default:
                 this.stderr(`Command '${command}' not found.`);

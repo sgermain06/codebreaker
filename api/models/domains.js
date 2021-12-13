@@ -1,11 +1,28 @@
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
+const {
+    get,
+    isEmpty,
+ } = require('lodash');
+
 const schema = new Schema({
     name: String,
 });
 
 const Domains = Mongoose.model('domains', schema);
+
+const create = async (props) => {
+    const domain = new Domains(props);
+    return await domain.save();
+};
+
+const update = async (id, props) => {
+    await Domains.findByIdAndUpdate(id, props);
+    return { id };
+};
+
+const getById = async id => await Domains.findById(id);
 
 const getAll = async ({ page, size, search }) => {
 
@@ -36,5 +53,8 @@ const getAll = async ({ page, size, search }) => {
 
 module.exports = ({
     getAll,
+    create,
+    update,
+    getById,
     schema,
 })

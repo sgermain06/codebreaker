@@ -12,4 +12,5 @@ module.exports = {
         const { name, username, password } = req.orig.payload;
         return await Players.update(id, { name, username, password });
     },
+    playerDelete: async req => await Players.delete(req.params.id),
 }

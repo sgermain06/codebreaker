@@ -21,9 +21,8 @@ function Terminal(props) {
         terminalLines,
         addLine,
         updateLine,
-        updateCurrentLine,
         appendLine,
-        appendCurrentLine,
+        replaceCharsForRange,
         clearTerminal,
     } = props;
 
@@ -50,6 +49,7 @@ function Terminal(props) {
         updateMode = false,
         caretAtEnd = true,
         color,
+        replaceRange = [],
     } = {}) => {
         if (caretAtEnd) {
             setCursorOffset(data.length);
@@ -59,25 +59,19 @@ function Terminal(props) {
             data = `^[${color};${data}^]`;
         }
 
-        if (lineIndex !== -1) {
-            if (characterMode) {
-                appendLine(lineIndex, data);
-            }
-            else {
-                updateLine(lineIndex, { prompt, value: data, error: stream === 'stderr' });
-            }
+        if (characterMode) {
+            appendLine(data, lineIndex);
+        }
+        else if (replaceRange.length > 0) {
+            const [start, end] = replaceRange;
+            replaceCharsForRange({prompt, value: data, error: stream === 'stderr', start, end}, lineIndex);
         }
         else {
-            if (characterMode) {
-                appendCurrentLine(data);
+            if (updateMode) {
+                updateLine({ prompt, value: data, error: stream === 'stderr' }, lineIndex);
             }
             else {
-                if (updateMode) {
-                    updateCurrentLine({ prompt, value: data, error: stream === 'stderr' });
-                }
-                else {
-                    addLine({ prompt, value: data, error: stream === 'stderr' });
-                }
+                addLine({ prompt, value: data, error: stream === 'stderr' });
             }
         }
     };
@@ -180,7 +174,7 @@ function Terminal(props) {
                         stdInCallback('^C');
                     }
                     else {
-                        updateCurrentLine({ prompt, value: `${event.currentTarget.value}^C`});
+                        updateLine({ prompt, value: `${event.currentTarget.value}^C`});
                         newLine();
                     }
                     event.currentTarget.value = '';
@@ -231,7 +225,7 @@ function Terminal(props) {
                     if (nextIndex < terminalController.history.length) {
                         const value = terminalController.history[nextIndex].command;
                         event.currentTarget.value = value;
-                        updateCurrentLine({ prompt, value });
+                        updateLine({ prompt, value });
                         setCursorPosition(value.length);
                         setPreviousCommandIndex(nextIndex);
                     }
@@ -250,7 +244,7 @@ function Terminal(props) {
                     }
                     event.currentTarget.value = value;
                     setCursorPosition(value.length);
-                    updateCurrentLine({ prompt, value });
+                    updateLine({ prompt, value });
                     setPreviousCommandIndex(nextIndex);
                 }
                 break;
@@ -269,7 +263,7 @@ function Terminal(props) {
         }
         else {
             if (commandLoaded) {
-                updateCurrentLine({ prompt, value: event.currentTarget.value });
+                updateLine({ prompt, value: event.currentTarget.value });
             }
             else {
                 event.currentTarget.value = '';

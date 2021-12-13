@@ -11,6 +11,10 @@ const Player = mongoose.model('players', schema({
     username: String,
     name: String,
     password: String,
+    deleted: {
+        type: Boolean,
+        default: false
+    }
 }));
 
 exports.getByUsername = async username => await Player.findOne({ username });
@@ -29,7 +33,9 @@ exports.getAll = async ({ page, size, search = '' }) => {
 
     const fields = Object.keys(omit(Player.schema.obj, 'password'));
 
-    const match = {};
+    const match = {
+        deleted: { '$ne': true }
+    };
     if (!isEmpty(search)) {
         const regexp = new RegExp(search, 'i');
         match['$or'] = fields.map(field => ({ [field]: regexp }));
@@ -52,3 +58,4 @@ exports.getAll = async ({ page, size, search = '' }) => {
     return { totalRecords: get(totalRecords, '0.totalRecords', 0), records: records.map(record => omit(record, ['password'])) };
 };
 exports.getById = async id => await Player.findById(id);
+exports.delete = async id => await Player.findByIdAndUpdate(id, { $set: { deleted: true }});

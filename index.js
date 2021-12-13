@@ -2,6 +2,8 @@ const Hapi = require('@hapi/hapi');
 const mongoose = require('mongoose');
 const config = require('config');
 
+const Player = require('./api/models/players');
+
 const server = new Hapi.server({
     ...config.get('server')
 });
@@ -17,7 +19,17 @@ const adminUser = {
 
 exports.adminUser = adminUser;
 
-const validate = async decoded => ({ isValid: !!decoded });
+const validate = async decoded => {
+
+    if (decoded.id !== adminUser.id) {
+        const user = await Player.getById(decoded.id);
+        if (!user || user.deleted) {
+            return { isValid: false };
+        }
+    }
+
+    return { isValid: !!decoded };
+};
 
 const init = async () => {
 
