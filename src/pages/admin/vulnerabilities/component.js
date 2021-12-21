@@ -15,29 +15,22 @@ import map from 'lodash/map';
 function Vulnerabilities(props) {
 
     const {
-        token,
         navigateTo,
+        get,
     } = props;
-
-    axios.interceptors.request.use(config => ({
-        ...config,
-        headers: {
-            ...config.headers,
-            Authorization: `Bearer ${token}`,
-        }
-    }));
 
     const [rows, setRows] = useState([]);
     const [count, setCount] = useState(0);
 
     const getData = useCallback(async (page, size, search) => {
+        page++;
         const params = map(pickBy({
             page,
             size,
             search
         }, i => isNumber(i) || !isEmpty(i)), (v, k) => `${k}=${v}`).join('&');
 
-        const response = await axios.get(`${$config.endpoint}/api/v1/vulnerabilities?${params}`);
+        const response = await get(`/vulnerabilities?${params}`);
         setRows(response.data.records);
         setCount(response.data.totalRecords);
     }, []);

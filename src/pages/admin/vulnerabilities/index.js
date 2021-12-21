@@ -4,14 +4,14 @@ import { push } from 'connected-react-router';
 
 import Component from './component';
 
-import fromState from '../../../state/selectors';
+import Commands from '../../../state/commands';
 
-const mapStateToProps = state => ({
-    token: fromState.Authentication.token()(state),
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
     navigateTo: (id = 'new') => dispatch(push(`/admin/vulnerabilities/${id}`)),
+    get: async path => dispatch(Commands.API.get(path)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Component));

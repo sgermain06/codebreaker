@@ -5,10 +5,8 @@ import { push } from 'connected-react-router';
 import Component from './component';
 
 import Commands from '../../../state/commands';
-import fromState from '../../../state/selectors';
 
-const mapStateToProps = state => ({
-    token: fromState.Authentication.token()(state),
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({

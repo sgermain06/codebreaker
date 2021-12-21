@@ -10,7 +10,7 @@ const returnObj = {
     login: ({ username, password, rememberUsername }) => async (dispatch, getState) => {
         try {
             const response = await dispatch(Commands.API.post('/security/login', { username, password }, true));
-            dispatch(Events.SetToken(response.data.token));
+            await dispatch(Events.SetToken(response.data.token));
             if (rememberUsername) {
                 dispatch(Events.SetRememberUsername(username));
             }
@@ -31,7 +31,7 @@ const returnObj = {
     logout: () => async dispatch => {
         dispatch(Events.Logout());
     },
-    refreshToken: () => (dispatch, getState) => {
+    refreshToken: () => dispatch => {
         dispatch(Events.RefreshToken())
     },
     setRedirectTo: redirectTo => dispatch => dispatch(Events.RedirectTo(redirectTo)),

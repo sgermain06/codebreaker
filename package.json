@@ -52,6 +52,7 @@
     "scripts": {
         "start": "cross-env BROWSER=none react-app-rewired start",
         "start-electron": "cross-env ELECTRON_START_URL=http://localhost:3000 DISPLAY=:0 electron .",
+        "lint": "eslint api src electron index.js || true",
         "build": "react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-app-rewired eject"
@@ -75,8 +76,13 @@
         ]
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.178",
         "cross-env": "^7.0.3",
         "electron": "^11.3.0",
+        "eslint": "^8.5.0",
+        "eslint-plugin-mocha": "^10.0.3",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^6.0.0",
         "react-app-rewired": "^2.1.8",
         "webpack-cli": "^4.9.1"
     }

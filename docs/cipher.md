@@ -1,0 +1,12 @@
+How to process a cipher:
+- Download the encrypted code.
+- Make sure you have enough disk space for it.
+- Store to disk.
+- Evaluate cipher parallelism and available CPU cores.
+- Make sure there is enough RAM available for a block.
+- Transfer cipher block from disk to RAM. Hard drive speed and memory speed have an impact here.
+- Refer to processing steps.
+- If failed, break the loop, notify of failure.
+- Transfer deciphered block from RAM to disk. Hard drive speed and memory speed have an impact here.
+- Go to step 4 until last block.
+- Notify that encrypted code break was successful.

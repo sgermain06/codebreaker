@@ -20,28 +20,28 @@ export default class GameController {
         this.processes = [];
     }
 
-    startGameLoop = () => {
+    startGameLoop() {
         this.interval = setInterval(this.update, 5000 / FPS);
     };
 
-    stopGameLoop = () => {
+    stopGameLoop() {
         clearInterval(this.interval);
         this.interval = null;
     };
 
-    isRunning = () => {
+    isRunning() {
         return this.interval !== null;
     };
 
-    getFrame = () => {
+    getFrame() {
         return this.currentFrame + this.currentCount;
     };
 
-    getExponent = () => {
+    getExponent() {
         return this.currentExponent;
     };
 
-    toggleGameLoop = () => {
+    toggleGameLoop() {
         if (this.isRunning()) {
             this.stopGameLoop();
         } else {
@@ -50,7 +50,7 @@ export default class GameController {
         return this.isRunning();
     };
 
-    addProcess = (process) => {
+    addProcess(process) {
         // Make sure the process object is valid and you can't duplicate processes
         const processIndex = this.processes.findIndex(i => get(i, 'id') === get(process, 'id'));
         if (validateProcess(process) && processIndex === -1) {
@@ -62,7 +62,7 @@ export default class GameController {
         return processIndex !== -1;
     };
 
-    removeProcess = (process) => {
+    removeProcess(process) {
         const processIndex = this.processes.findIndex(i => get(i, 'id') === get(process, 'id'));
         // Make sure the process exists before trying to remove it.
         if (processIndex > -1) {
@@ -73,24 +73,24 @@ export default class GameController {
         }
     };
 
-    resetProcesses = () => {
+    resetProcesses() {
         this.processes = [];
     };
 
-    increaseExponent = (amount = 1) => {
+    increaseExponent(amount = 1) {
         this.currentExponent += amount;
     };
 
-    decreaseExponent = (amount = 1) => {
+    decreaseExponent(amount = 1) {
         this.currentExponent -= amount;
     };
 
-    setExponent = (amount) => {
+    setExponent(amount) {
         this.currentExponent = amount;
     };
 
     // Main function
-    update = () => {
+    update() {
         console.debug('[GameController] - Update');
         this.currentFrame += 0.001;
         if (this.currentFrame > 1) {

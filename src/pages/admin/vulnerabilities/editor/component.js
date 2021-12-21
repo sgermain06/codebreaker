@@ -53,12 +53,12 @@ function VulnerabilitiesEditor(props) {
                             value: '',
                             required: true,
                         },
-                        password: {
+                        service: {
                             label: 'Service',
                             value: '',
                             required: true,
                         },
-                        confirmPassword: {
+                        version: {
                             label: 'Version',
                             value: '',
                             required: true,

@@ -18,6 +18,18 @@ const isBoolean = require('lodash/isBoolean');
 const isNull = require('lodash/isNull');
 const isUndefined = require('lodash/isUndefined');
 
+const terminalApps = require('./terminalApps');
+
+class FileSystem {
+
+    constructor() {
+        this._cwd = '/';
+    }
+
+    changeDirectory(args) {
+        
+    }
+}
 module.exports = class Terminal {
 
     constructor(options) {
@@ -26,6 +38,7 @@ module.exports = class Terminal {
         this.commandId = 0;
         this.loaderTimer = null;
         this.loaderChar = '';
+        this._apps = terminalApps;
     }
 
     initialize() {
@@ -268,6 +281,10 @@ module.exports = class Terminal {
         }
     }
 
+    changeDirectory(args) {
+
+    }
+
     async command(commandLine) {
 
         const commandToRun = commandLine => {
@@ -288,6 +305,12 @@ module.exports = class Terminal {
         const [command, ...args] = processedCommandLine.split(' ');
 
         switch (command.trim()) {
+            case 'ls':
+                this.listDirectory(args);
+                break;
+            case 'cd':
+                this.changeDirectory(args);
+                break;
             case 'history':
                 this.history.slice(0).reverse().forEach(line => this.stdout(`> ${line.id} - ${line.command}`));
                 break;

@@ -15,7 +15,6 @@ import map from 'lodash/map';
 function Players(props) {
 
     const {
-        token,
         navigateTo,
         disablePlayer,
         get,
@@ -25,6 +24,7 @@ function Players(props) {
     const [count, setCount] = useState(0);
 
     const getData = useCallback(async (page, size, search) => {
+        page++;
         const params = map(pickBy({
             page,
             size,
