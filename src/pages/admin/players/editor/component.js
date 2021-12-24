@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import crypto from 'crypto';
+import md5 from 'md5';
 
 import DataEditor from '../../../../components/admin/dataEditor';
 
@@ -9,14 +9,13 @@ import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import capitalize from 'lodash/capitalize';
 
-const hex_md5 = string => crypto.createHash('md5').update(string).digest('hex');
-
 function PlayerEditor(props) {
 
     const {
         get,
         post,
         put,
+        enqueueSnackbar,
     } = props;
     const { id } = props.match.params;
 
@@ -29,12 +28,12 @@ function PlayerEditor(props) {
             if (id === 'new') {
                 await post('/players', {
                     ...values,
-                    password: hex_md5(values.password)
+                    password: md5(values.password)
                 });
             }
             else {
                 if (!isEmpty(values.password)) {
-                    values.password = hex_md5(values.password);
+                    values.password = md5(values.password);
                 }
                 else {
                     delete values.password;
@@ -44,6 +43,7 @@ function PlayerEditor(props) {
             props.history.push('/admin/players');
         }
         catch (error) {
+            enqueueSnackbar(error.message, { variant: 'error' });
             console.log(error);
         }
     };
@@ -57,7 +57,7 @@ function PlayerEditor(props) {
             else if (values.confirmPassword !== values.password) {
                 errors.confirmPassword = 'Passwords must match.';
             }
-            else if (hex_md5(values.password) === password) {
+            else if (md5(values.password) === password) {
                 errors.password = 'Password must be different from previous password.';
             }
         }

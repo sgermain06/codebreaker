@@ -30,24 +30,25 @@
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.21",
         "luxon": "^1.26.0",
+        "md5": "^2.3.0",
         "mongoose": "^6.0.13",
         "notistack": "^1.0.5",
         "prop-types": "^15.7.2",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-flow-renderer": "^9.6.11",
+        "react-loader-spinner": "^4.0.0",
         "react-redux": "^7.2.3",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
-        "react-scripts": "^4.0.3",
+        "react-scripts": "^5.0.0",
         "redux": "^4.0.5",
         "redux-persist": "^6.0.0",
         "redux-thunk": "^2.3.0",
         "styled-components": "^5.3.3",
         "uuid": "^8.3.2",
         "victory": "^35.4.11",
-        "web-vitals": "^1.1.0",
-        "webpack": "^4.44.2"
+        "web-vitals": "^1.1.0"
     },
     "scripts": {
         "start": "cross-env BROWSER=none react-app-rewired start",
@@ -79,11 +80,7 @@
         "@types/lodash": "^4.14.178",
         "cross-env": "^7.0.3",
         "electron": "^11.3.0",
-        "eslint": "^8.5.0",
-        "eslint-plugin-mocha": "^10.0.3",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^6.0.0",
-        "react-app-rewired": "^2.1.8",
+        "react-app-rewired": "^2.1.9",
         "webpack-cli": "^4.9.1"
     }
 }

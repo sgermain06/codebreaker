@@ -10,7 +10,7 @@ const returnObj = {
     login: ({ username, password, rememberUsername }) => async (dispatch, getState) => {
         try {
             const response = await dispatch(Commands.API.post('/security/login', { username, password }, true));
-            await dispatch(Events.SetToken(response.data.token));
+            await dispatch(Events.SetToken(response.token));
             if (rememberUsername) {
                 dispatch(Events.SetRememberUsername(username));
             }

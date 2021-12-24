@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
-import Commands from '../../../../state/commands';
 import Component from './component';
 
-const mapStateToProps = () => ({
-});
+import Commands from '../../../../state/commands';
+
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
     get: path => dispatch(Commands.API.get(path)),

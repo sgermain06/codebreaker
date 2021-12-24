@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         overflow: 'auto',
+        position: 'relative',
     },
     box: {
         display: 'flex',

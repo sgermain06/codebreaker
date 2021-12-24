@@ -111,6 +111,18 @@ components:
               type: array
               items:
                 type: string
+    scenario:
+      type: object
+      description: Domain response object
+      properties:
+        name:
+          description: Name of the scenario
+          type: string
+        elements:
+          description: Elements of the scenario
+          type: array
+          items:
+            type: object
 
 paths:
   /:
@@ -265,7 +277,7 @@ paths:
     parameters:
       - name: id
         in: path
-        description: id to get vulnerabilities for
+        description: id to get player for
         required: true
         schema:
           type: string
@@ -328,6 +340,145 @@ paths:
         403:
           description: Forbidden
   
+  /scenarios:
+    x-hapi-handler: scenarios
+    get:
+      parameters:
+        - name: page
+          description: Current page
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: size
+          description: Size of page
+          in: query
+          schema:
+            default: 10
+            type: integer
+        - name: search
+          description: Search string
+          in: query
+          schema:
+            type: string
+      security:
+        - jwt: []
+      summary: Get Scenarios
+      operationId: scenariosGetAll
+      description: This route handles get scenarios requests.
+      tags:
+        - Scenarios
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRecords:
+                    type: integer
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/scenario'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    post:
+      security:
+        - jwt: []
+      summary: Create Scenario
+      operationId: scenarioCreate
+      description: This route handles create scenario requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/scenario'
+      tags:
+        - Scenarios
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenario'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+
+  /scenarios/{id}:
+    x-hapi-handler: scenarios
+    parameters:
+      - name: id
+        in: path
+        description: id to get scenario for
+        required: true
+        schema:
+          type: string
+    get:
+      security:
+        - jwt: []
+      summary: Get Scenario details
+      description: This route handles get scenarios requests.
+      operationId: scenarioDetails
+      tags:
+        - Scenarios
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenario'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    put:
+      security:
+        - jwt: []
+      summary: Update Scenario
+      operationId: scenarioUpdate
+      description: This route handles update scenario requests.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/scenario'
+      tags:
+        - Scenarios
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/scenario'
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+    delete:
+      security:
+        - jwt: []
+      summary: Delete Scenario details
+      description: This route handles delete scenario requests.
+      operationId: scenarioDelete
+      tags:
+        - Scenarios
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+        403:
+          description: Forbidden
+
   /vulnerabilities:
     x-hapi-handler: vulnerabilities
     get:

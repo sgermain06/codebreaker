@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import axios from 'axios';
 
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import PersonOffTwoTone from '@mui/icons-material/PersonOffTwoTone';
 
 import DataGrid from '../../../components/admin/dataGrid';
 
@@ -12,11 +12,10 @@ import isNumber from 'lodash/isNumber';
 import pickBy from 'lodash/pickBy';
 import map from 'lodash/map';
 
-function Players(props) {
+function Scenarios(props) {
 
     const {
         navigateTo,
-        disablePlayer,
         get,
     } = props;
 
@@ -31,27 +30,24 @@ function Players(props) {
             search
         }, i => isNumber(i) || !isEmpty(i)), (v, k) => `${k}=${v}`).join('&');
 
-        const response = await get(`/players?${params}`);
+        const response = await get(`/scenarios?${params}`);
         setRows(response.records);
         setCount(response.totalRecords);
     }, []);
     
     const rowActions = id => (
         <>
-            <Tooltip title='Edit Player'>
+            <Tooltip title='Edit Scenario'>
                 <IconButton onClick={ () => navigateTo(id) }><EditTwoToneIcon /></IconButton>
-            </Tooltip>
-            <Tooltip title='Disable Player'>
-                <IconButton onClick={ () => disablePlayer(id) }><PersonOffTwoTone /></IconButton>
             </Tooltip>
         </>
     );
 
     return (
         <DataGrid
-            columns={[ 'username', 'name' ]}
+            columns={[ 'name', 'description', 'domain' ]}
             onAddNew={ () => navigateTo() }
-            noData='No Players Found.'
+            noData='No Scenario Found.'
             rowActions={rowActions}
             rows={rows}
             count={count}
@@ -60,4 +56,4 @@ function Players(props) {
     );
 };
 
-export default Players;
+export default Scenarios;

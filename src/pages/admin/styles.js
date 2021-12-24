@@ -35,5 +35,13 @@ export default function styles(theme) {
             flexGrow: 1,
             height: '100%',
         },
+        loader: {
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+        },
     };
 }

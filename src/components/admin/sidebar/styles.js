@@ -22,7 +22,7 @@ export default function styles(theme) {
         drawerContainer: {
             overflow: "auto",
             height: '100%',
-            minWidth: '200px',
+            minWidth: '220px',
         },
     };
 }

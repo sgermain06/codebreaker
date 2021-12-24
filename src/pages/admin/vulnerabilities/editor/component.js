@@ -11,7 +11,8 @@ function VulnerabilitiesEditor(props) {
     const {
         get,
         post,
-        put
+        put,
+        enqueueSnackbar,
     } = props;
     const { id } = props.match.params;
 
@@ -20,16 +21,15 @@ function VulnerabilitiesEditor(props) {
     const handleSave = async (values, id) => {
         try {
             if (id === 'new') {
-                const { data } = await post('/vulnerabilities', values);
-                console.log(data);
+                await post('/vulnerabilities', values);
             }
             else {
-                const { data } = await put(`/vulnerabilities/${id}`, values);
-                console.log(data);
+                await put(`/vulnerabilities/${id}`, values);
             }
             props.history.push('/admin/vulnerabilities');
         }
         catch (error) {
+            enqueueSnackbar(error.message, { variant: 'error' });
             console.log(error);
         }
     };
@@ -39,7 +39,7 @@ function VulnerabilitiesEditor(props) {
             try {
                 if (id !== 'new') {
                     const response = await get(`/vulnerabilities/${id}`)
-                    setVulnerability(mapValues(pick(response.data, ['name', 'description', 'service', 'version']), (v, k) => ({ label: capitalize(k), value: v, required: true })));
+                    setVulnerability(mapValues(pick(response, ['name', 'description', 'service', 'version']), (v, k) => ({ label: capitalize(k), value: v, required: true })));
                 }
                 else {
                     setVulnerability({
@@ -67,6 +67,7 @@ function VulnerabilitiesEditor(props) {
                 }
             }
             catch (err) {
+                enqueueSnackbar(err.message, { variant: 'error' });
                 console.log(err);
             }
         };

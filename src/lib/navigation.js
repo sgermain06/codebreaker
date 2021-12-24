@@ -28,7 +28,7 @@ export const adminNavigation = [
     },
     {
         title: 'Scenario Builder',
-        link: '/admin/scenarioBuilder',
+        link: '/admin/scenarios',
         icon: <AccountTreeTwoToneIcon />,
         iconLarge: <AccountTreeTwoToneIcon className="logo" />
     }

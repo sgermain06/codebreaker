@@ -31,8 +31,8 @@ function Vulnerabilities(props) {
         }, i => isNumber(i) || !isEmpty(i)), (v, k) => `${k}=${v}`).join('&');
 
         const response = await get(`/vulnerabilities?${params}`);
-        setRows(response.data.records);
-        setCount(response.data.totalRecords);
+        setRows(response.records);
+        setCount(response.totalRecords);
     }, []);
     
     const rowActions = id => (

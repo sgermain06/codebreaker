@@ -3,8 +3,11 @@ import axios from 'axios';
 import Commands from '../../commands';
 import fromState from '../../selectors';
 
+import get from 'lodash/get';
+
 const request = ({method, path, body, anonymous = false}) => async (dispatch, getState) => {
     try {
+        dispatch(Commands.Loader.startLoading());
         const url = `${$config.endpoint}/api/v1${path}`;
         const headers = {
             'Content-Type': 'application/json',
@@ -13,28 +16,29 @@ const request = ({method, path, body, anonymous = false}) => async (dispatch, ge
             headers['Authorization'] = `Bearer ${fromState.Authentication.token()(getState())}`;
         }
 
-        let response;
         switch (method.toUpperCase()) {
             case 'POST':
             case 'PUT':
-                response = await axios[method.toLowerCase()](url, body, {headers});
-                break;
+                return get(await axios[method.toLowerCase()](url, body, {headers}), 'data');
             default:
-                response = await axios[method.toLowerCase()](url, {headers});
-                break;
+                return get(await axios[method.toLowerCase()](url, {headers}), 'data');
         }
-        return response;
     }
     catch (error) {
-        switch (error.response.status) {
-            case 401:
-                dispatch(Commands.Authentication.setToken(null));
-                break;
-            default:
-                // Nothing special.
-                break;
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    dispatch(Commands.Authentication.setToken(null));
+                    break;
+                default:
+                    // Nothing special.
+                    break;
+            }
         }
         throw error;
+    }
+    finally {
+        dispatch(Commands.Loader.stopLoading());
     }
 };
 
