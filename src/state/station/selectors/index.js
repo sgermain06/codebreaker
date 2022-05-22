@@ -1,6 +1,9 @@
 import { dataSizeFromSuffix, dataSizeSuffixes } from '../../../lib/utils';
 import common from '../../_common/selectors/_common';
 
+import last from 'lodash/last';
+import get from 'lodash/get';
+
 const resolutions = [
     '640x480',
     '800x600',
@@ -112,18 +115,24 @@ export const broadbandTypes = [
 export default common.bindToReducer('station', {
     broadband: common.get('broadband'),
     broadbandType: common.get('broadband.type'),
-    broadbandTypeDescription: () => (state) => broadbandTypes[state.broadband.type].type,
-    broadbandProvider: () => (state) => broadbandTypes[state.broadband.type].provider,
+    broadbandTypeDescription: () => state => broadbandTypes[state.broadband.type].type,
+    broadbandProvider: () => state => broadbandTypes[state.broadband.type].provider,
     broadbandReliability: () => state => broadbandTypes[state.broadband.type].avgUptime,
     broadbandSpeed: () => state => broadbandTypes[state.broadband.type].speeds[state.broadband.speed],
+    networkActivity: common.get('broadband.activity'),
     cpu: common.get('cpu'),
     cpuType: common.get('cpu.type'),
     cpuSpeed: common.get('cpu.speed'),
     cpuCores: common.get('cpu.cores'),
     usedCpuCores: common.get('cpu.usedCores'),
-    availableCpuCores: () => (state) => state.cpu.cores - state.cpu.usedCores,
-    hasEnoughAvailableCpuCores: cores => (state) => (state.cpu.cores - state.cpu.usedCores) >= cores,
+    availableCpuCores: () => state => state.cpu.cores - state.cpu.usedCores,
+    hasEnoughAvailableCpuCores: cores => state => (state.cpu.cores - state.cpu.usedCores) >= cores,
     cpuLoad: common.get('cpu.load'),
+    allCpuLoadAvg: () => state => {
+        return Array(state.cpu.cores).fill(0).reduce((sum, _, index) => {
+            return sum + (last(get(state, `cpu.load.${index}.y`, [])) || 0)
+        }, 0) / state.cpu.cores
+    },
     display: common.get('display'),
     displayResolution: resolutions[common.get('display.resolution')],
     displayType: common.get('display.type'),
@@ -140,13 +149,13 @@ export default common.bindToReducer('station', {
     storageSize: common.get('storage.size'),
     storageType: common.get('storage.type'),
     storageUsed: common.get('storage.used'),
-    availableStorage: () => (state) => {
+    availableStorage: () => state => {
         const size = state.storage.size;
         const unit = dataSizeSuffixes[state.storage.dataSuffixOffset]
         return dataSizeFromSuffix({size, unit}) - state.storage.used;
     },
-    storageTypeSpeed: () => (state) => storageSpeeds[state.storage.type],
-    hasEnoughAvailableStorage: requestedSize => (state) => {
+    storageTypeSpeed: () => state => storageSpeeds[state.storage.type],
+    hasEnoughAvailableStorage: requestedSize => state => {
         const size = state.storage.size;
         const unit = dataSizeSuffixes[state.storage.dataSuffixOffset]
         const total = dataSizeFromSuffix({size, unit});

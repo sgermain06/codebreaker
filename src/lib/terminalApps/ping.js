@@ -1,4 +1,4 @@
-module.exports = class Ping {
+export default class Ping {
 
     constructor(terminal, { defaultPingSteps = 4 } = {}) {
         this.terminal = terminal;

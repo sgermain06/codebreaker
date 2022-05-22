@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 
-import { VictoryAxis, VictoryChart, VictoryArea } from 'victory';
+import Plot from 'react-plotly.js';
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 
-import last from 'lodash/last';
+import { chartTheme, coreColors, fillColors } from './styles';
 
-import { chartTheme } from './styles';
+import get from 'lodash/get';
 
 function CpuLoad(props) {
     
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const {
-        width,
         height,
         addCpuLoad,
         cpuLoad,
+        cpuCores,
         gameController
     } = props;
 
@@ -30,8 +30,10 @@ function CpuLoad(props) {
             id: 'cpuLoad', 
             callback: (frames, _, exponent) => {
                 if ((Number(frames.toFixed(3)) * 1000) % 5 === 0) {
-                    const xVal = last(cpuLoad).x + 1;
-                    addCpuLoad({ x: xVal, y: Math.pow(Math.round(Math.random() * 50) + 50, exponent) });
+                    for (let i = 0; i < cpuCores; i++) {
+                        const value = Math.round(Math.random() * 50) + 50;
+                        addCpuLoad(Math.pow(value, exponent), i);
+                    }
                 }
             }
         };
@@ -41,20 +43,22 @@ function CpuLoad(props) {
 
     return (
         <Card>
-            <CardHeader title='CPU Load' />
+            <CardHeader title='CPU Cores Load' />
             <CardContent>
-                <VictoryChart
-                    width={width}
-                    height={height}
-                    theme={chartTheme(prefersDarkMode)}
-                >
-                    <VictoryAxis style={{ tickLabels: { fill: 'transparent' }}} />
-                    <VictoryAxis dependentAxis />
-                    <VictoryArea
-                        style={chartTheme(prefersDarkMode)}
-                        data={cpuLoad}
-                    />
-                </VictoryChart>
+                <Plot
+                    data={cpuLoad.map((core, coreIndex) => ({
+                        ...core,
+                        line: {
+                            color: get(coreColors(prefersDarkMode), coreIndex, '#ccc'),
+                            smoothing: 1.2,
+                            shape: 'spline',
+                        },
+                        name: `Core ${coreIndex + 1}`,
+                        fill: 'tozeroy',
+                        fillcolor: get(fillColors, coreIndex, 'rgba(102, 102, 102, 0.8)'),
+                    }))}
+                    {...chartTheme(prefersDarkMode, height)}
+                />
             </CardContent>
         </Card>
     );

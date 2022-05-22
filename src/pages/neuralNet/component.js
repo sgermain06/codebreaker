@@ -16,7 +16,7 @@ import CpuLoadWidget from '../../components/widgets/cpuLoad';
 
 import styles from './styles';
 
-import '../station/App.css';
+import '../../App.css';
 
 const useStyles = makeStyles(styles);
 

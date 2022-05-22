@@ -1,6 +1,6 @@
 const domains = require('../hackingScenarios');
 
-module.exports = class ScanVulnerabilities {
+export default class ScanVulnerabilities {
 
     constructor(terminal, options = {}) {
         this.terminal = terminal;

@@ -1,6 +1,6 @@
 const domains = require('../hackingScenarios');
 
-module.exports = class Dig {
+export default class Dig {
 
     constructor(terminal, options = {}) {
         this.terminal = terminal;

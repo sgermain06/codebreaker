@@ -1,5 +1,5 @@
-import { makeStyles } from '@mui/styles';
 import React from 'react';
+import { makeStyles } from '@mui/styles';
 
 import styles from './styles';
 
@@ -9,9 +9,9 @@ function Background(props) {
 
     const { location } = props;
 
-    let background = require('../../assets/backgrounds/station_bg.png').default;
+    let background = require('../../assets/backgrounds/station_bg.png');
     try {
-        background = require(`../../assets/backgrounds/${location.pathname.split('/')[1]}_bg.png`).default;
+        background = require(`../../assets/backgrounds/${location.pathname.split('/')[1]}_bg.png`);
     } catch (e) {
         // Silencing error, don't care.
     }

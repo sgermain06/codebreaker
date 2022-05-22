@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     completeCipher: cipher => () => dispatch(Commands.Ciphers.completeCipher(cipher)),
     updateCipher: cipher => prop => dispatch(Commands.Ciphers.updateCipher(cipher, prop)),
+    addNetworkActivity: blockSize => dispatch(Commands.Station.addNetworkActivity(blockSize)),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -80,11 +81,17 @@ function CodeBreaker(props) {
             completeCipher,
             updateCipher,
             gameController,
+            addNetworkActivity,
         } = props;
-    
+
+        const networkNoise = () => Math.random() * (Math.random() < 0.5 ? -1 : 1);
+
         const downloadBlock = activeCipher => {
             const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
-            const networkSpeed = (broadbandBitrate / 10);
+            const modifier = (10 + networkNoise());
+            // console.log('Modifier:', modifier);
+            const networkSpeed = (broadbandBitrate / modifier);
+            console.log('Network Speed:', networkSpeed);
 
             let downloadedBlockSize = networkSpeed;
             const returnObj = {};
@@ -93,10 +100,12 @@ function CodeBreaker(props) {
                 if (cipherSize - activeCipher.progress < networkSpeed) {
                     downloadedBlockSize = cipherSize - activeCipher.progress;
                 }
+                returnObj.blockSize = downloadedBlockSize;
                 returnObj.progress = (activeCipher.progress + downloadedBlockSize);
             }
             else {
                 returnObj.progress = 0;
+                returnObj.blockSize = 0;
                 returnObj.status = 'breaking';
             }
             return returnObj;
@@ -108,12 +117,15 @@ function CodeBreaker(props) {
                 // This is where we calculate the parameters for breaking the cipher.
                 // The algorithm is described in the /lib/cipher.js file.
                 console.debug(`[CODE BREAKER] Frames: ${frame}, Count: ${count}, Exponent: ${exponent}`);
+                let networkActivity = 100 + networkNoise();
                 // Flow:
                 if (!isEmpty(activeCipher)) {
                     switch(activeCipher.status) {
                         case 'downloading':
                             const cipherSize = dataSizeFromSuffix(activeCipher.type.block) * activeCipher.blocks;
-                            updateCipher(downloadBlock(activeCipher));
+                            const download = downloadBlock(activeCipher);
+                            networkActivity = download.blockSize;
+                            updateCipher(download);
                             console.debug('Downloading! Progress:', activeCipher.progress, 'Cipher size:', dataSizeSuffix(cipherSize));
                             break;
                         case 'breaking':
@@ -131,6 +143,8 @@ function CodeBreaker(props) {
 
                     // console.log('Active Cipher Status:', activeCipher.status);
                 }
+
+                addNetworkActivity(networkActivity);
             }
         };
 

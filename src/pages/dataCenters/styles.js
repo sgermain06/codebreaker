@@ -5,5 +5,8 @@ export default function styles(theme) {
             textAlign: 'center',
             width: '100%',
         },
+        description: {
+            textAlign: 'left',
+        }
     };
 };

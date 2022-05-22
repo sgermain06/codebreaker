@@ -69,7 +69,7 @@ const returnObj = {
             throw new Error(`Not enough available CPU cores: ${cores}. Available: ${availableCores}`);
         }
     },
-    addCpuLoad: load => dispatch => dispatch(Events.AddCpuLoad(load)),
+    addCpuLoad: (load, coreIndex) => dispatch => dispatch(Events.AddCpuLoad(load, coreIndex)),
 
     useStorage: size => (dispatch, getState) => {
         if (fromState.Station.hasEnoughAvailableStorage(size)(getState())) {
@@ -80,6 +80,8 @@ const returnObj = {
             throw new Error(`Not enough available storage: ${size}. Available: ${availableStorage}`);
         }
     },
+
+    addNetworkActivity: blockSize => dispatch => dispatch(Events.AddNetworkActivity(blockSize)),
 };
 
 export default returnObj;

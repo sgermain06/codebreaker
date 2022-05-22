@@ -1,22 +1,9 @@
-import React from "react";
+import { connect } from 'react-redux';
 import { withRouter } from "react-router";
-import makeStyles from '@mui/styles/makeStyles';
 
-import styles from './styles';
+import Component from './component';
 
-import PageHeader from '../../components/pageHeader';
+const mapStateToProps = () => ({});
+const mapDispatchToProps = () => ({});
 
-const useStyles = makeStyles(styles);
-
-function Servers(props) {
-
-    const classes = useStyles();
-
-    return (
-        <div className={classes.container}>
-            <PageHeader />
-        </div>
-    );
-}
-
-export default withRouter(Servers);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Component));

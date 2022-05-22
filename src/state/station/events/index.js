@@ -1,4 +1,4 @@
-import {buildEvents, singleParameter} from '../../_common/events/create';
+import {buildEvents, singleParameter, multipleParameters} from '../../_common/events/create';
 
 const definition = {
     SetCpuType: singleParameter,
@@ -16,7 +16,9 @@ const definition = {
     SetBroadbandType: singleParameter,
     SetBroadbandSpeed: singleParameter,
     UseCpuCores: singleParameter,
-    AddCpuLoad: singleParameter,
+    AddCpuLoad: multipleParameters,
+    AddNetworkActivity: singleParameter,
+    AddPowerConsumption: singleParameter,
 };
 
 const {types, events} = buildEvents('station', definition);

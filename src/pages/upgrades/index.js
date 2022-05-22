@@ -1,22 +1,48 @@
-import React from "react";
-import { withRouter } from "react-router";
-import makeStyles from '@mui/styles/makeStyles';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
-import styles from './styles';
+import Component from './component';
 
-import PageHeader from '../../components/pageHeader';
+import Commands from '../../state/commands';
+import fromState from '../../state/selectors';
 
-const useStyles = makeStyles(styles);
+const mapStateToProps = state => ({
+    cpu: fromState.Station.cpu()(state),
+    ramType: fromState.Station.ramType()(state),
+    ram: fromState.Station.ram()(state),
+    graphicsMemory: fromState.Station.graphicsMemory()(state),
+    graphicsClock: fromState.Station.graphicsClock()(state),
+    storage: fromState.Station.storage()(state),
+    storageType: fromState.Station.storageTypeSpeed()(state),
+    broadbandType: fromState.Station.broadbandTypeDescription()(state),
+    broadbandProvider: fromState.Station.broadbandProvider()(state),
+    broadbandSpeed: fromState.Station.broadbandSpeed()(state).name,
+    broadbandReliability: fromState.Station.broadbandReliability()(state),
+});
 
-function Upgrades(props) {
+const mapDispatchToProps = dispatch => ({
+    increaseCpuSpeed: () => dispatch(Commands.Station.increaseCpuSpeed()),
+    resetCpuSpeed: () => dispatch(Commands.Station.resetCpuSpeed()),
+    increaseCpuCores: () => dispatch(Commands.Station.increaseCpuCores()),
+    resetCpuCores: () => dispatch(Commands.Station.resetCpuCores()),
+    increaseRamSize: () => dispatch(Commands.Station.increaseRamSize()),
+    resetRamSize: () => dispatch(Commands.Station.resetRamSize()),
+    increaseRamType: () => dispatch(Commands.Station.increaseRamType()),
+    resetRamType: () => dispatch(Commands.Station.resetRamType()),
+    increaseGraphicsMemory: () => dispatch(Commands.Station.increaseGraphicsMemory()),
+    resetGraphicsMemory: () => dispatch(Commands.Station.resetGraphicsMemory()),
+    increaseGraphicsClock: () => dispatch(Commands.Station.increaseGraphicsClock()),
+    resetGraphicsClock: () => dispatch(Commands.Station.resetGraphicsClock()),
+    increaseStorageSize: () => dispatch(Commands.Station.increaseStorageSize()),
+    resetStorageSize: () => dispatch(Commands.Station.resetStorageSize()),
+    increaseStorageType: () => dispatch(Commands.Station.increaseStorageType()),
+    resetStorageType: () => dispatch(Commands.Station.resetStorageType()),
+    increaseBroadbandSpeed: () => dispatch(Commands.Station.increaseBroadbandSpeed()),
+    resetBroadbandSpeed: () => dispatch(Commands.Station.resetBroadbandSpeed()),
+    increaseBroadbandType: () => dispatch(Commands.Station.increaseBroadbandType()),
+    resetBroadbandType: () => dispatch(Commands.Station.resetBroadbandType()),
+});
 
-    const classes = useStyles();
+const component = withRouter(Component);
 
-    return (
-        <div className={classes.container}>
-            <PageHeader />
-        </div>
-    );
-}
-
-export default withRouter(Upgrades);
+export default connect(mapStateToProps, mapDispatchToProps)(component);

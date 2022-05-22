@@ -1,36 +1,235 @@
-const LightBlue = require('@mui/material/colors/lightBlue').default;
-const LightGreen = require('@mui/material/colors/lightGreen').default;
-const Cyan = require('@mui/material/colors/cyan').default;
-const Amber = require('@mui/material/colors/amber').default;
-const Purple = require('@mui/material/colors/purple').default;
-const Grey = require('@mui/material/colors/grey').default;
-const Brown = require('@mui/material/colors/brown').default;
+import LightBlue from '@mui/material/colors/lightBlue';
+import LightGreen from '@mui/material/colors/lightGreen';
+import Cyan from '@mui/material/colors/cyan';
+import Amber from '@mui/material/colors/amber';
+import Purple from '@mui/material/colors/purple';
+import Grey from '@mui/material/colors/grey';
+import Brown from '@mui/material/colors/brown';
 
-const Ping = require('./terminalApps/ping');
-const HttpRequest = require('./terminalApps/http');
-const Dig = require('./terminalApps/dig');
-const ScanVulnerabilities = require('./terminalApps/scanVulnerabilities');
+import { path } from './utils';
 
-const isArray = require('lodash/isArray');
-const isPlainObject = require('lodash/isPlainObject');
-const isString = require('lodash/isString');
-const isBoolean = require('lodash/isBoolean');
-const isNull = require('lodash/isNull');
-const isUndefined = require('lodash/isUndefined');
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
+import isString from 'lodash/isString';
+import isBoolean from 'lodash/isBoolean';
+import isNull from 'lodash/isNull';
+import isUndefined from 'lodash/isUndefined';
+import uniq from 'lodash/uniq';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
 
-const terminalApps = require('./terminalApps');
+import terminalApps from './terminalApps';
+import minimist from 'minimist';
+
+const stripLastSlash = path => path.replace(/\/$/, '');
+const stripTrailingSlashes = path => {
+    while (path.endsWith('/')) {
+        path = stripLastSlash(path);
+    }
+    return path;
+}
+const directoryRegex = path => new RegExp(`^${stripLastSlash(path)}\/([a-zA-Z-_\s]+)$`);
+
+const colorizeString = (str, color) => `^[${color};${str}^]`;
+const decolorizeString = str => {
+    const matched = str.match(/\^\[#[0-9a-f]{6};(.*)\^\](.*)/);
+    return matched ? matched.slice(1).join('') : str;
+};
+
+const getSubDirectories = (path, apps) =>
+    uniq(apps.map(app => app.path)).filter(dir => dir.match(directoryRegex(path))).map(dir => ({
+        path: dir.split('/').pop(),
+        absolutePath: dir,
+        owner: 'root',
+        group: 'admin',
+        permissions: 644,
+        directory: true,
+    }));
 
 class FileSystem {
 
-    constructor() {
+    constructor(apps) {
         this._cwd = '/';
+        this.apps = apps;
     }
 
-    changeDirectory(args) {
+    changeDirectory([passedPath]) {
+        if (isEmpty(passedPath)) {
+            throw new Error('Path is empty.');
+        }
+
+        let destinationPath = stripTrailingSlashes(passedPath);
+        switch(passedPath) {
+            case '.':
+                // Do nothing, it's a valid path, but doesn't go anywhere.
+                break;
+            case '..':
+                destinationPath = this._cwd.split('/').slice(0, -1).join('/') || '/';
+                break;
+            default:
+                // Create a new path to match the path you're going to.
+                let newPath = passedPath;
+                // This means we're resolving from a relative path
+                if (!newPath.startsWith('/')) {
+                    newPath = `${stripLastSlash(this._cwd)}/${passedPath}`;
+                }
+                // Find directories in the current working directory to find
+                const directories = uniq(['/', ...this.apps.map(app => app.path)]);
+                // If the new path is a directory and it's the list of directories inside the current working directory, go ahead and move to it.
+                if (directories.includes(newPath)) {
+                    destinationPath = newPath;
+                }
+                // If not, throw an error saying that there are no such directory.
+                else {
+                    throw new Error(`Directory not found: ${passedPath}`);
+                }
+                break;
+        }
+
+        // If the destination path is different than the current path, change it.
+        if (destinationPath !== this._cwd) {
+            this._cwd = destinationPath;
+        }
+    }
+
+    resolvePath(command) {
+        if (isEmpty(command)) {
+            throw new Error('Path is empty.');
+        }
+
+        let resolvedPath = command;
+
+        // This means we're resolving from a relative path
+        if (!command.startsWith('/')) {
+            resolvedPath = `${stripLastSlash(this._cwd)}/${command}`;
+        }
+
+        const parsed = path.parse(resolvedPath);
+        const foundApp = terminalApps.find(o => o.path === parsed.dir && o.cmd === parsed.base);
+
+        if (isEmpty(foundApp)) {
+            throw new Error(`Command '${command}' not found.`);
+        }
+
+        return foundApp.app;
+    }
+
+    listDirectory(args) {
+
+        const opts = {
+            alias: {
+                a: 'all',
+                l: 'list',
+            },
+            boolean: ['all', 'list'],
+        };
+
+        const parsedArgs = minimist(args, opts);
+
+        let resolvedPath = parsedArgs._[0] || this._cwd;
         
+        if (!resolvedPath.startsWith('/')) {
+            resolvedPath = `${stripLastSlash(this._cwd)}/${resolvedPath}`;
+        }
+
+        const parsed = path.parse(resolvedPath);
+
+        const translatePermissions = p => p.toString().split('').map(v => `${v & 4 ? 'r' : '-'}${v & 2 ? 'w' : '-'}${v & 1 ? 'x' : '-'}`).join('');
+
+        const listingOutput = dir => {
+            if (!parsedArgs.list) {
+                const entries = dir.map(entry => entry.directory ? `${colorizeString(entry.path, LightBlue['500'])}/` : entry.path);
+                let maxWidth = 0;
+                for (let entry of entries) {
+                    maxWidth = Math.max(maxWidth, entry.length);
+                }
+                maxWidth = Math.max(maxWidth, 15);
+                return [entries.map(entry => {
+                    const extraSpace = entry.length - decolorizeString(entry).length;
+                    return `${entry.padEnd(maxWidth + extraSpace, '\u00a0')}`;
+                }).join('\u00a0\u00a0')];
+            }
+
+            let maxOwnerWidth = 0;
+            let maxGroupWidth = 0;
+            for (let entry of dir) {
+                maxOwnerWidth = Math.max(maxOwnerWidth, entry.owner.length);
+                maxGroupWidth = Math.max(maxGroupWidth, entry.group.length);
+            }
+
+            return dir.map(entry => {
+                const permissions = translatePermissions(entry.permissions);
+                const path = entry.directory ? `${colorizeString(entry.path, LightBlue['500'])}/` : entry.path;
+                return `${entry.directory ? 'd' : '-'}${permissions}\u00a0\u00a0${entry.owner.padEnd(maxOwnerWidth, '\u00a0')}\u00a0\u00a0${entry.group.padEnd(maxGroupWidth, '\u00a0')}\u00a0\u00a0\u00a0${path}`;
+            });
+        }
+
+        const defaultDir = [
+            {
+                path: '.',
+                hidden: true,
+                owner: 'root',
+                group: 'admin',
+                permissions: 644,
+                directory: true,
+            },
+            {
+                path: '..',
+                hidden: true,
+                owner: 'root',
+                group: 'admin',
+                permissions: 644,
+                directory: true,
+            },
+        ];
+        
+        let dirToList = this._cwd;
+        let searchPattern = null;
+
+        const directory = path.format(parsed);
+        const filteredDirs = getSubDirectories(directory, this.apps);
+        const foundDir = uniq(['/', ...this.apps.map(app => app.path)]).find(o => o === directory);
+
+        if (foundDir) {
+            dirToList = directory;
+        }
+        else {
+            const reserved = ['\\', '.', '+', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', '-'];
+            const escaped = reserved.reduce((acc, cur) => acc.replaceAll(cur, `\\${cur}`), parsed.base);
+            searchPattern = new RegExp(`^${escaped.replaceAll('*', '(.*)')}$`);
+            dirToList = parsed.dir;
+        }
+
+        defaultDir.push(...filteredDirs);
+
+        const dir = this.apps.reduce((acc, cur) => {
+            if (cur.path === dirToList) {
+                acc.push({
+                    path: cur.cmd,
+                    owner: 'root',
+                    group: 'admin',
+                    permissions: 644,
+                    directory: false,
+                });
+            }
+            return acc;
+        }, defaultDir).filter(entry => {
+            if (searchPattern) {
+                return searchPattern.test(entry.path);
+            }
+            return true;
+        });
+
+        if (!parsedArgs.all) {
+            return listingOutput(filter(dir, d => !d.hidden));
+        }
+
+        return listingOutput(dir);
     }
 }
-module.exports = class Terminal {
+
+const defaultPrompt = '$ ';
+export default class Terminal {
 
     constructor(options) {
         this.options = options;
@@ -39,6 +238,11 @@ module.exports = class Terminal {
         this.loaderTimer = null;
         this.loaderChar = '';
         this._apps = terminalApps;
+        this.fs = new FileSystem(terminalApps);
+    }
+
+    get prompt() {
+        return `${this.fs._cwd} ${defaultPrompt}`;
     }
 
     initialize() {
@@ -65,7 +269,7 @@ module.exports = class Terminal {
             const colorIndex = (welcomeScreenLine2.split('\n').length - index) * 100;
             this.stdout(line.replaceAll(' ', '\u00a0'), { color: Cyan[colorIndex] });
         });
-        this.stdout('Welcome to the terminal!');
+        this.stdout('Welcome to the terminal!', { fsPath: this.fs._cwd });
     }
 
     addHistory(commandLine, commandId) {
@@ -281,10 +485,6 @@ module.exports = class Terminal {
         }
     }
 
-    changeDirectory(args) {
-
-    }
-
     async command(commandLine) {
 
         const commandToRun = commandLine => {
@@ -306,10 +506,23 @@ module.exports = class Terminal {
 
         switch (command.trim()) {
             case 'ls':
-                this.listDirectory(args);
+                try {
+                    this.fs.listDirectory(args).forEach(entry => {
+                        this.stdout(entry);
+                    });
+
+                }
+                catch (err) {
+                    this.stderr(err.message);
+                }
                 break;
             case 'cd':
-                this.changeDirectory(args);
+                try {
+                    this.fs.changeDirectory(args);
+                }
+                catch (err) {
+                    this.stderr(err.message);
+                }
                 break;
             case 'history':
                 this.history.slice(0).reverse().forEach(line => this.stdout(`> ${line.id} - ${line.command}`));
@@ -345,29 +558,6 @@ module.exports = class Terminal {
                         }
                     }
                 }, depth);
-                break;
-            case 'http':
-                const httpRequest = new HttpRequest(this);
-                try {
-                    const response = await httpRequest.run(...args);
-                    this.log(response);
-                    // response.split('\n').forEach(line => this.stdout(line));
-                }
-                catch (error) {
-                    this.stderr(error.message);
-                }
-                break;
-            case 'ping': 
-                const ping = new Ping(this);
-                await ping.run(...args);
-                break;
-            case 'dig':
-                const dig = new Dig(this);
-                await dig.run(...args);
-                break;
-            case 'scan':
-                const scan = new ScanVulnerabilities(this);
-                await scan.run(...args);
                 break;
             case 'clear':
                 return { command: 'clear' };
@@ -439,7 +629,14 @@ module.exports = class Terminal {
                 }
                 break;
             default:
-                this.stderr(`Command '${command}' not found.`);
+                try {
+                    const app = this.fs.resolvePath(command);
+                    await (new app(this)).run(...args);
+                    break;
+                }
+                catch (err) {
+                    this.stderr(err.message);
+                }
                 break;
         }
 

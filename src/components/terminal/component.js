@@ -26,8 +26,6 @@ function Terminal(props) {
         clearTerminal,
     } = props;
 
-    const prompt = '$ ';
-
     const [previousCommandIndex, setPreviousCommandIndex] = useState(-1);
     const [cursorPosition, setCursorPosition] = useState(0);
     const [cursorOffset, setCursorOffset] = useState(0);
@@ -51,6 +49,9 @@ function Terminal(props) {
         color,
         replaceRange = [],
     } = {}) => {
+
+        const error = stream === 'stderr';
+
         if (caretAtEnd) {
             setCursorOffset(data.length);
         }
@@ -64,14 +65,14 @@ function Terminal(props) {
         }
         else if (replaceRange.length > 0) {
             const [start, end] = replaceRange;
-            replaceCharsForRange({prompt, value: data, error: stream === 'stderr', start, end}, lineIndex);
+            replaceCharsForRange({prompt, value: data, error, start, end}, lineIndex);
         }
         else {
             if (updateMode) {
-                updateLine({ prompt, value: data, error: stream === 'stderr' }, lineIndex);
+                updateLine({ prompt, value: data, error }, lineIndex);
             }
             else {
-                addLine({ prompt, value: data, error: stream === 'stderr' });
+                addLine({ prompt, value: data, error });
             }
         }
     };
@@ -120,10 +121,10 @@ function Terminal(props) {
     }, []);
 
     const newLine = useCallback(() => {
-        addLine({ prompt, value: '' });
+        addLine({ prompt: terminalController.prompt, value: '' });
         setCursorPosition(0);
         setCursorOffset(0);
-    }, [addLine, prompt]);
+    }, [addLine, terminalController.prompt]);
     
     // Window scrolling to the bottom
     useEffect(() => {
@@ -174,7 +175,7 @@ function Terminal(props) {
                         stdInCallback('^C');
                     }
                     else {
-                        updateLine({ prompt, value: `${event.currentTarget.value}^C`});
+                        updateLine({ prompt: terminalController.prompt, value: `${event.currentTarget.value}^C`});
                         newLine();
                     }
                     event.currentTarget.value = '';
@@ -225,7 +226,7 @@ function Terminal(props) {
                     if (nextIndex < terminalController.history.length) {
                         const value = terminalController.history[nextIndex].command;
                         event.currentTarget.value = value;
-                        updateLine({ prompt, value });
+                        updateLine({ prompt: terminalController.prompt, value });
                         setCursorPosition(value.length);
                         setPreviousCommandIndex(nextIndex);
                     }
@@ -244,7 +245,7 @@ function Terminal(props) {
                     }
                     event.currentTarget.value = value;
                     setCursorPosition(value.length);
-                    updateLine({ prompt, value });
+                    updateLine({ prompt: terminalController.prompt, value });
                     setPreviousCommandIndex(nextIndex);
                 }
                 break;
@@ -263,7 +264,7 @@ function Terminal(props) {
         }
         else {
             if (commandLoaded) {
-                updateLine({ prompt, value: event.currentTarget.value });
+                updateLine({ prompt: terminalController.prompt, value: event.currentTarget.value });
             }
             else {
                 event.currentTarget.value = '';

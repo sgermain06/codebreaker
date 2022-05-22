@@ -24,4 +24,9 @@ export default [
         path: '/bin',
         app : scan,
     },
+    {
+        cmd : 'sub',
+        path: '/bin/sub',
+        app: http,
+    },
 ];
