@@ -3,6 +3,7 @@ import ciphers from './ciphers/reducers';
 import forums from './forums/reducers';
 import loader from './loader/reducers';
 import player from './player/reducers';
+import shoppingCart from './shoppingCart/reducers';
 import snackbar from './snackbar/reducers';
 import station from './station/reducers';
 import terminal from './terminal/reducers';
@@ -16,6 +17,7 @@ const returnObj = history => combineReducers({
     forums,
     loader,
     player,
+    shoppingCart,
     snackbar,
     station,
     terminal,

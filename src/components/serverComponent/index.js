@@ -114,13 +114,13 @@ ServerComponent.propTypes = {
     server: PropTypes.shape({
         model: PropTypes.string,
         asset: PropTypes.string,
-        formFactor: PropTypes.number,
+        formFactor: PropTypes.string,
         cpu: PropTypes.number,
-        ramSlots: PropTypes.number,
+        ramSlots: PropTypes.string,
         lanPorts: PropTypes.number,
-        lanSpeed: PropTypes.number,
+        lanSpeed: PropTypes.string,
         powerSupplies: PropTypes.number,
-        powerConsumption: PropTypes.number,
+        powerConsumption: PropTypes.string,
         storageBays: PropTypes.number
     }),
     onAddToCart: PropTypes.func,
