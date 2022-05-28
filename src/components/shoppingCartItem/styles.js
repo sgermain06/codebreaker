@@ -10,6 +10,7 @@ export default function styles(theme) {
         }),
         topGrid: {
             paddingTop: '0 !important',
+            height: '200px',
         },
         logo: (props) => ({
             width: '40px',
@@ -21,13 +22,5 @@ export default function styles(theme) {
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
         }),
-        checkbox: {
-            '& .Mui-focused': {
-                color: 'white'
-            },
-            '& .Mui-focused fieldset': {
-                borderColor: 'white !important'
-            }
-        }
     };
 };

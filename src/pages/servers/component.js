@@ -90,7 +90,7 @@ function Servers(props) {
     useEffect(() => {
         if (chosenManufacturer) {
             const serverStore = <ServerStore
-                data={serversData}
+                data={serversData.filter(i => i.manufacturer === chosenManufacturer)}
                 manufacturer={chosenManufacturer}
                 onAddToCart={handleAddToCart} />;
 
@@ -138,7 +138,7 @@ function Servers(props) {
                         {dialogContent.length > 1 && <Grid item xs={1}><Button onClick={handleBack} variant='contained' startIcon={<ArrowBackTwoToneIcon />}>Back</Button></Grid>}
                         <Grid item xs>Buying Hardware - {chosenManufacturer}</Grid>
                     </Grid>
-                    <Button style={{ whiteSpace: 'nowrap' }} variant='contained' onClick={handleCheckout}>Checkout ({props.cart.length})</Button>
+                    {dialogContent.length <= 1 &&<Button style={{ whiteSpace: 'nowrap' }} variant='contained' onClick={handleCheckout}>Checkout ({props.cart.length})</Button>}
                 </DialogTitle>
                 <DialogContent>
                     {last(dialogContent)}

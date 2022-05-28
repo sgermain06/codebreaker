@@ -8,7 +8,10 @@ import Commands from '../../commands';
 
 const returnObj = {
     addItem: (item, price) => dispatch => dispatch(Events.AddItem(uuid(), item, price)),
-    removeItem: item => dispatch => dispatch(Events.RemoveItem(item.id)),
+    removeItem: item => dispatch => {
+        console.log('Should be removing item', item.id);
+        dispatch(Events.RemoveItem(item.id))
+    },
     checkout: () => (dispatch, getState) => {
         if (!isEmpty(fromState.ShoppingCart.getCart()(getState()))) {
             const cartPrice = fromState.ShoppingCart.getCartPrice()(getState());

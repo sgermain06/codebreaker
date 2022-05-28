@@ -13,7 +13,15 @@ import Clear from '@mui/icons-material/Clear';
 
 import without from 'lodash/without';
 
+import { makeStyles } from '@mui/styles';
+
+import styles from './styles';
+
+const useStyles = makeStyles(styles);
+
 function Filter(props) {
+
+    const classes = useStyles();
 
     const [ selectedOptions, setSelectedOptions ] = useState([]);
 
@@ -44,7 +52,7 @@ function Filter(props) {
             <ListItem key={`${props.title}-${option}`}>
                 <ListItemButton onClick={() => handleToggle(option)} dense>
                     <ListItemIcon>
-                        <Checkbox checked={selectedOptions.includes(option)} />
+                        <Checkbox className={classes.checkbox} checked={selectedOptions.includes(option)} />
                     </ListItemIcon>
                     <ListItemText>{option}</ListItemText>
                 </ListItemButton>
